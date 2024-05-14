@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-// react icons
-import { FaWhatsapp, FaInstagram, FaLinkedin } from "react-icons/fa6";
 import { PiRedditLogoFill } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 
@@ -13,66 +11,30 @@ const Navbar = () => {
   };
   // Nav Items
   const navItems = [
-    { path: "/", link: "Home" },
-    { path: "/contact", link: "Contact" },
-    { path: "/blogs", link: "Blogs" },
-    { path: "/about", link: "About" },
-    { path: "/service", link: "Pesan Vector" },
+    { path: "/", link: "Beranda" },
+    { path: "/contact", link: "Produk" },
+    { path: "/blogs", link: "Tentang" },
+    { path: "/about", link: "Berita" },
   ];
 
   return (
     <>
-      <header className="bg-primary/90 backdrop-blur-sm text-white fixed top-0 left-0 right-0 font-primary z-50 md:rounded-b-full">
+      <header className="bg-primary/90 backdrop-blur-sm text-white fixed top-2 left-2 right-2 font-primary z-50 md:rounded-3xl">
         <nav className="px-4 py-3 md:mx-20 mx-2 flex justify-between items-center">
-          <a href="/" className="text-xl font-bold text-white">
-            Yaduh | <span className="text-orange-400 font-light">Blog</span>
-          </a>
+          <img
+            className="w-36"
+            src="./images/logo_white.svg"
+            alt="logo white"
+          />
 
           {/* NavItems */}
-          <ul className="md:flex gap-10 text-base hidden px-8 py-2 rounded-full bg-white">
+          <ul className="md:flex gap-10 text-base hidden px-8 py-2">
             {navItems.map(({ path, link }) => (
-              <li className="text-primary" key={path}>
+              <li className="text-white/70" key={path}>
                 <NavLink to={path}>{link}</NavLink>
               </li>
             ))}
           </ul>
-
-          {/* menu icons */}
-          <div className="text-white lg:flex gap-6 items-center hidden">
-            <a
-              href="https://www.instagram.com/las_vegaaas/"
-              target="_blank"
-              className="hover:text-third text-xl duration-200 transition-all ease-linear"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="/"
-              className="hover:text-third text-xl duration-200 transition-all ease-linear"
-            >
-              <FaWhatsapp />
-            </a>
-            <a
-              href="/"
-              className="hover:text-third text-xl duration-200 transition-all ease-linear"
-            >
-              <FaLinkedin />
-            </a>
-            <Link
-              to="https://vegaanggara.divitation.com"
-              target="_blank"
-              className="flex items-center"
-            >
-              <p className="bg-white text-primary hover:bg-third hover:text-white duration-200 text-sm rounded-xl pl-5 pr-7 py-1 -mr-5">
-                My Portofolio
-              </p>
-              <img
-                src="./images/fotopribadi.jpg"
-                alt="foto pribadi"
-                className="w-10 h-10 rounded-full outline-[1px] outline outline-white z-10"
-              />
-            </Link>
-          </div>
 
           {/* Mobile Menu */}
           <div className="md:hidden">
@@ -108,44 +70,6 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ))}
-            {/* menu icons */}
-            <div className="text-primary lg:hidden gap-6 items-center flex w-full justify-between">
-              <div className="flex items-center gap-5">
-                <a
-                  href="https://www.instagram.com/las_vegaaas/"
-                  target="_blank"
-                  className="hover:text-third text-xl duration-200 transition-all ease-linear"
-                >
-                  <FaInstagram />
-                </a>
-                <a
-                  href="/"
-                  className="hover:text-third text-xl duration-200 transition-all ease-linear"
-                >
-                  <FaWhatsapp />
-                </a>
-                <a
-                  href="/"
-                  className="hover:text-third text-xl duration-200 transition-all ease-linear"
-                >
-                  <FaLinkedin />
-                </a>
-              </div>
-              <Link
-                to="https://vegaanggara.divitation.com"
-                target="_blank"
-                className="flex items-center"
-              >
-                <p className="bg-primary text-white hover:bg-third hover:text-white duration-200 text-sm rounded-xl pl-5 pr-7 py-1 -mr-5">
-                  My Portofolio
-                </p>
-                <img
-                  src="./images/fotopribadi.jpg"
-                  alt="foto pribadi"
-                  className="w-10 h-10 rounded-full outline-[1px] outline outline-white z-10"
-                />
-              </Link>
-            </div>
           </ul>
         </div>
       </header>
