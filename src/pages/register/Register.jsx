@@ -1,10 +1,10 @@
-import { useState } from "react";
 import React from "react";
-import axios from "axios";
+import { useState } from "react";
 import { BiShow, BiHide } from "react-icons/bi";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -12,6 +12,8 @@ const Login = () => {
   };
 
   const [values, setValues] = useState({
+    nama_lengkap: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -20,16 +22,21 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:8081/login", values);
+      const response = await axios.post(
+        "http://localhost:8081/register",
+        values
+      );
 
       if (response.data.Status === "Success") {
-        navigate("/master");
+        navigate("/masterlogin");
       } else {
         alert(response.data.Message || "Error Ngab");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      alert("Login failed. Please check your details or try again later.");
+      console.error("Registration error:", error);
+      alert(
+        "Registration failed. Please check your details or try again later."
+      );
     }
   };
 
@@ -69,16 +76,44 @@ const Login = () => {
         />
         <div className="p-8 md:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-xs">
           <p className="text-2xl md:text-3xl font-semibold text-primary text-center">
-            Masuk Akun
+            Daftar Akun
           </p>
 
           <form className="w-full space-y-8" onSubmit={handleSubmit}>
             <div className="flex flex-col w-full">
-              <label>Email*</label>
+              <label htmlFor="email">Nama Lengkap*</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder=""
+                className="bg-transparent border-b outline-none py-1.5 px-1"
+                onChange={(e) =>
+                  setValues({ ...values, nama_lengkap: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="flex flex-col w-full">
+              <label htmlFor="email">Username*</label>
+              <input
+                type="text"
+                name="username"
+                id="username"
+                placeholder=""
+                className="bg-transparent border-b outline-none py-1.5 px-1"
+                onChange={(e) =>
+                  setValues({ ...values, username: e.target.value })
+                }
+              />
+            </div>
+
+            <div className="flex flex-col w-full">
+              <label htmlFor="email">Email*</label>
               <input
                 type="email"
-                id="email"
                 name="email"
+                id="email"
                 placeholder=""
                 className="bg-transparent border-b outline-none py-1.5 px-1"
                 onChange={(e) =>
@@ -88,11 +123,11 @@ const Login = () => {
             </div>
 
             <div className="flex flex-col w-full relative">
-              <label>Password*</label>
+              <label htmlFor="password">Password*</label>
               <input
                 type={isPasswordVisible ? "text" : "password"}
-                id="password"
                 name="password"
+                id="password"
                 placeholder=""
                 className="bg-transparent border-b outline-none py-1.5 px-1"
                 onChange={(e) =>
@@ -113,8 +148,8 @@ const Login = () => {
             </div>
 
             <div className="w-full flex justify-end">
-              <button className="text-primary px-14 py-1.5 bg-transparent outline outline-1 outline-primary rounded-full hover:bg-primary hover:text-white duration-150">
-                Masuk
+              <button className=" px-8 py-1.5 bg-transparent outline outline-1 outline-primary rounded-full hover:bg-primary hover:text-white duration-150">
+                Daftar Akun
               </button>
             </div>
           </form>
@@ -128,4 +163,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

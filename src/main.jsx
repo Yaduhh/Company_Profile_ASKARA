@@ -12,6 +12,7 @@ import SingleBlog from "./pages/SingleBlog.jsx";
 import Master from "./pages/Master.jsx";
 import EditArticle from "./pages/EditArticle.jsx";
 import Login from "./pages/login/Login.jsx";
+import Register from "./pages/register/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,8 +52,12 @@ const router = createBrowserRouter([
     element: <Master />,
   },
   {
-    path: "/login",
+    path: "/masterlogin",
     element: <Login />,
+  },
+  {
+    path: "/masterregister",
+    element: <Register />,
   },
   {
     path: "/articles/:id/edit",
