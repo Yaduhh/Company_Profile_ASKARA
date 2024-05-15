@@ -5,7 +5,7 @@
 }
 
 .active{
-  @apply text-third underline-offset-4 underline font-medium
+  @apply text-white underline-offset-4 underline font-medium
 }
 
 .pagination{

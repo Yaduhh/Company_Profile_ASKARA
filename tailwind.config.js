@@ -15,7 +15,7 @@ export default {
       accent: "#E8FFC2",
       white: "#FFFFFF",
       black: "#000000",
-      kuning: "#FFD600",
+      grey: "#B0B0B0",
     },
   },
   plugins: [],
