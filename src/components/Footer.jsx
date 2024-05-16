@@ -14,10 +14,10 @@ const Footer = () => {
   return (
     <>
       <footer className="w-full bg-primary">
-        <div className="w-full relative z-0 justify-center font-primary grid grid-cols-5 text-white py-16 px-28">
+        <div className="w-full relative z-0 justify-center font-primary grid grid-cols-5 text-white py-16 px-16 2xl:px-28">
           <div className="col-span-2 max-w-md space-y-3">
             <img src="./icons/logoFooter.svg" alt="logo footer" />
-            <p className="text-justify text-lg">
+            <p className="text-justify 2xl:text-lg text-base">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been.
             </p>
@@ -32,7 +32,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-span-1 space-y-4">
-            <h1 className="uppercase font-semibold text-3xl">Company</h1>
+            <h1 className="uppercase font-semibold text-2xl 2xl:text-3xl">
+              Company
+            </h1>
             <div className="capitalize space-y-2 text-lg font-normal">
               <p>Tentang</p>
               <p>Services</p>
@@ -40,7 +42,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-span-1 space-y-4">
-            <h1 className="uppercase font-semibold text-3xl">Support</h1>
+            <h1 className="uppercase font-semibold text-2xl 2xl:text-3xl">
+              Support
+            </h1>
             <div className="capitalize space-y-2 text-lg font-normal">
               <p>Feedback</p>
               <p>Help Center</p>
@@ -48,7 +52,9 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-span-1 space-y-4">
-            <h1 className="uppercase font-semibold text-3xl">Contact</h1>
+            <h1 className="uppercase font-semibold text-2xl 2xl:text-3xl">
+              Contact
+            </h1>
             <div className="capitalize space-y-2 text-lg font-normal">
               <div className="flex items-center gap-2">
                 <IoMdCall size={25} />
@@ -62,11 +68,11 @@ const Footer = () => {
           </div>
         </div>
         <div className="w-full h-[1px] bg-white "></div>
-        <div className="w-full flex justify-between px-28 py-10 font-primary">
-          <div className=" text-white text-lg ">
+        <div className="w-full flex justify-between 2xl:px-28 px-16 py-10 font-primary">
+          <div className=" text-white text-base 2xl:text-lg ">
             <p>© Copyright by YaduhUI. All rights reserved.</p>
           </div>
-          <div className="flex gap-14 text-lg items-center capitalize text-white ">
+          <div className="flex gap-14 text-base 2xl:text-lg items-center capitalize text-white ">
             <Link to={`#privacy`}>Privacy Policy</Link>
             <Link to={`#termsofuse`}>Terms of use</Link>
             <Link to={`#legal`}>Legal</Link>

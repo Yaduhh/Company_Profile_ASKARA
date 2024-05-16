@@ -4,7 +4,7 @@ import { CgCalendarDates } from "react-icons/cg";
 const ArtikelCards = () => {
   return (
     <>
-      <div className="w-full bg-white flex rounded-2xl overflow-hidden cursor-pointer bg-orange-400 h-[200px] relative z-0 border-primary/30 border-[1px]">
+      <div className="w-full bg-white flex rounded-2xl overflow-hidden cursor-pointer bg-orange-400 2xl:h-[200px] h-[160px] relative z-0 border-primary/30 border-[1px]">
         <img
           src="./icons/imagesdumy.svg"
           alt="wire"

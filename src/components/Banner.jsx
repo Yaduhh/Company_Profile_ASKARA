@@ -38,7 +38,7 @@ const Banner = () => {
       </section>
 
       <section id="product">
-        <div className="w-full h-screen relative z-0 font-primary overflow-hidden flex flex-col items-start justify-center gap-6 ">
+        <div className="w-full h-screen relative z-0 font-primary overflow-hidden flex flex-col items-start justify-center gap-2 2xl:gap-6 ">
           <img
             className="absolute -z-10 top-0"
             src="./icons/bubble.svg"
@@ -57,10 +57,10 @@ const Banner = () => {
           />
 
           <div className="space-y-2 px-16 2xl:px-28">
-            <p className="uppercase text-grey text-2xl font-medium">
+            <p className="uppercase text-grey 2xl:text-2xl text-xl font-medium">
               Our Product
             </p>
-            <h1 className="text-3xl 2xl:text-4xl font-semibold capitalize text-primary">
+            <h1 className="text-2xl 2xl:text-4xl font-semibold capitalize text-primary">
               We are committed to helping more than 1000 people <br />
               from all regions in Indonesia {">>>"}
             </h1>
@@ -75,7 +75,7 @@ const Banner = () => {
                 </p>
               </div>
               <div className="w-rull h-[2px] bg-grey"></div>
-              <p className="text-xl text-justify">
+              <p className="2xl:text-xl text-base text-justify">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy.
               </p>
@@ -88,7 +88,7 @@ const Banner = () => {
                 </p>
               </div>
               <div className="w-rull h-[2px] bg-grey"></div>
-              <p className="text-xl text-justify">
+              <p className="2xl:text-xl text-base text-justify">
                 Text ever since the 1500s, when an unknown printer took a galley
                 of type and scrambled it to make a type specimen book. It has
                 survived not only five centuries.
@@ -102,14 +102,14 @@ const Banner = () => {
                 </p>
               </div>
               <div className="w-rull h-[2px] bg-grey"></div>
-              <p className="text-xl text-justify">
+              <p className="2xl:text-xl text-base text-justify">
                 Scrambled it to make a type specimen book. It has survived not
                 only five centuries, but also the leap into electronic
                 typesetting.
               </p>
             </div>
           </div>
-          <div className="bg-primary absolute bottom-0 h-56 w-full"></div>
+          <div className="bg-primary absolute bottom-0 2xl:h-56 h-36 w-full"></div>
         </div>
       </section>
 
@@ -122,7 +122,7 @@ const Banner = () => {
           />
 
           <div className="col-span-2 place-content-center capitalize pr-20 space-y-6 px-16 2xl:px-28">
-            <p className="text-5xl text-primary font-semibold">
+            <p className="2xl:text-5xl text-4xl text-primary font-semibold">
               berita terkini tentang kesehatan yang relevan.
             </p>
             <div className="w-96">
@@ -138,8 +138,8 @@ const Banner = () => {
               </span>
             </button>
           </div>
-          <div className="col-span-3 place-content-center capitalize pr-20 space-y-8 px-16 2xl:px-28 bg-gradient-to-b from-primary to-secondary">
-            <p className="text-3xl text-white font-semibold">
+          <div className="col-span-3 place-content-center capitalize pr-20 2xl:space-y-8 space-y-4 px-16 2xl:px-28 bg-gradient-to-b from-primary to-secondary">
+            <p className="2xl:text-3xl text-xl text-white font-semibold">
               POSTINGAN TERBARU
             </p>
             <ArtikelCards />
@@ -181,13 +181,13 @@ const Banner = () => {
               </button>
             </div>
           </div>
-          <div className="col-span-1 place-content-center space-y-5">
+          <div className="col-span-1 place-content-center 2xl:space-y-5 space-y-2">
             <div className="w-7/12">
-              <p className="text-3xl text-primary font-medium">
+              <p className="2xl:text-3xl text-2xl text-primary font-medium -mt-10 2xl:mt-0">
                 Dapatkan informasi terupdate setiap minggunya.
               </p>
             </div>
-            <form className="space-y-6">
+            <form className="2xl:space-y-6 space-y-4">
               <input
                 placeholder="Nama lengkap*"
                 id="nama lengkap"
