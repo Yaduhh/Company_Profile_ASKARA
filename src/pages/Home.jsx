@@ -6,9 +6,9 @@ const Home = () => {
     <>
       <Banner />
 
-      <div className="max-w-7xl mx-auto md:p-0 p-6">
+      {/* <div className="max-w-7xl mx-auto md:p-0 p-6">
         <BlogPage />
-      </div>
+      </div> */}
     </>
   );
 };
