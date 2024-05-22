@@ -15,13 +15,13 @@ const Login = () => {
     email: "",
     password: "",
   });
+
   const navigate = useNavigate();
+  axios.defaults.withCredentials = true;
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       const response = await axios.post("http://localhost:8081/login", values);
-
       if (response.data.Status === "Success") {
         navigate("/master");
       } else {
@@ -67,8 +67,8 @@ const Login = () => {
           alt="logo"
           className="w-2/4 md:w-auto"
         />
-        <div className="p-8 md:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-xs">
-          <p className="text-2xl md:text-3xl font-semibold text-primary text-center">
+        <div className="p-8 2xl:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-xs">
+          <p className="text-2xl 2xl:text-3xl font-semibold text-primary text-center">
             Masuk Akun
           </p>
 
@@ -120,7 +120,7 @@ const Login = () => {
           </form>
         </div>
 
-        <p className="text-white font-light tracking-wide text-xs lg:text-lg absolute bottom-10 select-none">
+        <p className="text-white font-light tracking-wide text-sm 2xl:text-lg absolute bottom-6 2xl:bottom-10 select-none">
           © Copyright by YaduhUI. All rights reserved.
         </p>
       </section>
