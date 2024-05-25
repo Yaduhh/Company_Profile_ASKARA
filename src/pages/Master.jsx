@@ -6,11 +6,23 @@ import { MdSpaceDashboard } from "react-icons/md";
 import { LiaBlogSolid } from "react-icons/lia";
 import { IoCreate } from "react-icons/io5";
 import Dashboard from "./master/Dashboard";
+import CreateArtikel from "./../components/CreateArtikel";
+import { RiUser4Fill } from "react-icons/ri";
+import { IoIosArrowDown } from "react-icons/io";
+import { PiSignOutBold } from "react-icons/pi";
+import DataProduk from "../components/DataProduk";
+import { RiDatabase2Fill } from "react-icons/ri";
+import { MdArticle } from "react-icons/md";
+import DataArtikel from "../components/DataArtikel";
+import { MdOutlineWavingHand } from "react-icons/md";
 
 const Master = () => {
   const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
+  const [namaLengkap, setNamaLengkap] = useState("");
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
 
   axios.defaults.withCredentials = true;
 
@@ -21,6 +33,7 @@ const Master = () => {
         if (res.data.Status === "Success") {
           setAuth(true);
           setUsername(res.data.username);
+          setNamaLengkap(res.data.nama_lengkap);
         } else {
           setAuth(false);
           setMessage(res.data.Error);
@@ -49,9 +62,13 @@ const Master = () => {
   // Fungsi untuk merender konten sesuai tab yang aktif
   const renderContent = () => {
     if (activeTab === "dashboard") {
-      return <Dashboard />;
+      return <Dashboard namaLengkap={namaLengkap} />;
     } else if (activeTab === "createArtikel") {
       return <CreateArtikel />;
+    } else if (activeTab === "dataProduct") {
+      return <DataProduk />;
+    } else if (activeTab === "dataArtikel") {
+      return <DataArtikel />;
     }
   };
   return (
@@ -61,28 +78,28 @@ const Master = () => {
         <div className="w-full h-screen flex bg-[#D9D9D9] relative -z-0 overflow-hidden font-primary">
           {/* Accent bg */}
           <img
-            className="absolute -z-10 right-0 top-0 w-full"
+            className="absolute -z-50 right-0 top-0 w-full"
             src="./dashboard/bg-accent.svg"
             alt="bg-accent"
           />
           <img
-            className="absolute -z-10 left-0 top-0 -scale-100 w-full"
+            className="absolute -z-50 left-0 top-0 -scale-100 w-full"
             src="./dashboard/bg-accent.svg"
             alt="bg-accent"
           />
           {/* SIDEDBAR */}
-          <div className="bg-white/60 backdrop-blur w-[20%] h-screen rounded-e-[30px] shadow-sm shadow-white py-6">
+          <div className="bg-white/70 backdrop-blur w-[20%] 2xl:w-[17%] h-screen rounded-e-[30px] shadow-sm shadow-white py-6 2xl:py-12">
             <img
-              className="w-full px-8"
+              className="w-full px-8 2xl:px-14"
               src="./dashboard/logoprimary.svg"
               alt="logo"
             />
 
-            <div className="w-full p-5 space-y-1">
+            <div className="w-full p-5 2xl:p-8 space-y-2">
               <button
                 className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                   activeTab === "dashboard" &&
-                  "bg-white text-primary rounded-full"
+                  "bg-primary text-white rounded-2xl"
                 }`}
                 onClick={() => handleTabChange("dashboard")}
               >
@@ -91,26 +108,93 @@ const Master = () => {
               </button>
               <button
                 className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                  activeTab === "dataProduct" &&
+                  "bg-primary text-white rounded-2xl"
+                }`}
+                onClick={() => handleTabChange("dataProduct")}
+              >
+                <RiDatabase2Fill size={30} />
+                <p>Data Produk</p>
+              </button>
+              <button
+                className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                  activeTab === "dataArtikel" &&
+                  "bg-primary text-white rounded-2xl"
+                }`}
+                onClick={() => handleTabChange("dataArtikel")}
+              >
+                <MdArticle size={30} />
+                <p>Data Artikel</p>
+              </button>
+              <button
+                className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                   activeTab === "createArtikel" &&
-                  "bg-white text-primary rounded-full"
+                  "bg-primary text-white rounded-2xl"
                 }`}
                 onClick={() => handleTabChange("createArtikel")}
               >
                 <IoCreate size={30} />
                 <p>Create Artikel</p>
               </button>
-              <a
-                href="/"
-                className="flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
-              >
-                <LiaBlogSolid size={30} />
-                Lihat Blog
-              </a>
+
+              <div className="pt-10">
+                <p className="text-sm text-grey px-6 2xl:px-8">Website</p>
+                <a
+                  href="/"
+                  className="flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
+                >
+                  <LiaBlogSolid size={30} />
+                  Lihat Blog
+                </a>
+              </div>
             </div>
           </div>
-          <div className="w-[80%] min-h-screen bg-white">{renderContent()}</div>
-          <h3>You're Authorized --- {username}</h3>
-          <button onClick={handleDelete}>Logout</button>
+          {/* END SIDEBAR */}
+
+          {/* Content */}
+          <div className="w-[80%] 2xl:w-[83%] min-h-screen relative -z-50">
+            {/* NAVBAR */}
+            <nav className="">
+              <div className="flex 2xl:p-12 w-full justify-between">
+                <div className="absolute top-10">
+                  <div className="text-2xl text-primary select-none w-fit">
+                    <div className="font-semibold flex items-center gap-2">
+                      <MdOutlineWavingHand size={30} />
+                      <p>Hello! {namaLengkap}</p>
+                    </div>
+                    <div className="w-auto h-[1px] bg-primary my-2"></div>
+                  </div>
+                </div>
+
+                <div className="absolute top-10 right-12">
+                  <div className="relative">
+                    <button
+                      onClick={toggleSubMenu}
+                      className="bg-primary/30 hover:bg-white/30 duration-200 backdrop-blur flex items-center gap-3 w-full px-6 py-2 text-lg rounded-2xl text-white"
+                    >
+                      <RiUser4Fill />
+                      {username}
+                      <IoIosArrowDown />
+                    </button>
+                    {isSubMenuOpen && (
+                      <div className="absolute right-0 mt-2 w-46 text-white rounded-2xl backdrop-blur py-2 bg-primary/30 z-20 hover:bg-white/30 duration-150">
+                        <button
+                          className="flex gap-3 px-6 text-lg items-center"
+                          onClick={handleDelete}
+                        >
+                          <PiSignOutBold />
+                          SignOut
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </nav>
+            {/* END NAVBAR */}
+
+            <div>{renderContent()}</div>
+          </div>
         </div>
       ) : (
         // NON LOGIN

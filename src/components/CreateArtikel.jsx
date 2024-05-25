@@ -81,7 +81,7 @@ const CreateArtikel = () => {
 
   return (
     <>
-      <div className="w-full mt-0 p-10">
+      <div className="w-full mt-0 px-12 pt-28">
         <p className="text-lg font-medium leading-snug mb-4 text-primary">
           Tambah Artikel Baru
         </p>

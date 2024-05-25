@@ -19,7 +19,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="bg-primary backdrop-blur-sm text-white fixed top-2 left-2 right-2 font-primary z-50 md:rounded-3xl">
+      <header className="bg-primary backdrop-blur-sm text-white fixed top-0 md:top-2 left-0 md:left-2 right-2 font-primary z-50 md:rounded-3xl w-full">
         <nav className="px-4 py-3 md:mx-20 mx-2 flex justify-between items-center">
           <img
             className="w-36"
@@ -40,7 +40,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button onClick={toggleMenu} className="cursor-pointer">
               {isMenuOpen ? (
-                <IoClose className="w-7 h-7 rotate-45" />
+                <IoClose className="w-7 h-7 rotate-30" />
               ) : (
                 <PiRedditLogoFill className="w-7 h-7" />
               )}
@@ -51,14 +51,14 @@ const Navbar = () => {
         {/* Menu items for only mobile device */}
         <div>
           <ul
-            className={`md:hidden gap-12 text-lg block space-y-4 px-6 py-6 mt-12 bg-white ${
+            className={`md:hidden gap-12 text-lg block space-y-4 px-6 py-6 mt-12 bg-primary ${
               isMenuOpen
                 ? "fixed top-3 left-0 w-full transition-all ease-out duration-200"
                 : "hidden"
             }`}
           >
             {navItems.map(({ path, link }) => (
-              <li className="text-black" key={path}>
+              <li className="text-white" key={path}>
                 <NavLink
                   onClick={toggleMenu}
                   to={path}

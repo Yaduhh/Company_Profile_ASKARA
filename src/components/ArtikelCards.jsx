@@ -4,11 +4,11 @@ import { CgCalendarDates } from "react-icons/cg";
 const ArtikelCards = () => {
   return (
     <>
-      <div className="w-full bg-white flex rounded-2xl overflow-hidden cursor-pointer bg-orange-400 2xl:h-[200px] h-[160px] relative z-0 border-primary/30 border-[1px]">
+      <div className="w-full bg-white pb-10 flex md:flex-row flex-col rounded-2xl overflow-hidden cursor-pointer bg-orange-400 2xl:h-[200px] md:h-[160px] h-auto relative z-0 border-primary/30 border-[1px]">
         <img
           src="./icons/imagesdumy.svg"
           alt="wire"
-          className="md:w-auto w-full md:h-60 h-64 object-cover rounded-md hover:scale-105 duration-200 transition-all ease-out hover:opacity-70"
+          className="md:w-auto w-full md:h-60 h-48 object-cover md:rounded-md hover:scale-105 duration-200 transition-all ease-out hover:opacity-70"
         />
         <div>
           <p className="absolute text-center text-primary py-2 bottom-2 right-5 hover:text-secondary">
@@ -23,7 +23,7 @@ const ArtikelCards = () => {
             Title Postingan Artikel
           </h3>
           <div className="w-full bg-grey h-[2px]"></div>
-          <p className="line-clamp-2 text-sm text-primary">
+          <p className="line-clamp-2 text-sm text-primary md:text-start text-justify">
             <div>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting

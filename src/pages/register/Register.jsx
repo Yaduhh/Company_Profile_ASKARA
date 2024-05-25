@@ -23,7 +23,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8081/register",
+        "http://192.168.1.5:8081/register",
         values
       );
 
@@ -43,7 +43,7 @@ const Register = () => {
 
   return (
     <>
-      <section className="relative z-0 w-full h-auto 2xl:p-0 p-16 2xl:h-screen flex flex-col justify-center items-center font-primary bg-gradient-to-l from-secondary to-white overflow-hidden">
+      <section className="relative z-0 w-full h-screen 2xl:p-0 p-6 2xl:h-screen flex flex-col justify-center items-center font-primary bg-gradient-to-l from-secondary to-white overflow-hidden">
         <img
           src="./images/logo_accent.svg"
           alt="logo_accent"
@@ -75,7 +75,7 @@ const Register = () => {
           alt="logo"
           className="w-2/4 md:w-[20%] 2xl:w-auto"
         />
-        <div className="p-8 2xl:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-xs">
+        <div className="p-6 2xl:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-sm">
           <p className="text-2xl 2xl:text-3xl font-semibold text-primary text-center">
             Daftar Akun
           </p>
@@ -156,7 +156,7 @@ const Register = () => {
           </form>
         </div>
 
-        <p className="text-white font-light tracking-wide text-md 2xl:text-lg absolute bottom-6 2xl:bottom-10 select-none">
+        <p className="text-white font-light tracking-wide text-sm 2xl:text-lg absolute bottom-6 2xl:bottom-10 select-none">
           © Copyright by YaduhUI. All rights reserved.
         </p>
       </section>
