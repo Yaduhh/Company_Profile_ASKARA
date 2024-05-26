@@ -5,8 +5,8 @@ import JoditEditor from "jodit-react";
 const CreateArtikel = ({ namaLengkap }) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
-  const [author, setAuthor] = useState("");
-  const [authorPic, setAuthorPic] = useState("");
+  const [author, setAuthor] = useState(namaLengkap);
+  const [status, setStatus] = useState("0");
   const [published_date, setPublished_date] = useState("");
   const [reading_time, setReading_time] = useState("");
   const [content, setContent] = useState("");
@@ -28,7 +28,7 @@ const CreateArtikel = ({ namaLengkap }) => {
       formData.append("title", title);
       formData.append("category", category);
       formData.append("author", author);
-      formData.append("authorPic", authorPic);
+      formData.append("status", "1");
       formData.append("published_date", published_date);
       formData.append("reading_time", reading_time);
       formData.append("content", content);
@@ -56,7 +56,7 @@ const CreateArtikel = ({ namaLengkap }) => {
     () => ({
       readonly: false,
       placeholder: placeholder || "Start typings...",
-      height: 280,
+      height: 550,
     }),
     [placeholder]
   );
@@ -69,8 +69,8 @@ const CreateArtikel = ({ namaLengkap }) => {
     if (modalVisible) {
       setTitle("");
       setCategory("");
-      setAuthor("");
-      setAuthorPic("");
+      setAuthor(namaLengkap);
+      setStatus("");
       setPublished_date("");
       setReading_time("");
       setContent("");
@@ -83,8 +83,8 @@ const CreateArtikel = ({ namaLengkap }) => {
     <>
       <div className="w-full mt-0 px-6 2xl:px-12 pt-20 2xl:pt-4 overflow-auto">
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <div className="flex gap-5 items-center">
-            <div className="w-full">
+          <div className="grid grid-cols-5 gap-5 items-center">
+            <div className="col-span-2">
               <label htmlFor="title" className="block text-sm">
                 Judul:
               </label>
@@ -94,10 +94,10 @@ const CreateArtikel = ({ namaLengkap }) => {
                 type="text"
                 id="title"
                 name="title"
-                className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full py-1 capitalize px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
-            <div className="w-full">
+            <div className="col-span-1">
               <label htmlFor="image" className="block text-sm">
                 Thumbnail
               </label>
@@ -109,9 +109,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 onChange={(e) => setImage(e.target.files[0])}
               />
             </div>
-          </div>
-          <div className="flex w-full items-center gap-5">
-            <div className="w-full">
+            <div className="col-span-1">
               <label htmlFor="category" className="block text-sm">
                 Kategori:
               </label>
@@ -129,7 +127,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 <option value="Edukasi">Edukasi</option>
               </select>
             </div>
-            <div className="w-full">
+            <div className="col-span-1">
               <label htmlFor="author" className="block text-sm">
                 Penulis:
               </label>
@@ -137,29 +135,16 @@ const CreateArtikel = ({ namaLengkap }) => {
                 readOnly
                 type="text"
                 onChange={(e) => setAuthor(e.target.value)}
-                value={namaLengkap}
+                value={author}
                 id="author"
                 name="author"
                 className="w-full py-1 select-none px-2 rounded shadow-sm"
                 disabled
               />
             </div>
-            <div className="w-full">
-              <label htmlFor="authorPic" className="block text-sm">
-                URL Gambar Penulis:
-              </label>
-              <input
-                type="text"
-                onChange={(e) => setAuthorPic(e.target.value)}
-                value={authorPic}
-                id="authorPic"
-                name="authorPic"
-                className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-              />
-            </div>
           </div>
-          <div className="w-full flex items-center gap-5">
-            <div className="w-full">
+          <div className="grid grid-cols-4 gap-5">
+            <div className="col-span-1">
               <label htmlFor="published_date" className="block text-sm">
                 Tanggal Terbit:
               </label>
@@ -172,12 +157,12 @@ const CreateArtikel = ({ namaLengkap }) => {
                 className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
-            <div className="w-full">
+            <div className="col-span-1">
               <label htmlFor="reading_time" className="block text-sm">
                 Waktu Baca:
               </label>
               <input
-                type="text"
+                type="number"
                 onChange={(e) => setReading_time(e.target.value)}
                 value={reading_time}
                 id="reading_time"
@@ -185,7 +170,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
             </div>
-            <div className="w-full">
+            <div className="col-span-1">
               <label htmlFor="tags" className="block text-sm">
                 Tags:
               </label>
@@ -197,6 +182,14 @@ const CreateArtikel = ({ namaLengkap }) => {
                 name="tags"
                 className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
               />
+            </div>
+            <div className="col-span-1">
+              <label htmlFor="status" className="block text-sm">
+                Status Artikel :
+              </label>
+              <div className="bg-primary rounded px-6 py-1 text-white">
+                <p>{status === 0 ? "Publish" : "Draft"}</p>
+              </div>
             </div>
           </div>
 
@@ -212,13 +205,13 @@ const CreateArtikel = ({ namaLengkap }) => {
 
           <div className="flex w-full gap-3 justify-end text-sm">
             <button
-              type="submit"
+              type=""
               className="w-auto bg-white hover:bg-grey duration-200 text-primary rounded-xl py-2 px-4"
             >
               Cancel
             </button>
             <button
-              type="submit"
+              type=""
               className="w-auto bg-accent hover:bg-secondary/30 duration-200 text-primary rounded-xl py-2 px-4"
             >
               Simpan Sebagai Draft

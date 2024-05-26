@@ -155,8 +155,8 @@ const Master = () => {
           <div className="w-[80%] 2xl:w-[83%] min-h-screen relative z-0">
             {/* NAVBAR */}
             <nav className="">
-              <div className="flex 2xl:p-12 w-full justify-between bg-primary">
-                <div className="absolute top-6 2xl:top-10 left-6 z-50">
+              <div className="flex 2xl:p-12 w-full justify-between bg-transparent backdrop-blur">
+                <div className="absolute top-6 2xl:top-10 left-6 2xl:left-12 z-50">
                   <div className="text-2xl text-primary select-none w-fit">
                     <div className="font-semibold flex items-center gap-2">
                       <MdOutlineWavingHand size={30} />
@@ -167,7 +167,7 @@ const Master = () => {
                 </div>
 
                 <div className="absolute top-6 2xl:top-10 2xl:right-12 right-6 z-10">
-                  <div className="relative">
+                  <div className="relative z-0">
                     <button
                       onClick={toggleSubMenu}
                       className="bg-primary/30 hover:bg-white/30 duration-200 backdrop-blur flex items-center gap-3 w-full px-6 py-2 2xl:text-lg text-sm rounded-2xl text-white"
@@ -177,7 +177,7 @@ const Master = () => {
                       <IoIosArrowDown />
                     </button>
                     {isSubMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-46 text-white rounded-2xl backdrop-blur py-2 bg-primary/30 z-20 hover:bg-white/30 duration-150">
+                      <div className="absolute z-50 right-0 mt-2 w-46 text-white rounded-2xl backdrop-blur py-2 bg-primary/30 hover:bg-white/30 duration-150">
                         <button
                           className="flex gap-3 px-6 2xl:text-lg text-sm items-center"
                           onClick={handleDelete}
