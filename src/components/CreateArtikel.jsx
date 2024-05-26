@@ -2,7 +2,7 @@ import { useState, useRef, useMemo, useEffect } from "react";
 import axios from "axios";
 import JoditEditor from "jodit-react";
 
-const CreateArtikel = () => {
+const CreateArtikel = ({ namaLengkap }) => {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [author, setAuthor] = useState("");
@@ -54,9 +54,9 @@ const CreateArtikel = () => {
 
   const config = useMemo(
     () => ({
-      readonly: false, // all options from https://xdsoft.net/jodit/docs/,
+      readonly: false,
       placeholder: placeholder || "Start typings...",
-      height: 500,
+      height: 280,
     }),
     [placeholder]
   );
@@ -81,14 +81,11 @@ const CreateArtikel = () => {
 
   return (
     <>
-      <div className="w-full mt-0 px-12 pt-28">
-        <p className="text-lg font-medium leading-snug mb-4 text-primary">
-          Tambah Artikel Baru
-        </p>
+      <div className="w-full mt-0 px-6 2xl:px-12 pt-20 2xl:pt-4 overflow-auto">
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex gap-5 items-center">
             <div className="w-full">
-              <label htmlFor="title" className="block">
+              <label htmlFor="title" className="block text-sm">
                 Judul:
               </label>
               <input
@@ -101,8 +98,8 @@ const CreateArtikel = () => {
               />
             </div>
             <div className="w-full">
-              <label htmlFor="image" className="block">
-                URL Gambar:
+              <label htmlFor="image" className="block text-sm">
+                Thumbnail
               </label>
               <input
                 type="file"
@@ -115,7 +112,7 @@ const CreateArtikel = () => {
           </div>
           <div className="flex w-full items-center gap-5">
             <div className="w-full">
-              <label htmlFor="category" className="block">
+              <label htmlFor="category" className="block text-sm">
                 Kategori:
               </label>
               <select
@@ -133,20 +130,22 @@ const CreateArtikel = () => {
               </select>
             </div>
             <div className="w-full">
-              <label htmlFor="author" className="block">
+              <label htmlFor="author" className="block text-sm">
                 Penulis:
               </label>
               <input
+                readOnly
                 type="text"
                 onChange={(e) => setAuthor(e.target.value)}
-                value={author}
+                value={namaLengkap}
                 id="author"
                 name="author"
-                className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full py-1 select-none px-2 rounded shadow-sm"
+                disabled
               />
             </div>
             <div className="w-full">
-              <label htmlFor="authorPic" className="block">
+              <label htmlFor="authorPic" className="block text-sm">
                 URL Gambar Penulis:
               </label>
               <input
@@ -161,7 +160,7 @@ const CreateArtikel = () => {
           </div>
           <div className="w-full flex items-center gap-5">
             <div className="w-full">
-              <label htmlFor="published_date" className="block">
+              <label htmlFor="published_date" className="block text-sm">
                 Tanggal Terbit:
               </label>
               <input
@@ -174,7 +173,7 @@ const CreateArtikel = () => {
               />
             </div>
             <div className="w-full">
-              <label htmlFor="reading_time" className="block">
+              <label htmlFor="reading_time" className="block text-sm">
                 Waktu Baca:
               </label>
               <input
@@ -187,7 +186,7 @@ const CreateArtikel = () => {
               />
             </div>
             <div className="w-full">
-              <label htmlFor="tags" className="block">
+              <label htmlFor="tags" className="block text-sm">
                 Tags:
               </label>
               <input
@@ -211,12 +210,26 @@ const CreateArtikel = () => {
             onChange={(newContent) => setContent(newContent)}
           />
 
-          <button
-            type="submit"
-            className="w-full bg-primary text-white rounded py-2 px-4 hover:bg-indigo-600 focus:outline-none focus:bg-indigo-600"
-          >
-            Submit
-          </button>
+          <div className="flex w-full gap-3 justify-end text-sm">
+            <button
+              type="submit"
+              className="w-auto bg-white hover:bg-grey duration-200 text-primary rounded-xl py-2 px-4"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="w-auto bg-accent hover:bg-secondary/30 duration-200 text-primary rounded-xl py-2 px-4"
+            >
+              Simpan Sebagai Draft
+            </button>
+            <button
+              type="submit"
+              className="w-auto bg-primary hover:bg-secondary duration-200 text-white rounded-xl py-2 px-4"
+            >
+              Posting
+            </button>
+          </div>
         </form>
       </div>
       {/* Modal */}

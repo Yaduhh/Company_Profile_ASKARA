@@ -5,7 +5,10 @@ import { BiCategoryAlt } from "react-icons/bi";
 const DataProduk = () => {
   return (
     <>
-      <section id="dataProduk" className="w-full h-screen px-12 pt-4">
+      <section
+        id="dataProduk"
+        className="w-full h-screen px-6 2xl:px-12 2xl:pt-4 pt-20"
+      >
         <div className="w-full grid grid-cols-2 gap-10">
           <div className="col-span-1">
             <form>

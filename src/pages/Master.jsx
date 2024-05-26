@@ -64,7 +64,7 @@ const Master = () => {
     if (activeTab === "dashboard") {
       return <Dashboard namaLengkap={namaLengkap} />;
     } else if (activeTab === "createArtikel") {
-      return <CreateArtikel />;
+      return <CreateArtikel namaLengkap={namaLengkap} />;
     } else if (activeTab === "dataProduct") {
       return <DataProduk />;
     } else if (activeTab === "dataArtikel") {
@@ -144,7 +144,7 @@ const Master = () => {
                   className="flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
                 >
                   <LiaBlogSolid size={30} />
-                  Lihat Blog
+                  Web Company
                 </a>
               </div>
             </div>
@@ -152,11 +152,11 @@ const Master = () => {
           {/* END SIDEBAR */}
 
           {/* Content */}
-          <div className="w-[80%] 2xl:w-[83%] min-h-screen relative -z-50">
+          <div className="w-[80%] 2xl:w-[83%] min-h-screen relative z-0">
             {/* NAVBAR */}
             <nav className="">
-              <div className="flex 2xl:p-12 w-full justify-between">
-                <div className="absolute top-10">
+              <div className="flex 2xl:p-12 w-full justify-between bg-primary">
+                <div className="absolute top-6 2xl:top-10 left-6 z-50">
                   <div className="text-2xl text-primary select-none w-fit">
                     <div className="font-semibold flex items-center gap-2">
                       <MdOutlineWavingHand size={30} />
@@ -166,11 +166,11 @@ const Master = () => {
                   </div>
                 </div>
 
-                <div className="absolute top-10 right-12">
+                <div className="absolute top-6 2xl:top-10 2xl:right-12 right-6 z-10">
                   <div className="relative">
                     <button
                       onClick={toggleSubMenu}
-                      className="bg-primary/30 hover:bg-white/30 duration-200 backdrop-blur flex items-center gap-3 w-full px-6 py-2 text-lg rounded-2xl text-white"
+                      className="bg-primary/30 hover:bg-white/30 duration-200 backdrop-blur flex items-center gap-3 w-full px-6 py-2 2xl:text-lg text-sm rounded-2xl text-white"
                     >
                       <RiUser4Fill />
                       {username}
@@ -179,7 +179,7 @@ const Master = () => {
                     {isSubMenuOpen && (
                       <div className="absolute right-0 mt-2 w-46 text-white rounded-2xl backdrop-blur py-2 bg-primary/30 z-20 hover:bg-white/30 duration-150">
                         <button
-                          className="flex gap-3 px-6 text-lg items-center"
+                          className="flex gap-3 px-6 2xl:text-lg text-sm items-center"
                           onClick={handleDelete}
                         >
                           <PiSignOutBold />

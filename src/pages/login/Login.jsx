@@ -67,7 +67,7 @@ const Login = () => {
           alt="logo"
           className="w-2/4 md:w-auto"
         />
-        <div className="p-8 2xl:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-xs">
+        <div className="p-8 md:p-12 2xl:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-xs">
           <p className="text-2xl 2xl:text-3xl font-semibold text-primary text-center">
             Masuk Akun
           </p>
