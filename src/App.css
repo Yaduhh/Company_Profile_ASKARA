@@ -54,3 +54,37 @@
   scrollbar-width: none;
   /* Firefox */
 }
+
+@keyframes slideInOut {
+  0% {
+    bottom: -50px;
+    opacity: 0;
+  }
+
+  10% {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  90% {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  100% {
+    bottom: -50px;
+    opacity: 0;
+  }
+}
+
+.notification {
+  position: fixed;
+  bottom: -50px;
+  right: 20px;
+  background-color: #2FA4FF;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  animation: slideInOut 4s forwards;
+}
