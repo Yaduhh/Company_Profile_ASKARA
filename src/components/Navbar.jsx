@@ -12,9 +12,9 @@ const Navbar = () => {
   // Nav Items
   const navItems = [
     { path: "/", link: "Beranda" },
-    { path: "/contact", link: "Produk" },
-    { path: "/about", link: "Tentang" },
+    { path: "/product", link: "Produk" },
     { path: "/blogs", link: "Berita" },
+    { path: "/about", link: "Tentang" },
   ];
 
   return (

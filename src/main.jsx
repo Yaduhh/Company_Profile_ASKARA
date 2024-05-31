@@ -7,7 +7,7 @@ import Home from "./pages/Home.jsx";
 import Blogs from "./pages/Blogs.jsx";
 import About from "./pages/About.jsx";
 import Service from "./pages/Service.jsx";
-import Contact from "./pages/Contact.jsx";
+import Product from "./pages/Product.jsx";
 import SingleBlog from "./pages/SingleBlog.jsx";
 import Master from "./pages/Master.jsx";
 import EditArticle from "./pages/EditArticle.jsx";
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
         element: <Service />,
       },
       {
-        path: "/contact",
-        element: <Contact />,
+        path: "/product",
+        element: <Product />,
       },
       {
         path: "/articles/:id",

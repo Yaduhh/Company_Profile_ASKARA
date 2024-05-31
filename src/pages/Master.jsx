@@ -157,7 +157,7 @@ const Master = () => {
             <nav className="">
               <div className="flex 2xl:p-12 w-full justify-between bg-transparent backdrop-blur">
                 <div className="absolute top-6 2xl:top-10 left-6 2xl:left-12 z-50">
-                  <div className="text-2xl text-primary select-none w-fit">
+                  <div className="2xl:text-2xl text-lg text-primary select-none w-fit">
                     <div className="font-semibold flex items-center gap-2">
                       <MdOutlineWavingHand size={30} />
                       <p>Hello! {namaLengkap}</p>
@@ -177,7 +177,7 @@ const Master = () => {
                       <IoIosArrowDown />
                     </button>
                     {isSubMenuOpen && (
-                      <div className="absolute z-50 right-0 mt-2 w-46 text-white rounded-2xl backdrop-blur py-2 bg-primary/30 hover:bg-white/30 duration-150">
+                      <div className="absolute z-50 right-0 mt-2 w-46 text-white rounded-2xl backdrop-blur-sm py-2 bg-primary/30 hover:bg-white/30 duration-150">
                         <button
                           className="flex gap-3 px-6 2xl:text-lg text-sm items-center"
                           onClick={handleDelete}

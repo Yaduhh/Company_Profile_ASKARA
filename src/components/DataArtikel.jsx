@@ -16,6 +16,9 @@ const DataArtikel = () => {
   const [articles, setArticles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedArticle, setSelectedArticle] = useState(null);
+  const [deleteNotificationVisible, setDeleteNotificationVisible] =
+    useState(false);
+  const [deleteProductId, setDeleteProductId] = useState(null);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -37,6 +40,7 @@ const DataArtikel = () => {
     } catch (error) {
       console.error("Error deleting article:", error);
     }
+    showDeleteNotification();
   };
 
   const handleDeleteClick = (article) => {
@@ -54,6 +58,12 @@ const DataArtikel = () => {
     window.location.href = `/articles/${id}/edit`;
   };
 
+  const showDeleteNotification = () => {
+    setDeleteNotificationVisible(true);
+    setTimeout(() => {
+      setDeleteNotificationVisible(false);
+    }, 4000); // 4 detik
+  };
   return (
     <>
       <section
@@ -119,9 +129,9 @@ const DataArtikel = () => {
                 <div className="grid grid-cols-5">
                   <div className="col-span-1">
                     <img
-                      src="./images/dumyimg.svg"
+                      src={`http://localhost:8081/uploads/${article.image}`}
                       alt="Thumbnails"
-                      className="min-h-32 max-h-40 w-full object-cover"
+                      className="h-full w-full object-cover"
                     />
                   </div>
                   <div className="col-span-3 p-3 2xl:px-6 2xl:py-4 space-y-2">
@@ -148,7 +158,7 @@ const DataArtikel = () => {
                           <MdOutlineAccessTime />
                           <div className="flex items-center gap-1">
                             <p>{article.reading_time}</p>
-                            <p>Menit</p>
+                            <p>m</p>
                           </div>
                         </div>
                       </div>
@@ -166,7 +176,11 @@ const DataArtikel = () => {
                     <div className="flex flex-col items-end">
                       <div className="flex items-center gap-2 text-grey">
                         <FaCalendar />
-                        <p>{article.published_date}</p>
+                        <p>
+                          {new Date(article.published_date).toLocaleDateString(
+                            "en-GB"
+                          )}
+                        </p>
                       </div>
                       <div className="flex items-center gap-2 text-grey">
                         <FaUserAlt />
@@ -217,6 +231,12 @@ const DataArtikel = () => {
                 </button>
               </div>
             </div>
+          </div>
+        )}
+
+        {deleteNotificationVisible && (
+          <div className="notification font-normal capitalize bg-[#FF4D4D]">
+            data berhasil dihapus !
           </div>
         )}
       </section>

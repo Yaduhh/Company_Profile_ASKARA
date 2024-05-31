@@ -1,241 +1,64 @@
-import { MdExpandMore, MdEmail } from "react-icons/md";
-import { HiOutlineArrowSmRight } from "react-icons/hi";
-import ArtikelCards from "./ArtikelCards";
-import { IoMdCall } from "react-icons/io";
+import React, { useEffect } from "react";
+import { MdExpandMore } from "react-icons/md";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
+  useEffect(() => {
+    AOS.init({
+      duration: 1500,
+      easing: "ease-in-out",
+      once: false,
+    });
+  }, []);
+
   return (
     <>
       <section id="home">
         <div className="w-full h-screen relative z-0 font-primary overflow-hidden flex flex-col items-center justify-center gap-6 px-6 md:px-16 2xl:px-28">
           <img
-            className="w-full object-cover h-screen md:h-auto md:w-full absolute -z-10 select-none "
+            className="w-full hidden md:block object-cover h-screen md:h-auto md:w-full absolute -z-10 select-none "
             src="./images/banner.png"
             alt="banner"
+            data-aos="fade-up"
+            data-aos-duration="1000"
+          />
+          <img
+            className="w-full block md:hidden object-cover h-screen md:h-auto md:w-full absolute -z-10 select-none "
+            src="./images/bannersm.png"
+            alt="banner"
+            data-aos="fade-up"
+            data-aos-duration="1000"
           />
 
-          <div className="w-full flex flex-col justify-around items-start gap-3 h-full ">
-            <div className="text-xl md:text-3xl text-primary font-medium tracking-wide md:pt-10 pt-0">
-              <p>Hi, There</p>
-            </div>
-
+          <div className="w-full flex flex-col justify-around items-start gap-3 h-full max-sm:-mt-0 mt-28">
             <div>
-              <h1 className="text-grey text-xl md:text-3xl font-medium md:tracking-widest">
+              <h1
+                data-aos="fade-up"
+                className="text-grey pb-6 text-center md:text-start text-xl md:text-3xl font-medium md:tracking-widest"
+              >
                 OUR MISSON
               </h1>
-              <h1 className="text-2xl md:text-4xl 2xl:text-5xl text-primary font-semibold w-full md:w-[40%]">
+              <h1
+                data-aos="fade-up"
+                className="text-3xl px-6 md:px-0 leading-tight text-center md:text-start md:text-4xl 2xl:text-5xl text-primary font-semibold w-full md:w-[40%]"
+              >
                 We Always Provide The Best Quality Products And The Best
                 Solution {">>>"}
               </h1>
-            </div>
 
-            <div className="flex gap-4 items-center text-secondary text-xl animate-bounce">
-              <p>See More</p>
-              <MdExpandMore />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="product">
-        <div className="w-full min-h-screen md:p-0 p-6 md:h-screen relative z-0 font-primary overflow-hidden flex flex-col items-start justify-center gap-2 2xl:gap-6 ">
-          <img
-            className="absolute -z-10 top-0 left-0"
-            src="./icons/bubble.svg"
-            alt="bubble"
-          />
-          <img
-            className="absolute -z-10 right-0 md:right-44 top-0 md:top-20"
-            src="./icons/bubble2.svg"
-            alt="bubble"
-          />
-
-          <img
-            className="absolute -z-10 md:right-0 right-0 top-20"
-            src="./icons/bubble3.svg"
-            alt="bubble"
-          />
-
-          <div className="space-y-2 px-0 md:px-16 2xl:px-28">
-            <p className="uppercase text-grey 2xl:text-2xl text-xl font-medium">
-              Our Product
-            </p>
-            <h1 className="text-xl md:text-2xl 2xl:text-4xl font-semibold capitalize text-primary pb-5 md:pb-0">
-              We are committed to helping more than 1000 people <br />
-              from all regions in Indonesia {">>>"}
-            </h1>
-          </div>
-
-          <div className="w-full grid grid-cols-1 gap-5 md:grid-cols-3">
-            <div className="flex flex-col gap-3 md:gap-5 p-0 md:p-16 2xl:px-28">
-              <div className="flex gap-5 items-center">
-                <img
-                  src="./icons/people.svg"
-                  alt="ipeople"
-                  className="w-8 md:w-auto"
-                />
-                <p className="text-2xl md:text-3xl 2xl:text-4xl font-semibold text-primary">
-                  1000+
-                </p>
-              </div>
-              <div className="w-rull h-[2px] bg-grey"></div>
-              <p className="2xl:text-xl text-base text-justify">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 md:gap-5 p-0 md:p-16">
-              <div className="flex gap-5 items-center">
-                <img
-                  src="./icons/products.svg"
-                  alt="ipeople"
-                  className="w-8 md:w-auto"
-                />
-                <p className="text-2xl md:text-3xl 2xl:text-4xl font-semibold text-primary">
-                  199+
-                </p>
-              </div>
-              <div className="w-rull h-[2px] bg-grey"></div>
-              <p className="2xl:text-xl text-base text-justify">
-                Text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries.
-              </p>
-            </div>
-            <div className="flex flex-col gap-3 md:gap-5 p-0 md:p-16">
-              <div className="flex gap-5 items-center">
-                <img
-                  src="./icons/testimoni.svg"
-                  alt="ipeople"
-                  className="w-8 md:w-auto"
-                />
-                <p className="text-2xl md:text-3xl 2xl:text-4xl font-semibold text-primary">
-                  2K Testimoni
-                </p>
-              </div>
-              <div className="w-rull h-[2px] bg-grey"></div>
-              <p className="2xl:text-xl text-base text-justify">
-                Scrambled it to make a type specimen book. It has survived not
-                only five centuries, but also the leap into electronic
-                typesetting.
-              </p>
+              <Link
+                data-aos="fade-up"
+                data-aos-delay="0"
+                to="#contact"
+                className="flex gap-4 pb-14 2xl:pb-0 items-center text-primary animate-bounce text-xl justify-center md:justify-normal pt-20"
+              >
+                <p>See More</p>
+                <MdExpandMore />
+              </Link>
             </div>
           </div>
-          <div className="bg-primary max-sm:scale-125 md:absolute bottom-0 2xl:h-56 md:h-36 h-24 max-sm:mt-10 w-full"></div>
-        </div>
-      </section>
-
-      <section id="artikel">
-        <div className="w-full min-h-screen md:h-screen relative z-0 font-primary overflow-hidden grid grid-cols-1 md:grid-cols-5">
-          <img
-            className="absolute bottom-0 left-0 -z-10"
-            src="./icons/accentLogo.svg"
-            alt="accent logo"
-          />
-
-          <div className="col-span-2 place-content-center capitalize pr-20 space-y-6 px-6 md:px-16 2xl:px-28 mb-6 md:mb-0 ">
-            <p className="2xl:text-5xl text-2xl md:text-4xl text-primary font-semibold">
-              berita terkini tentang kesehatan yang relevan.
-            </p>
-            <div className="w-96">
-              <p className="text-grey capitalize">
-                Tetap terhubung dengan perkembangan terbaru di dunia farmasi dan
-                kesehatan.
-              </p>
-            </div>
-            <button className="bg-accent px-7 py-2 rounded-xl capitalize border-primary border flex gap-2 items-center">
-              Baca Berita{" "}
-              <span>
-                <HiOutlineArrowSmRight />
-              </span>
-            </button>
-          </div>
-          <div className="col-span-1 md:col-span-3 place-content-center capitalize md:pr-20 2xl:space-y-8 md:space-y-4 space-y-8 p-6 max-sm:pb-16 md:px-16 2xl:px-28 bg-gradient-to-b from-primary to-secondary">
-            <p className="2xl:text-3xl text-xl text-white font-semibold">
-              POSTINGAN TERBARU
-            </p>
-            <ArtikelCards />
-            <ArtikelCards />
-            <ArtikelCards />
-          </div>
-        </div>
-      </section>
-
-      <section id="kontak">
-        <div className="w-full min-h-screen relative z-0 font-primary overflow-hidden grid grid-cols-1 md:grid-cols-2 p-6 md:p-16 2xl:p-28">
-          <img
-            className="absolute bottom-0 left-0 -z-10"
-            src="./icons/accentLogo.svg"
-            alt="accent logo"
-          />
-          <div className="col-span-1 space-y-5 md:space-y-10 place-content-center">
-            <h1 className="uppercase text-primary font-semibold text-3xl md:tracking-wider">
-              Informasi Kontak
-            </h1>
-            <div className="space-y-0 md:space-y-2">
-              <div className="flex gap-2 items-center text-primary">
-                <IoMdCall size={30} />
-                <p className="text-xl md:text-2xl font-semibold">
-                  500 164 24 60
-                </p>
-              </div>
-              <div className="flex gap-2 items-center text-primary">
-                <MdEmail size={30} />
-                <p className="text-xl md:text-2xl font-semibold">
-                  skara@mail.com
-                </p>
-              </div>
-            </div>
-
-            <div className="border-2 border-primary w-full md:w-[70%] relative z-0 rounded-xl overflow-hidden">
-              <img className="w-auto" src="./images/maps.png" alt="maps" />
-              <button className="w-full bg-primary absolute bottom-0 text-white py-2 flex items-center gap-2 justify-center hover:bg-secondary duration-150">
-                <span>
-                  <img src="./icons/imaps.svg" alt="imaps" />
-                </span>{" "}
-                Lihat Maps
-              </button>
-            </div>
-          </div>
-          <div className="col-span-1 md:place-content-center place-content-start 2xl:space-y-5 space-y-2">
-            <div className="w-full md:w-7/12">
-              <p className="2xl:text-3xl text-2xl text-primary font-medium -mt-6 2xl:mt-0">
-                Dapatkan informasi terupdate setiap minggunya.
-              </p>
-            </div>
-            <form className="2xl:space-y-6 space-y-4">
-              <input
-                placeholder="Nama lengkap*"
-                id="nama lengkap"
-                name="nama lengkap"
-                className="w-full outline-none border-b py-3 px-2 border-grey"
-              />
-              <input
-                placeholder="No. Phone*"
-                id="nomor handphone"
-                name="nomor handphone"
-                className="w-full outline-none border-b py-3 px-2 border-grey"
-              />
-              <input
-                placeholder="Email*"
-                id="email"
-                name="email"
-                className="w-full outline-none border-b py-3 px-2 border-grey"
-              />
-
-              <div className="w-full flex justify-end">
-                <button className="uppercase bg-transparent text-primary hover:text-grey tracking-wider font-medium underline underline-offset-2 duration-150">
-                  kirim pesan
-                </button>
-              </div>
-            </form>
-          </div>
-
-          <img
-            className="w-full absolute bottom-0 -z-10 md:h-auto h-20 object-cover"
-            src="./images/peta.png"
-            alt="peta"
-          />
         </div>
       </section>
     </>
