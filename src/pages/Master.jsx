@@ -11,9 +11,10 @@ import { RiUser4Fill } from "react-icons/ri";
 import { IoIosArrowDown } from "react-icons/io";
 import { PiSignOutBold } from "react-icons/pi";
 import DataProduk from "../components/DataProduk";
-import { RiDatabase2Fill } from "react-icons/ri";
+import { RiDatabase2Fill, RiAdminFill } from "react-icons/ri";
 import { MdArticle } from "react-icons/md";
 import DataArtikel from "../components/DataArtikel";
+import DataPengguna from "../components/DataPengguna";
 import { MdOutlineWavingHand } from "react-icons/md";
 
 const Master = () => {
@@ -69,6 +70,8 @@ const Master = () => {
       return <DataProduk />;
     } else if (activeTab === "dataArtikel") {
       return <DataArtikel />;
+    } else if (activeTab === "dataPengguna") {
+      return <DataPengguna namaLengkap={namaLengkap} />;
     }
   };
   return (
@@ -137,6 +140,21 @@ const Master = () => {
                 <p>Create Artikel</p>
               </button>
 
+              <div className="pt-10">
+                <p className="text-sm text-grey px-6 2xl:px-8 py-2">
+                  Data Pekerja
+                </p>
+                <button
+                  className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                    activeTab === "dataPengguna" &&
+                    "bg-primary text-white rounded-2xl"
+                  }`}
+                  onClick={() => handleTabChange("dataPengguna")}
+                >
+                  <RiAdminFill size={30} />
+                  <p>Pengguna</p>
+                </button>
+              </div>
               <div className="pt-10">
                 <p className="text-sm text-grey px-6 2xl:px-8">Website</p>
                 <a
