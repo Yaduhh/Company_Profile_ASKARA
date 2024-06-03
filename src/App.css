@@ -88,3 +88,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   animation: slideInOut 4s forwards;
 }
+
+.topdepan {
+  z-index: 999;
+}

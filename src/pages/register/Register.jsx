@@ -1,11 +1,10 @@
 import React from "react";
-import { useState } from "react";
-import { BiShow, BiHide } from "react-icons/bi";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const Register = () => {
+const Register = ({ closeModal, showNotificationVisible }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [NotificationVisible, setNotificationVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -15,24 +14,31 @@ const Register = () => {
     nama_lengkap: "",
     username: "",
     email: "",
-    password: "",
+    created: new Date().toISOString(),
+    jabatan: "",
+    tgl_lahir: "",
   });
-  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:8081/register",
-        values
-      );
-
+      const formattedDate = values.tgl_lahir
+        ? `${values.tgl_lahir.slice(8, 10)}${values.tgl_lahir.slice(
+            5,
+            7
+          )}${values.tgl_lahir.slice(2, 4)}`
+        : "";
+      const response = await axios.post("http://localhost:8081/register", {
+        ...values,
+        password: formattedDate,
+      });
       if (response.data.Status === "Success") {
-        navigate("/masterlogin");
       } else {
         // alert(response.data.Message || "Error Ngab");
         console.log(response.data.status);
       }
+      showNotificationVisible();
+      closeModal();
     } catch (error) {
       console.error("Registration error:", error);
       alert(
@@ -43,41 +49,10 @@ const Register = () => {
 
   return (
     <>
-      <section className="relative z-0 w-full h-screen md:h-auto 2xl:p-0 p-6 md:p-20 2xl:h-screen flex flex-col justify-center items-center font-primary bg-gradient-to-l from-secondary to-white overflow-hidden">
-        <img
-          src="./images/logo_accent.svg"
-          alt="logo_accent"
-          className="absolute bottom-0 md:left-0 -left-20 -z-10 select-none"
-        />
-        <img
-          src="./images/bubble_one.svg"
-          alt="logo_accent"
-          className="absolute top-20 translate-x-3/4 -z-10 select-none"
-        />
-        <img
-          src="./images/bubble_two.svg"
-          alt="logo_accent"
-          className="absolute right-1/4 -z-10 select-none"
-        />
-        <img
-          src="./images/bubble_three.svg"
-          alt="logo_accent"
-          className="absolute right-80 top-1/4 -z-10 select-none"
-        />
-        <img
-          src="./images/bubble_one.svg"
-          alt="logo_accent"
-          className="absolute -bottom-36 -right-20 -z-10 select-none hidden md:block"
-        />
-
-        <img
-          src="./images/logo_primary.svg"
-          alt="logo"
-          className="w-2/4 md:w-[20%] 2xl:w-auto"
-        />
-        <div className="p-6 md:p-10 2xl:p-12 bg-white/40 backdrop-blur rounded-3xl shadow shadow-white/50 mt-5 space-y-8 w-full md:max-w-lg max-w-sm">
-          <p className="text-2xl 2xl:text-3xl font-semibold text-primary text-center">
-            Daftar Akun
+      <section className="relative z-0 w-full flex flex-col justify-center items-center font-primary bg-gradient-to-l from-secondary to-white overflow-hidden rounded-xl shadow-sm">
+        <div className="p-6 rounded-3xl mt-5 space-y-6 w-full md:max-w-2xl max-w-sm">
+          <p className="text-2xl 2xl:text-3xl font-semibold text-primary">
+            Tambah Akun
           </p>
 
           <form className="w-full space-y-8" onSubmit={handleSubmit}>
@@ -110,6 +85,23 @@ const Register = () => {
             </div>
 
             <div className="flex flex-col w-full">
+              <label htmlFor="jabatan">Role*</label>
+              <select
+                id="jabatan"
+                name="jabatan"
+                className="bg-transparent border-b outline-none py-1.5 px-1"
+                value={values.jabatan}
+                onChange={(e) =>
+                  setValues({ ...values, jabatan: e.target.value })
+                }
+              >
+                <option value="">Pilih Role</option>
+                <option value="0">Master</option>
+                <option value="1">Karyawan</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col w-full">
               <label htmlFor="email">Email*</label>
               <input
                 type="email"
@@ -124,41 +116,33 @@ const Register = () => {
             </div>
 
             <div className="flex flex-col w-full relative">
-              <label htmlFor="password">Password*</label>
+              <label htmlFor="tanggal_lahir">Tanggal Lahir*</label>
               <input
-                type={isPasswordVisible ? "text" : "password"}
-                name="password"
-                id="password"
+                type="date"
+                name="tanggal_lahir"
+                id="tanggal_lahir"
                 placeholder=""
                 className="bg-transparent border-b outline-none py-1.5 px-1"
+                value={values.tgl_lahir}
                 onChange={(e) =>
-                  setValues({ ...values, password: e.target.value })
+                  setValues({ ...values, tgl_lahir: e.target.value })
                 }
               />
-              <button
-                type="button"
-                className="text-lg absolute bottom-12 right-0"
-                onClick={togglePasswordVisibility}
-              >
-                {isPasswordVisible ? <BiShow /> : <BiHide />}
-              </button>
-              <div className="space-x-2 mt-3">
-                <input type="checkbox" className="rounded-full" />
-                <label>Ingat Kata Sandi</label>
-              </div>
             </div>
 
-            <div className="w-full flex justify-end">
+            <div className="w-full flex justify-end gap-4 pb-6">
+              <button
+                onClick={closeModal}
+                className=" px-8 py-1.5 bg-transparent outline outline-1 outline-secondary rounded-full hover:bg-white/30 hover:text-white duration-150"
+              >
+                Batal
+              </button>
               <button className=" px-8 py-1.5 bg-transparent outline outline-1 outline-primary rounded-full hover:bg-primary hover:text-white duration-150">
-                Daftar Akun
+                Tambah Akun
               </button>
             </div>
           </form>
         </div>
-
-        <p className="text-white font-light tracking-wide text-sm 2xl:text-lg absolute bottom-6 2xl:bottom-10 select-none">
-          © Copyright by YaduhUI. All rights reserved.
-        </p>
       </section>
     </>
   );

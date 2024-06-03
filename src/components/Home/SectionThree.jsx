@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { HiOutlineArrowSmRight } from "react-icons/hi";
 import { FaArrowRight } from "react-icons/fa";
-
-import ArtikelCards from "../ArtikelCards";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
@@ -20,7 +18,7 @@ const SectionThree = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:8081/articles")
+    fetch("http://192.168.1.4:8081/articles")
       .then((res) => res.json())
       .then((data) => setPopularBlogs(data.slice(0, 15)));
   }, []);
@@ -86,13 +84,13 @@ const SectionThree = () => {
                 data-aos-delay="100"
                 to={`/articles/${blog.id}`}
                 key={blog.id}
-                className="w-full bg-white pb-10 flex md:flex-row flex-col rounded-2xl overflow-hidden bg-orange-400 2xl:h-[200px] md:h-[160px] h-auto relative z-0 border-primary/30 border-[1px]"
+                className="w-full bg-white pb-10 flex md:flex-row flex-col rounded-2xl overflow-hidden bg-orange-400 2xl:h-[200px] md:h-[180px] h-auto relative z-0 border-primary/30 border-[1px]"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex md:flex-row flex-col items-center gap-0 md:gap-3 ">
                   <img
-                    src={`http://localhost:8081/uploads/${blog.image}`}
+                    src={`http://192.168.1.4:8081/uploads/${blog.image}`}
                     alt={blog.title}
-                    className="md:w-auto overflow-hidden w-full md:h-60 h-48 object-cover md:rounded-md hover:scale-105 duration-200 transition-all ease-out hover:opacity-70"
+                    className="md:w-auto overflow-hidden w-full md:h-60 h-full object-cover md:rounded-md hover:scale-105 duration-200 transition-all ease-out hover:opacity-70"
                   />
 
                   <div>
@@ -104,12 +102,12 @@ const SectionThree = () => {
                       {blog.category}
                     </p>
                   </div>
-                  <div className="w-full px-1 py-4 space-y-2 h-full ">
-                    <h3 className="text-primary text-justify capitalize mb-2 font-medium text-xl hover:text-blue-600 cursor-pointer ">
+                  <div className="w-full md:p-1 p-4 md:py-4 space-y-2 h-full ">
+                    <h3 className="text-primary text-justify capitalize mb-2 font-medium text-lg 2xl:text-xl hover:text-blue-600 cursor-pointer ">
                       {blog.title}
                     </h3>
                     <div className="w-full bg-grey h-[2px]"></div>
-                    <p className="line-clamp-4 text-sm text-primary md:text-start text-justify">
+                    <p className="line-clamp-2 2xl:line-clamp-4 text-sm text-primary md:text-start text-justify">
                       <div>
                         <div
                           dangerouslySetInnerHTML={{
