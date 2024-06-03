@@ -32,30 +32,30 @@ const Footer = () => {
             </div>
           </div>
           <div className="col-span-1 space-y-4 mt-10 md:-0 text-center md:text-start">
-            <h1 className="uppercase font-semibold text-2xl 2xl:text-3xl">
+            <h1 className="uppercase font-semibold text-xl md:text-2xl 2xl:text-3xl">
               Company
             </h1>
-            <div className="capitalize space-y-2 text-lg font-normal">
+            <div className="capitalize space-y-2 md:text-lg text-base font-normal">
               <p>Tentang</p>
               <p>Services</p>
               <p>Testimoni</p>
             </div>
           </div>
           <div className="col-span-1 space-y-4 mt-10 md:-0 text-center md:text-start">
-            <h1 className="uppercase font-semibold text-2xl 2xl:text-3xl">
+            <h1 className="uppercase font-semibold text-xl md:text-2xl 2xl:text-3xl">
               Support
             </h1>
-            <div className="capitalize space-y-2 text-lg font-normal">
+            <div className="capitalize space-y-2 md:text-lg text-base font-normal">
               <p>Feedback</p>
               <p>Help Center</p>
               <p>Webians</p>
             </div>
           </div>
           <div className="col-span-1 space-y-4 mt-10 md:-0 text-center md:text-start">
-            <h1 className="uppercase font-semibold text-2xl 2xl:text-3xl">
+            <h1 className="uppercase font-semibold text-xl md:text-2xl 2xl:text-3xl">
               Contact
             </h1>
-            <div className="capitalize space-y-2 text-lg font-normal">
+            <div className="capitalize space-y-2 md:text-lg text-base font-normal">
               <div className="flex items-center gap-2 justify-center md:justify-normal">
                 <IoMdCall size={25} />
                 <p>500 164 24 60</p>

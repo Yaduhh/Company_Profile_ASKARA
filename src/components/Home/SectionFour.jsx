@@ -1,11 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdCall } from "react-icons/io";
 import { MdEmail } from "react-icons/md";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import LoadingSpinner from "../LoadingSpinner";
+import axios from "axios";
 
 const SectionFour = () => {
+  const [name, setName] = useState("");
+  const [nophone, setNophone] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [notificationVisible, setNotificationVisible] = useState(false);
+
   useEffect(() => {
     AOS.init({
       duration: 1200,
@@ -13,6 +20,53 @@ const SectionFour = () => {
       once: false,
     });
   }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validasi form
+    if (!name || !nophone || !email || !message) {
+      setError("Semua field harus diisi !");
+      return;
+    }
+    setError("");
+
+    const newData = {
+      name,
+      nophone,
+      email,
+      message,
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8081/postcontactus",
+        newData
+      );
+      if (response.data.Status === "Success") {
+        alert("Produk berhasil ditambahkan!");
+      }
+    } catch (error) {
+      console.error("Terjadi kesalahan saat mengirim data:", error);
+      alert("Terjadi kesalahan saat menambahkan produk.");
+    }
+    resetForm();
+    showNotification();
+  };
+
+  const resetForm = () => {
+    setName("");
+    setNophone("");
+    setEmail("");
+    setMessage("");
+  };
+
+  const showNotification = () => {
+    setNotificationVisible(true);
+    setTimeout(() => {
+      setNotificationVisible(false);
+    }, 4000); // 4 detik
+  };
 
   return (
     <section id="kontak">
@@ -83,7 +137,7 @@ const SectionFour = () => {
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="300"
-              className="2xl:text-3xl text-2xl text-primary font-medium -mt-6 2xl:mt-0"
+              className="2xl:text-3xl text-2xl text-primary font-medium mt-6 md:-mt-10 2xl:-mt-28"
             >
               Dapatkan informasi terupdate setiap minggunya.
             </p>
@@ -93,27 +147,53 @@ const SectionFour = () => {
             data-aos-duration="2000"
             data-aos-delay="400"
             className="2xl:space-y-6 space-y-4"
+            onSubmit={handleSubmit}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSubmit(e);
+              }
+            }}
           >
             <input
               placeholder="Nama lengkap*"
               id="nama lengkap"
               name="nama lengkap"
               className="w-full outline-none border-b py-3 px-2 border-grey"
+              value={name}
+              type="text"
+              onChange={(e) => setName(e.target.value)}
             />
             <input
               placeholder="No. Phone*"
               id="nomor handphone"
               name="nomor handphone"
               className="w-full outline-none border-b py-3 px-2 border-grey"
+              value={nophone}
+              type="number"
+              onChange={(e) => setNophone(e.target.value)}
             />
             <input
               placeholder="Email*"
               id="email"
               name="email"
               className="w-full outline-none border-b py-3 px-2 border-grey"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              type="email"
             />
+            <textarea
+              placeholder="Pesan*"
+              id="pesan"
+              name="pesan"
+              className="w-full outline-none border-b py-3 px-2 border-grey"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              typeof="text"
+            />
+            {error && <p className="text-[#FF4D4D]">{error}</p>}
 
-            <div className="w-full flex justify-end">
+            <div className="w-full flex justify-end pb-20 md:pb-0">
               <button className="uppercase bg-transparent text-primary hover:text-grey tracking-wider font-medium underline underline-offset-2 duration-150">
                 kirim pesan
               </button>
@@ -122,11 +202,17 @@ const SectionFour = () => {
         </div>
 
         <img
-          className="w-full absolute bottom-0 -z-10 md:h-auto h-20 object-cover"
+          className="w-full absolute bottom-0 -z-10 md:h-1/3 h-28 object-cover pt-10"
           src="./images/peta.png"
           alt="peta"
         />
       </div>
+
+      {notificationVisible && (
+        <div className="notification font-normal capitalize font-primary">
+          Berhasil mengirimkan pesan !
+        </div>
+      )}
     </section>
   );
 };

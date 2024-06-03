@@ -24,13 +24,20 @@ const DataArtikel = () => {
     const fetchArticles = async () => {
       try {
         const response = await axios.get("http://localhost:8081/articles");
-        setArticles(response.data);
+        if (Array.isArray(response.data)) {
+          setArticles(response.data);
+        } else {
+          setArticles([]);
+          console.error("Data is not an array:", response.data);
+        }
       } catch (error) {
         console.error("Error fetching articles:", error);
       }
     };
     fetchArticles();
   }, []);
+
+  console.log(articles);
 
   const deleteArticle = async (id) => {
     try {
@@ -219,13 +226,13 @@ const DataArtikel = () => {
               <div className="flex justify-end mt-4">
                 <button
                   onClick={closeModal} // Menutup modal tanpa menghapus artikel
-                  className="text-gray-500 mr-4"
+                  className="hover:text-grey duration-150 mr-4"
                 >
                   Batal
                 </button>
                 <button
                   onClick={() => deleteArticle(selectedArticle.id)} // Menghapus artikel saat dikonfirmasi
-                  className="bg-accent hover:bg-third text-white font-semibold py-2 px-4 rounded"
+                  className="bg-[#FF4D4D] hover:bg-[#FF4D4D]/60 duration-150 text-white font-semibold py-2 px-4 rounded"
                 >
                   Hapus
                 </button>

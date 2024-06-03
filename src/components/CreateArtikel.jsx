@@ -121,10 +121,10 @@ const CreateArtikel = ({ namaLengkap }) => {
                 onChange={handleCategoryChange}
               >
                 <option value="">Pilih Kategori</option>
-                <option value="Teknologi">Teknologi</option>
-                <option value="Curhatan">Curhatan</option>
-                <option value="Tutorial">Tutorial</option>
-                <option value="Edukasi">Edukasi</option>
+                <option value="1">Teknologi</option>
+                <option value="2">Curhatan</option>
+                <option value="3">Tutorial</option>
+                <option value="4">Edukasi</option>
               </select>
             </div>
             <div className="col-span-1">

@@ -1,5 +1,4 @@
 import Banner from "../components/Banner";
-import BlogPage from "../components/BlogPage";
 import SectionFour from "../components/Home/SectionFour";
 import SectionThree from "../components/Home/SectionThree";
 import SectionTwo from "../components/Home/SectionTwo";

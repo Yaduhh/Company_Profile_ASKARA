@@ -25,21 +25,39 @@ const DataProduk = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const [deleteProductId, setDeleteProductId] = useState(null);
+  const [error, setError] = useState("");
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:8081/products");
+  //     setData(response.data);
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setLoading(true);
+  //     setTimeout(() => {
+  //       setData({ message: "Data fetched successfully!" });
+  //       setLoading(false);
+  //     }, 3000);
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:8081/products");
-      setData(response.data);
+      if (Array.isArray(response.data)) {
+        setData(response.data);
+      } else {
+        setData([]);
+        console.error("Data is not an array:", response.data);
+      }
       setLoading(false);
     } catch (error) {
-      setLoading(true);
-      setTimeout(() => {
-        setData({ message: "Data fetched successfully!" });
-        setLoading(false);
-      }, 3000);
+      setLoading(false); // Set loading to false in case of error
       console.error("Error fetching data:", error);
     }
   };
+  console.log(data);
 
   useEffect(() => {
     fetchData();
@@ -61,8 +79,7 @@ const DataProduk = () => {
       },
       {
         Header: "Jenis Produk",
-        accessor: "jenis_produk",
-        Cell: ({ value }) => jenisProdukMap[value] || "Unknown",
+        accessor: "jenis_produk_label",
       },
       {
         Header: "Actions",
@@ -113,16 +130,6 @@ const DataProduk = () => {
     usePagination
   );
 
-  const jenisProdukMap = {
-    1: "Pharma Product",
-    2: "Cosmetic Product",
-    3: "Chemical Product",
-    4: "Feed Product",
-    5: "Food Product",
-    6: "Veterinery Product",
-    7: "Flavour Product",
-  };
-
   const filterData = (data) => {
     return data.filter((item) => {
       const matchesSearchQuery = item.nama
@@ -137,6 +144,13 @@ const DataProduk = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validasi form
+    if (!nama || !jenis_produk || !kategori) {
+      setError("Semua field harus diisi !");
+      return;
+    }
+    setError("");
 
     const newData = {
       nama,
@@ -273,7 +287,7 @@ const DataProduk = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="flex justify-center items-center min-h-screen bg-transparent 2xl:-mt-20">
         <ScaleLoader size={150} color={"#0E185F"} loading={loading} />
       </div>
     );
@@ -426,7 +440,16 @@ const DataProduk = () => {
               <h1 className="pb-6 text-2xl font-semibold text-primary">
                 Tambah Produk
               </h1>
-              <form className="space-y-4 w-full" onSubmit={handleSubmit}>
+              <form
+                className="space-y-4 w-full"
+                onSubmit={handleSubmit}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleSubmit(e);
+                  }
+                }}
+              >
                 <div className="grid grid-cols-1 gap-6 items-center w-full">
                   <div className="col-span-1">
                     <label htmlFor="title" className="block">
@@ -476,6 +499,8 @@ const DataProduk = () => {
                     />
                   </div>
                 </div>
+
+                {error && <p className="text-[#FF4D4D]">{error}</p>}
 
                 <div className="flex w-full gap-3 justify-end text-sm pt-10">
                   <button

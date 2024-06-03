@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { CgCalendarDates } from "react-icons/cg";
 import DOMPurify from "dompurify";
+import { FaUserCircle } from "react-icons/fa";
 
 const BlogCards = ({
   blogs,
@@ -67,12 +68,8 @@ const BlogCards = ({
             <div className="p-3 w-full absolute bottom-0 space-y-2">
               <div className="w-full bg-primary/30 rounded-full h-[0.5px]"></div>
               <div className="flex items-center gap-1 justify-between text-primary/50 font-primary w-full">
-                <div className="text-xs flex items-center gap-2">
-                  <img
-                    src="./images/fotopribadi.jpg"
-                    alt="foto sendiri"
-                    className="w-5 h-5 rounded-full"
-                  />
+                <div className="text-xs flex items-center gap-1">
+                  <FaUserCircle className="h-4 w-4" />
                   <p className="text-xs"> {blog.author}</p>
                 </div>
                 <div className="text-xs flex items-center gap-1">

@@ -126,15 +126,18 @@ const Product = () => {
                 <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
               </div>
             </div>
-            <div>
-              <button className="bg-secondary py-1.5 h-full px-6 rounded-lg text-white w-full md:w-auto">
+            <div className="col-span-1 flex justify-end">
+              <button className="bg-secondary hover:bg-grey duration-150 py-1.5 h-full px-8 rounded-lg text-white w-full md:w-auto">
                 Search
               </button>
             </div>
           </div>
-          <div className="grid grid-cols-6 py-6 gap-8">
-            <div className="col-span-4 ">
-              <table {...getTableProps()} className="min-w-full rounded">
+          <div className="grid grid-cols-7 py-6 gap-8">
+            <div className="col-span-5 rounded-xl h-auto px-1">
+              <table
+                {...getTableProps()}
+                className="min-w-full rounded-t-xl outline-1 outline outline-grey overflow-hidden"
+              >
                 <thead className="bg-primary text-white uppercase text-sm leading-normal font-normal">
                   {headerGroups.map((headerGroup) => (
                     <tr {...headerGroup.getHeaderGroupProps()} className="">
@@ -179,43 +182,51 @@ const Product = () => {
                   })}
                 </tbody>
               </table>
-              <button
-                onClick={() => previousPage()}
-                disabled={!canPreviousPage}
-                className={`py-1 px-4 bg-blue-500 text-white rounded ${
-                  !canPreviousPage
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-blue-700"
-                }`}
-              >
-                Previous
-              </button>
-              <span className="text-white font-normal">
-                Page{" "}
-                <strong>
-                  {pageIndex + 1} of {pageOptions.length}
-                </strong>
-              </span>
-              <button
-                onClick={() => nextPage()}
-                disabled={!canNextPage}
-                className={`py-1 px-4 text-white rounded ${
-                  !canNextPage ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                Next
-              </button>
-              <select
-                value={pageSize}
-                onChange={(e) => setPageSize(Number(e.target.value))}
-                className="py-1 px-4 rounded focus:outline-none mr-4 bg-transparent text-grey"
-              >
-                {[10, 20, 30, 40, 50].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
-                    Show {pageSize}
-                  </option>
-                ))}
-              </select>
+              <div className="flex items-center bg-grey outline-1 outline outline-grey justify-between">
+                <button
+                  onClick={() => previousPage()}
+                  disabled={!canPreviousPage}
+                  className={`py-1 px-4 text-white rounded${
+                    !canPreviousPage
+                      ? "opacity-50 cursor-not-allowed text-sm"
+                      : "hover:bg-blue-700 text-sm"
+                  }`}
+                >
+                  Previous
+                </button>
+                <span className="text-white font-normal text-sm">
+                  Page{" "}
+                  <strong>
+                    {pageIndex + 1} of {pageOptions.length}
+                  </strong>
+                </span>
+                <button
+                  onClick={() => nextPage()}
+                  disabled={!canNextPage}
+                  className={`py-1 px-4 text-white rounded ${
+                    !canNextPage
+                      ? "opacity-50 cursor-not-allowed text-sm"
+                      : "text-sm"
+                  }`}
+                >
+                  Next
+                </button>
+                <select
+                  value={pageSize}
+                  onChange={(e) => setPageSize(Number(e.target.value))}
+                  className="py-1 px-4 rounded focus:outline-none mr-4 bg-transparent text-white  text-sm"
+                >
+                  {[10, 20, 30, 40, 50].map((pageSize) => (
+                    <option
+                      key={pageSize}
+                      value={pageSize}
+                      className="text-sm bg-primary"
+                    >
+                      Show {pageSize}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="col-span-2">
               <SideBar />

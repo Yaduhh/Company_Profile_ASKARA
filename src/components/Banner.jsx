@@ -52,7 +52,7 @@ const Banner = () => {
                 data-aos="fade-up"
                 data-aos-delay="0"
                 to="#contact"
-                className="flex gap-4 pb-14 2xl:pb-0 items-center text-primary animate-bounce text-xl justify-center md:justify-normal pt-20"
+                className="flex gap-4 pb-0 md:pb-14 2xl:pb-0 items-center text-primary animate-bounce text-xl justify-center md:justify-normal md:pt-20 pt-40"
               >
                 <p>See More</p>
                 <MdExpandMore />
