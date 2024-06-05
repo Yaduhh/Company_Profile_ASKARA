@@ -5,6 +5,7 @@ import { BiShow, BiHide } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [message, setMessage] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -25,11 +26,10 @@ const Login = () => {
       if (response.data.Status === "Success") {
         navigate("/master");
       } else {
-        alert(response.data.Message || "Error Ngab");
+        alert(response.data.message || "Error Ngab");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Login failed. Please check your details or try again later.");
     }
   };
 
@@ -118,6 +118,7 @@ const Login = () => {
               </button>
             </div>
           </form>
+          {message}
         </div>
 
         <p className="text-white font-light tracking-wide text-sm 2xl:text-lg absolute bottom-6 2xl:bottom-10 select-none">

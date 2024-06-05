@@ -17,6 +17,7 @@ const Register = ({ closeModal, showNotificationVisible }) => {
     created: new Date().toISOString(),
     jabatan: "",
     tgl_lahir: "",
+    gender: "",
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -49,7 +50,7 @@ const Register = ({ closeModal, showNotificationVisible }) => {
 
   return (
     <>
-      <section className="relative z-0 w-full flex flex-col justify-center items-center font-primary bg-gradient-to-l from-secondary to-white overflow-hidden rounded-xl shadow-sm">
+      <section className="relative z-0 w-full flex flex-col justify-center items-center font-primary bg-white/80 backdrop-blur-sm overflow-hidden rounded-xl shadow-sm">
         <div className="p-6 rounded-3xl mt-5 space-y-6 w-full md:max-w-2xl max-w-sm">
           <p className="text-2xl 2xl:text-3xl font-semibold text-primary">
             Tambah Akun
@@ -98,6 +99,23 @@ const Register = ({ closeModal, showNotificationVisible }) => {
                 <option value="">Pilih Role</option>
                 <option value="0">Master</option>
                 <option value="1">Karyawan</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col w-full">
+              <label htmlFor="gender">Gender*</label>
+              <select
+                id="gender"
+                name="gender"
+                className="bg-transparent border-b outline-none py-1.5 px-1"
+                value={values.gender}
+                onChange={(e) =>
+                  setValues({ ...values, gender: e.target.value })
+                }
+              >
+                <option value="">Pilih Role</option>
+                <option value="0">Laki - Laki</option>
+                <option value="1">Perempuan</option>
               </select>
             </div>
 

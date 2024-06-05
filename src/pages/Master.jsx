@@ -21,6 +21,8 @@ const Master = () => {
   const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
+  const [jabatan, setJabatan] = useState("");
+  const [created, setCreated] = useState("");
   const [namaLengkap, setNamaLengkap] = useState("");
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
@@ -35,6 +37,8 @@ const Master = () => {
           setAuth(true);
           setUsername(res.data.username);
           setNamaLengkap(res.data.nama_lengkap);
+          setJabatan(res.data.jabatan);
+          setCreated(res.data.created);
         } else {
           setAuth(false);
           setMessage(res.data.Error);
@@ -71,7 +75,14 @@ const Master = () => {
     } else if (activeTab === "dataArtikel") {
       return <DataArtikel />;
     } else if (activeTab === "dataPengguna") {
-      return <DataPengguna namaLengkap={namaLengkap} username={username} />;
+      return (
+        <DataPengguna
+          namaLengkap={namaLengkap}
+          username={username}
+          jabatan={jabatan}
+          created={created}
+        />
+      );
     }
   };
   return (

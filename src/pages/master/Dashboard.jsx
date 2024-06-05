@@ -3,6 +3,7 @@ import { useTable, usePagination, useSortBy } from "react-table";
 import { MdOutlineArticle } from "react-icons/md";
 import { RiDatabase2Line } from "react-icons/ri";
 import { FaChalkboardUser } from "react-icons/fa6";
+import { ScaleLoader } from "react-spinners";
 import axios from "axios";
 
 const Dashboard = () => {
@@ -35,7 +36,6 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get("http://localhost:8081/contactus");
-        console.log("Contact Us Data:", response.data);
         setContactUsData(response.data);
         setLoading(false);
       } catch (error) {
@@ -98,7 +98,11 @@ const Dashboard = () => {
   );
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-screen bg-transparent 2xl:-mt-20">
+        <ScaleLoader size={150} color={"#0E185F"} loading={loading} />
+      </div>
+    );
   }
   return (
     <>
@@ -117,7 +121,7 @@ const Dashboard = () => {
               </p>
             </div>
           </div>
-          <div className="col-span-4 overflow-hidden relative -z-0 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
+          <div className="col-span-4 overflow-hidden relative -z-10 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
             <RiDatabase2Line size={90} />
             <RiDatabase2Line
               size={200}
@@ -130,7 +134,7 @@ const Dashboard = () => {
               </p>
             </div>
           </div>
-          <div className="col-span-4 overflow-hidden relative -z-0 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
+          <div className="col-span-4 overflow-hidden relative -z-10 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
             <FaChalkboardUser size={90} />
             <FaChalkboardUser
               size={200}

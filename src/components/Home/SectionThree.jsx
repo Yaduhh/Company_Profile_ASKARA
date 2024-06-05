@@ -18,7 +18,7 @@ const SectionThree = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://192.168.1.4:8081/articles")
+    fetch("http://localhost:8081/articles")
       .then((res) => res.json())
       .then((data) => setPopularBlogs(data.slice(0, 15)));
   }, []);
@@ -88,7 +88,7 @@ const SectionThree = () => {
               >
                 <div className="flex md:flex-row flex-col items-center gap-0 md:gap-3 ">
                   <img
-                    src={`http://192.168.1.4:8081/uploads/${blog.image}`}
+                    src={`http://localhost:8081/uploads/${blog.image}`}
                     alt={blog.title}
                     className="md:w-auto overflow-hidden w-full md:h-60 h-full object-cover md:rounded-md hover:scale-105 duration-200 transition-all ease-out hover:opacity-70"
                   />
