@@ -11,7 +11,10 @@ const SideBar = () => {
   useEffect(() => {
     fetch("http://localhost:8081/articles")
       .then((res) => res.json())
-      .then((data) => setPopularBlogs(data.slice(0, 15)));
+      .then((data) => {
+        const publishedBlogs = data.filter((blog) => blog.status === 1); // Hanya ambil blog dengan status 1
+        setPopularBlogs(publishedBlogs.slice(0, 15)); // Ambil 15 blog teratas
+      });
   }, []);
   return (
     <>

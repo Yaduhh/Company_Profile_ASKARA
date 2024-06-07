@@ -2,14 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const Register = ({ closeModal, showNotificationVisible }) => {
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [NotificationVisible, setNotificationVisible] = useState(false);
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
-
+const Register = ({ closeModal, showNotificationVisible, fetchUsers }) => {
   const [values, setValues] = useState({
     nama_lengkap: "",
     username: "",
@@ -19,8 +12,21 @@ const Register = ({ closeModal, showNotificationVisible }) => {
     tgl_lahir: "",
     gender: "",
   });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (
+      !values.nama_lengkap ||
+      !values.username ||
+      !values.email ||
+      !values.jabatan ||
+      !values.gender ||
+      !values.tgl_lahir
+    ) {
+      alert("Semua Form Wajib Di isi!");
+      return;
+    }
 
     try {
       const formattedDate = values.tgl_lahir
@@ -34,8 +40,8 @@ const Register = ({ closeModal, showNotificationVisible }) => {
         password: formattedDate,
       });
       if (response.data.Status === "Success") {
+        fetchUsers();
       } else {
-        // alert(response.data.Message || "Error Ngab");
         console.log(response.data.status);
       }
       showNotificationVisible();
@@ -51,12 +57,21 @@ const Register = ({ closeModal, showNotificationVisible }) => {
   return (
     <>
       <section className="relative z-0 w-full flex flex-col justify-center items-center font-primary bg-white/80 backdrop-blur-sm overflow-hidden rounded-xl shadow-sm">
-        <div className="p-6 rounded-3xl mt-5 space-y-6 w-full md:max-w-2xl max-w-sm">
+        <div className="p-6 px-10 rounded-3xl mt-0 2xl:mt-5 md:space-y-3 2xl:space-y-6 w-full md:max-w-2xl max-w-sm">
           <p className="text-2xl 2xl:text-3xl font-semibold text-primary">
             Tambah Akun
           </p>
 
-          <form className="w-full space-y-8" onSubmit={handleSubmit}>
+          <form
+            className="w-full 2xl:space-y-8 space-y-4"
+            onSubmit={handleSubmit}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault(); // Prevent default form submission behavior
+                handleSubmit(event); // Trigger your form submission handler
+              }
+            }}
+          >
             <div className="flex flex-col w-full">
               <label htmlFor="email">Nama Lengkap*</label>
               <input
@@ -148,14 +163,14 @@ const Register = ({ closeModal, showNotificationVisible }) => {
               />
             </div>
 
-            <div className="w-full flex justify-end gap-4 pb-6">
+            <div className="w-full flex justify-end gap-0 pb-6 pt-4">
               <button
                 onClick={closeModal}
-                className=" px-8 py-1.5 bg-transparent outline outline-1 outline-secondary rounded-full hover:bg-white/30 hover:text-white duration-150"
+                className=" px-8 py-1.5  rounded-full text-black hover:text-grey duration-150"
               >
                 Batal
               </button>
-              <button className=" px-8 py-1.5 bg-transparent outline outline-1 outline-primary rounded-full hover:bg-primary hover:text-white duration-150">
+              <button className=" px-8 py-1.5 bg-secondary rounded-full hover:bg-primary text-white duration-150">
                 Tambah Akun
               </button>
             </div>

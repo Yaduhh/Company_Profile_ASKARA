@@ -14,7 +14,7 @@ const CreateArtikel = ({ namaLengkap }) => {
   const [placeholder, setPlaceholder] = useState("");
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [submitType, setSubmitType] = useState("");
   const editor = useRef(null);
 
   const handleCategoryChange = (e) => {
@@ -23,12 +23,14 @@ const CreateArtikel = ({ namaLengkap }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const statusValue = submitType === "draft" ? "0" : "1";
+
     try {
       const formData = new FormData();
       formData.append("title", title);
       formData.append("category", category);
       formData.append("author", author);
-      formData.append("status", "1");
+      formData.append("status", statusValue);
       formData.append("published_date", published_date);
       formData.append("reading_time", reading_time);
       formData.append("content", content);
@@ -79,6 +81,14 @@ const CreateArtikel = ({ namaLengkap }) => {
     }
   }, [modalVisible]);
 
+  const handleDraftClick = () => {
+    setSubmitType("draft");
+  };
+
+  const handlePostClick = () => {
+    setSubmitType("post");
+  };
+
   return (
     <>
       <div className="w-full mt-0 px-6 2xl:px-12 pt-20 2xl:pt-4 overflow-auto">
@@ -121,10 +131,11 @@ const CreateArtikel = ({ namaLengkap }) => {
                 onChange={handleCategoryChange}
               >
                 <option value="">Pilih Kategori</option>
-                <option value="1">Teknologi</option>
-                <option value="2">Curhatan</option>
-                <option value="3">Tutorial</option>
-                <option value="4">Edukasi</option>
+                <option value="1">Jasmani</option>
+                <option value="2">Rohani</option>
+                <option value="3">Tips & Trick</option>
+                <option value="4">Berita</option>
+                <option value="4">Ilmiah</option>
               </select>
             </div>
             <div className="col-span-1">
@@ -211,7 +222,8 @@ const CreateArtikel = ({ namaLengkap }) => {
               Cancel
             </button>
             <button
-              type=""
+              type="submit"
+              onClick={handleDraftClick}
               className="w-auto bg-accent hover:bg-secondary/30 duration-200 text-primary rounded-xl py-2 px-4"
             >
               Simpan Sebagai Draft
@@ -219,6 +231,13 @@ const CreateArtikel = ({ namaLengkap }) => {
             <button
               type="submit"
               className="w-auto bg-primary hover:bg-secondary duration-200 text-white rounded-xl py-2 px-4"
+              onClick={handlePostClick}
+            >
+              Posting
+            </button>
+            <button
+              type="submit"
+              className="w-auto hidden bg-primary hover:bg-secondary duration-200 text-white rounded-xl py-2 px-4"
             >
               Posting
             </button>

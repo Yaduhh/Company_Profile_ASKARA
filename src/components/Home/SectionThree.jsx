@@ -24,7 +24,7 @@ const SectionThree = () => {
   }, []);
   return (
     <section id="artikel">
-      <div className="w-full min-h-screen md:h-screen relative z-0 font-primary overflow-hidden grid grid-cols-1 md:grid-cols-5">
+      <div className="w-full min-h-screen md:h-auto relative z-0 font-primary overflow-hidden grid grid-cols-1 md:grid-cols-5">
         <img
           className="absolute bottom-0 left-0 -z-10"
           src="./icons/accentLogo.svg"

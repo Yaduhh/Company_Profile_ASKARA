@@ -71,6 +71,7 @@ const DataArtikel = () => {
       setDeleteNotificationVisible(false);
     }, 4000); // 4 detik
   };
+
   return (
     <>
       <section
@@ -143,15 +144,15 @@ const DataArtikel = () => {
                   </div>
                   <div className="col-span-3 p-3 2xl:px-6 2xl:py-4 space-y-2">
                     <div className="flex justify-between">
-                      <h1 className="text-xl font-semibold capitalize">
+                      <h1 className="text-xl font-semibold capitalize line-clamp-1">
                         {article.title}
                       </h1>
                       <div className="gap-2 flex">
-                        <div className="bg-primary/70 px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
+                        <div className="bg-primary/70 line-clamp-1 px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
                           <p>{article.category}</p>
                         </div>
                         <div>
-                          {article.status === 0 ? (
+                          {article.status === 1 ? (
                             <div className="bg-secondary  px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
                               <p>Publish</p>
                             </div>
@@ -243,7 +244,7 @@ const DataArtikel = () => {
 
         {deleteNotificationVisible && (
           <div className="notification font-normal capitalize bg-[#FF4D4D]">
-            data berhasil dihapus !
+            Artikel berhasil dihapus !
           </div>
         )}
       </section>

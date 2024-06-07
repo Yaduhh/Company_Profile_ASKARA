@@ -13,6 +13,7 @@ const BlogCards = ({
   searchInput,
 }) => {
   const filteredBlogs = blogs
+    .filter((blog) => blog.status === 1)
     .filter((blogs) => !selectedCategory || blogs.category === selectedCategory)
     .slice((currentPage - 1) * pageSize, currentPage * pageSize)
     .filter((blog) => {

@@ -16,6 +16,7 @@ import { MdArticle } from "react-icons/md";
 import DataArtikel from "../components/DataArtikel";
 import DataPengguna from "../components/DataPengguna";
 import { MdOutlineWavingHand } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Master = () => {
   const [auth, setAuth] = useState(false);
@@ -26,6 +27,7 @@ const Master = () => {
   const [namaLengkap, setNamaLengkap] = useState("");
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
+  const navigate = useNavigate();
 
   axios.defaults.withCredentials = true;
 
@@ -43,15 +45,18 @@ const Master = () => {
           setAuth(false);
           setMessage(res.data.Error);
         }
+        console.log("Ini created: " + res.data.created); // Tambahkan log untuk melihat nilai
       })
-      .then((err) => console.log(err));
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
-  const handleDelete = () => {
+  const handleLogout = () => {
     axios
       .get("http://localhost:8081/logout")
       .then((res) => {
-        location.reload(true);
+        navigate("/masterlogin");
       })
       .catch((err) => console.log(err));
   };
@@ -111,7 +116,7 @@ const Master = () => {
 
             <div className="w-full p-5 2xl:p-8 space-y-2">
               <button
-                className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                   activeTab === "dashboard" &&
                   "bg-primary text-white rounded-2xl"
                 }`}
@@ -121,7 +126,7 @@ const Master = () => {
                 <p>Dashboard</p>
               </button>
               <button
-                className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                   activeTab === "dataProduct" &&
                   "bg-primary text-white rounded-2xl"
                 }`}
@@ -131,7 +136,7 @@ const Master = () => {
                 <p>Data Produk</p>
               </button>
               <button
-                className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                   activeTab === "dataArtikel" &&
                   "bg-primary text-white rounded-2xl"
                 }`}
@@ -141,7 +146,7 @@ const Master = () => {
                 <p>Data Artikel</p>
               </button>
               <button
-                className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                   activeTab === "createArtikel" &&
                   "bg-primary text-white rounded-2xl"
                 }`}
@@ -156,7 +161,7 @@ const Master = () => {
                   Data Pekerja
                 </p>
                 <button
-                  className={`flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                  className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
                     activeTab === "dataPengguna" &&
                     "bg-primary text-white rounded-2xl"
                   }`}
@@ -170,7 +175,7 @@ const Master = () => {
                 <p className="text-sm text-grey px-6 2xl:px-8">Website</p>
                 <a
                   href="/"
-                  className="flex w-full items-center gap-2 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
+                  className="flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
                 >
                   <LiaBlogSolid size={30} />
                   Web Company
@@ -209,7 +214,7 @@ const Master = () => {
                       <div className="absolute z-0 right-0 mt-2 w-46 text-primary rounded-2xl backdrop-blur py-2 bg-white hover:bg-secondary hover:text-white duration-150">
                         <button
                           className="flex gap-3 px-6 2xl:text-lg text-sm items-center"
-                          onClick={handleDelete}
+                          onClick={handleLogout}
                         >
                           <PiSignOutBold />
                           SignOut

@@ -1,8 +1,9 @@
 import React from "react";
 import { useLoaderData } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import { FaClock } from "react-icons/fa6";
+import { FaClock, FaCalendar } from "react-icons/fa6";
 import SideBar from "../components/SideBar";
+import { BiSolidCategoryAlt } from "react-icons/bi";
 import DOMPurify from "dompurify";
 
 const SingleBlog = () => {
@@ -16,6 +17,12 @@ const SingleBlog = () => {
     reading_time,
     content,
   } = data[0];
+
+  const formattedDate = new Date(published_date).toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
 
   console.log("ini data di single" + data);
 
@@ -39,14 +46,24 @@ const SingleBlog = () => {
           <h2 className="text-3xl font-semibold mb-4 text-blue-500 cursor-pointer mt-8 capitalize">
             {title}
           </h2>
-          <p className="mb-3 txet-gray-600">
-            <FaUser className="inline-flex items-center mr-2" />
-            {author} | {published_date}
-          </p>
-          <p className="mb-3 txet-gray-600">
-            <FaClock className="inline-flex items-center mr-2" />
-            {reading_time}
-          </p>
+          <div className="flex justify-between text-sm mb-4">
+            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+              <FaUser />
+              {author}
+            </p>
+            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+              <FaCalendar />
+              {formattedDate}
+            </p>
+            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+              <BiSolidCategoryAlt />
+              {category}
+            </p>
+            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+              <FaClock />
+              {reading_time} Menit
+            </p>
+          </div>
           <div
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}
           ></div>
