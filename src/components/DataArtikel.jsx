@@ -11,6 +11,9 @@ import { FaRegEdit } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { FaUserAlt } from "react-icons/fa";
 import { MdOutlineAccessTime } from "react-icons/md";
+import Loading from "./Loading";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const DataArtikel = () => {
   const [articles, setArticles] = useState([]);
@@ -18,6 +21,7 @@ const DataArtikel = () => {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [deleteNotificationVisible, setDeleteNotificationVisible] =
     useState(false);
+  const [loading, setLoading] = useState(true);
   const [deleteProductId, setDeleteProductId] = useState(null);
 
   useEffect(() => {
@@ -30,6 +34,7 @@ const DataArtikel = () => {
           setArticles([]);
           console.error("Data is not an array:", response.data);
         }
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching articles:", error);
       }
@@ -130,94 +135,107 @@ const DataArtikel = () => {
           </div>
         </div>
 
-        <div className="mt-2 pb-44 overflow-auto h-full no-scrollbar rounded-2xl">
-          {articles.map((article, index) => (
-            <div key={article.id} className="pb-1 pt-4 rounded-lg">
-              <div className="w-full bg-white/70 backdrop-blur rounded-2xl h-auto overflow-hidden">
-                <div className="grid grid-cols-5">
-                  <div className="col-span-1">
-                    <img
-                      src={`http://localhost:8081/uploads/${article.image}`}
-                      alt="Thumbnails"
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="col-span-3 p-3 2xl:px-6 2xl:py-4 space-y-2">
-                    <div className="flex justify-between">
-                      <h1 className="text-xl font-semibold capitalize line-clamp-1">
-                        {article.title}
-                      </h1>
-                      <div className="gap-2 flex">
-                        <div className="bg-primary/70 line-clamp-1 px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
-                          <p>{article.category}</p>
-                        </div>
-                        <div>
-                          {article.status === 1 ? (
-                            <div className="bg-secondary  px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
-                              <p>Publish</p>
+        {loading && <Loading />}
+        {!loading && (
+          <>
+            <div className="mt-2 pb-44 overflow-auto h-full no-scrollbar rounded-2xl">
+              {articles.map((article, index) => (
+                <div key={article.id} className="pb-1 pt-4 rounded-lg">
+                  <div className="w-full bg-white/70 backdrop-blur rounded-2xl h-auto overflow-hidden">
+                    <div className="grid grid-cols-5">
+                      <div className="col-span-1 overflow-hidden">
+                        {loading ? (
+                          <Skeleton
+                            baseColor="#B0B0B0"
+                            highlightColor="#FFFFFF"
+                            className="w-full h-full object-cover scale-110"
+                          />
+                        ) : (
+                          <img
+                            src={`http://localhost:8081/uploads/${article.image}`}
+                            alt="Thumbnails"
+                            className="h-full w-full object-cover"
+                          />
+                        )}
+                      </div>
+                      <div className="col-span-3 p-3 2xl:px-6 2xl:py-4 space-y-2">
+                        <div className="flex justify-between">
+                          <h1 className="text-xl font-semibold capitalize line-clamp-1">
+                            {article.title}
+                          </h1>
+                          <div className="gap-2 flex">
+                            <div className="bg-primary/70 line-clamp-1 px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
+                              <p>{article.category}</p>
                             </div>
-                          ) : (
-                            <div className="bg-grey  px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
-                              <p>Draft</p>
+                            <div>
+                              {article.status === 1 ? (
+                                <div className="bg-secondary  px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
+                                  <p>Publish</p>
+                                </div>
+                              ) : (
+                                <div className="bg-grey  px-3 py-1.5 text-xs text-white rounded-2xl backdrop-blur">
+                                  <p>Draft</p>
+                                </div>
+                              )}
                             </div>
-                          )}
-                        </div>
-                        <div className="bg-accent flex items-center px-3 py-1.5 text-xs text-primary gap-1.5 rounded-2xl backdrop-blur">
-                          <MdOutlineAccessTime />
-                          <div className="flex items-center gap-1">
-                            <p>{article.reading_time}</p>
-                            <p>m</p>
+                            <div className="bg-accent flex items-center px-3 py-1.5 text-xs text-primary gap-1.5 rounded-2xl backdrop-blur">
+                              <MdOutlineAccessTime />
+                              <div className="flex items-center gap-1">
+                                <p>{article.reading_time}</p>
+                                <p>m</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
+                        <div className="w-full bg-grey h-[1.5px] rounded-full"></div>
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: DOMPurify.sanitize(article.content),
+                          }}
+                          className="text-black/50 text-sm 2xl:text-base text-justify line-clamp-3"
+                        ></p>
                       </div>
-                    </div>
-                    <div className="w-full bg-grey h-[1.5px] rounded-full"></div>
-                    <p
-                      dangerouslySetInnerHTML={{
-                        __html: DOMPurify.sanitize(article.content),
-                      }}
-                      className="text-black/50 text-sm 2xl:text-base text-justify line-clamp-3"
-                    ></p>
-                  </div>
 
-                  <div className="col-span-1 p-3 2xl:px-6 2xl:py-4 flex flex-col gap-2 text-sm items-end justify-between">
-                    <div className="flex flex-col items-end">
-                      <div className="flex items-center gap-2 text-grey">
-                        <FaCalendar />
-                        <p>
-                          {new Date(article.published_date).toLocaleDateString(
-                            "en-GB"
-                          )}
-                        </p>
+                      <div className="col-span-1 p-3 2xl:px-6 2xl:py-4 flex flex-col gap-2 text-sm items-end justify-between">
+                        <div className="flex flex-col items-end">
+                          <div className="flex items-center gap-2 text-grey">
+                            <FaCalendar />
+                            <p>
+                              {new Date(
+                                article.published_date
+                              ).toLocaleDateString("en-GB")}
+                            </p>
+                          </div>
+                          <div className="flex items-center gap-2 text-grey">
+                            <FaUserAlt />
+                            <p>{article.author}</p>
+                          </div>
+                        </div>
+                        <div className="space-x-3">
+                          <button className="px-3 py-3 bg-grey hover:bg-accent hover:text-grey duration-200  rounded-lg text-base text-white">
+                            <IoOpen className="ml-0.5" />
+                          </button>
+                          <button
+                            onClick={() => handleEditClick(article.id)}
+                            className="px-3 py-3 bg-secondary hover:bg-primary/70 hover:text-white duration-200 rounded-lg text-base text-white"
+                          >
+                            <FaRegEdit className="ml-0.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(article)}
+                            className="p-3 bg-[#FF4D4D] hover:bg-[#FF4D4D]/50 duration-200  rounded-lg text-base text-white"
+                          >
+                            <RiDeleteBinLine />
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2 text-grey">
-                        <FaUserAlt />
-                        <p>{article.author}</p>
-                      </div>
-                    </div>
-                    <div className="space-x-3">
-                      <button className="px-3 py-3 bg-grey hover:bg-accent hover:text-grey duration-200  rounded-lg text-base text-white">
-                        <IoOpen className="ml-0.5" />
-                      </button>
-                      <button
-                        onClick={() => handleEditClick(article.id)}
-                        className="px-3 py-3 bg-secondary hover:bg-primary/70 hover:text-white duration-200 rounded-lg text-base text-white"
-                      >
-                        <FaRegEdit className="ml-0.5" />
-                      </button>
-                      <button
-                        onClick={() => handleDeleteClick(article)}
-                        className="p-3 bg-[#FF4D4D] hover:bg-[#FF4D4D]/50 duration-200  rounded-lg text-base text-white"
-                      >
-                        <RiDeleteBinLine />
-                      </button>
                     </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
 
         {/* MODAL */}
         {showModal && (

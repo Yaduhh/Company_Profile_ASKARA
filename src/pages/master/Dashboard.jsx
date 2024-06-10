@@ -3,8 +3,9 @@ import { useTable, usePagination, useSortBy } from "react-table";
 import { MdOutlineArticle } from "react-icons/md";
 import { RiDatabase2Line } from "react-icons/ri";
 import { FaChalkboardUser } from "react-icons/fa6";
-import { ScaleLoader } from "react-spinners";
+import { HashLoader, ScaleLoader } from "react-spinners";
 import axios from "axios";
+import Loading from "../../components/Loading";
 
 const Dashboard = () => {
   const [contactUsData, setContactUsData] = useState([]);
@@ -98,11 +99,7 @@ const Dashboard = () => {
   );
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-transparent 2xl:-mt-20">
-        <ScaleLoader size={150} color={"#0E185F"} loading={loading} />
-      </div>
-    );
+    return <Loading />;
   }
   return (
     <>

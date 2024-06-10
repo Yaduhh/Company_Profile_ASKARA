@@ -17,9 +17,11 @@ import DataArtikel from "../components/DataArtikel";
 import DataPengguna from "../components/DataPengguna";
 import { MdOutlineWavingHand } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "./login/ProtectedRoute";
+import { useAuth } from "./login/AuthContext";
+import { ClipLoader, ScaleLoader } from "react-spinners";
 
 const Master = () => {
-  const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
   const [jabatan, setJabatan] = useState("");
@@ -28,6 +30,8 @@ const Master = () => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
   const navigate = useNavigate();
+  const { isAuthenticated, logout } = useAuth();
+  const [loading, setLoading] = useState(true);
 
   axios.defaults.withCredentials = true;
 
@@ -36,35 +40,37 @@ const Master = () => {
       .get("http://localhost:8081/master")
       .then((res) => {
         if (res.data.Status === "Success") {
-          setAuth(true);
           setUsername(res.data.username);
           setNamaLengkap(res.data.nama_lengkap);
           setJabatan(res.data.jabatan);
           setCreated(res.data.created);
         } else {
-          setAuth(false);
           setMessage(res.data.Error);
+          navigate("/masterlogin");
         }
-        console.log("Ini created: " + res.data.created); // Tambahkan log untuk melihat nilai
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        navigate("/masterlogin");
       });
   }, []);
 
   const handleLogout = () => {
+    setLoading(true);
     axios
       .get("http://localhost:8081/logout")
       .then((res) => {
-        navigate("/masterlogin");
+        logout();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.error("Logout error:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
-  // State untuk melacak tab aktif
   const [activeTab, setActiveTab] = useState("dashboard");
-
-  // Fungsi untuk menangani perubahan tab
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -93,156 +99,152 @@ const Master = () => {
   return (
     <>
       {/* LOGIN */}
-      {auth ? (
-        <div className="w-full h-screen flex bg-[#D9D9D9] relative -z-0 overflow-hidden font-primary">
-          {/* Accent bg */}
-          <img
-            className="absolute -z-50 right-0 top-0 w-full"
-            src="./dashboard/bg-accent.svg"
-            alt="bg-accent"
-          />
-          <img
-            className="absolute -z-50 left-0 top-0 -scale-100 w-full"
-            src="./dashboard/bg-accent.svg"
-            alt="bg-accent"
-          />
-          {/* SIDEDBAR */}
-          <div className="bg-white/70 backdrop-blur w-[20%] 2xl:w-[17%] h-screen rounded-e-[30px] shadow-sm shadow-white py-6 2xl:py-12">
+      <ProtectedRoute>
+        {loading ? (
+          <div className="w-full h-screen flex bg-[#D9D9D9] relative -z-0 overflow-hidden font-primary">
+            {/* Accent bg */}
             <img
-              className="w-full px-8 2xl:px-14"
-              src="./dashboard/logoprimary.svg"
-              alt="logo"
+              className="absolute -z-50 right-0 top-0 w-full"
+              src="./dashboard/bg-accent.svg"
+              alt="bg-accent"
             />
+            <img
+              className="absolute -z-50 left-0 top-0 -scale-100 w-full"
+              src="./dashboard/bg-accent.svg"
+              alt="bg-accent"
+            />
+            {/* SIDEDBAR */}
+            <div className="bg-white/70 backdrop-blur w-[20%] 2xl:w-[17%] h-screen rounded-e-[30px] shadow-sm shadow-white py-6 2xl:py-12">
+              <img
+                className="w-full px-8 2xl:px-14"
+                src="./dashboard/logoprimary.svg"
+                alt="logo"
+              />
 
-            <div className="w-full p-5 2xl:p-8 space-y-2">
-              <button
-                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
-                  activeTab === "dashboard" &&
-                  "bg-primary text-white rounded-2xl"
-                }`}
-                onClick={() => handleTabChange("dashboard")}
-              >
-                <MdSpaceDashboard size={30} />
-                <p>Dashboard</p>
-              </button>
-              <button
-                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
-                  activeTab === "dataProduct" &&
-                  "bg-primary text-white rounded-2xl"
-                }`}
-                onClick={() => handleTabChange("dataProduct")}
-              >
-                <RiDatabase2Fill size={30} />
-                <p>Data Produk</p>
-              </button>
-              <button
-                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
-                  activeTab === "dataArtikel" &&
-                  "bg-primary text-white rounded-2xl"
-                }`}
-                onClick={() => handleTabChange("dataArtikel")}
-              >
-                <MdArticle size={30} />
-                <p>Data Artikel</p>
-              </button>
-              <button
-                className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
-                  activeTab === "createArtikel" &&
-                  "bg-primary text-white rounded-2xl"
-                }`}
-                onClick={() => handleTabChange("createArtikel")}
-              >
-                <IoCreate size={30} />
-                <p>Create Artikel</p>
-              </button>
-
-              <div className="pt-10">
-                <p className="text-sm text-grey px-6 2xl:px-8 py-2">
-                  Data Pekerja
-                </p>
+              <div className="w-full p-5 2xl:p-8 space-y-2">
                 <button
                   className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
-                    activeTab === "dataPengguna" &&
+                    activeTab === "dashboard" &&
                     "bg-primary text-white rounded-2xl"
                   }`}
-                  onClick={() => handleTabChange("dataPengguna")}
+                  onClick={() => handleTabChange("dashboard")}
                 >
-                  <RiAdminFill size={30} />
-                  <p>Pengguna</p>
+                  <MdSpaceDashboard size={30} />
+                  <p>Dashboard</p>
                 </button>
-              </div>
-              <div className="pt-10">
-                <p className="text-sm text-grey px-6 2xl:px-8">Website</p>
-                <a
-                  href="/"
-                  className="flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
+                <button
+                  className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                    activeTab === "dataProduct" &&
+                    "bg-primary text-white rounded-2xl"
+                  }`}
+                  onClick={() => handleTabChange("dataProduct")}
                 >
-                  <LiaBlogSolid size={30} />
-                  Web Company
-                </a>
+                  <RiDatabase2Fill size={30} />
+                  <p>Data Produk</p>
+                </button>
+                <button
+                  className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                    activeTab === "dataArtikel" &&
+                    "bg-primary text-white rounded-2xl"
+                  }`}
+                  onClick={() => handleTabChange("dataArtikel")}
+                >
+                  <MdArticle size={30} />
+                  <p>Data Artikel</p>
+                </button>
+                <button
+                  className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                    activeTab === "createArtikel" &&
+                    "bg-primary text-white rounded-2xl"
+                  }`}
+                  onClick={() => handleTabChange("createArtikel")}
+                >
+                  <IoCreate size={30} />
+                  <p>Create Artikel</p>
+                </button>
+
+                <div className="pt-10">
+                  <p className="text-sm text-grey px-6 2xl:px-8 py-2">
+                    Data Pekerja
+                  </p>
+                  <button
+                    className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                      activeTab === "dataPengguna" &&
+                      "bg-primary text-white rounded-2xl"
+                    }`}
+                    onClick={() => handleTabChange("dataPengguna")}
+                  >
+                    <RiAdminFill size={30} />
+                    <p>Pengguna</p>
+                  </button>
+                </div>
+                <div className="pt-10">
+                  <p className="text-sm text-grey px-6 2xl:px-8">Website</p>
+                  <a
+                    href="/"
+                    className="flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8"
+                  >
+                    <LiaBlogSolid size={30} />
+                    Web Company
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-          {/* END SIDEBAR */}
+            {/* END SIDEBAR */}
 
-          {/* Content */}
-          <div className="w-[80%] 2xl:w-[83%] min-h-screen relative z-0">
-            {/* NAVBAR */}
-            <nav className="">
-              <div className="flex 2xl:p-12 w-full justify-between bg-transparent backdrop-blur">
-                <div className="absolute top-6 2xl:top-10 left-6 2xl:left-12 z-0">
-                  <div className="2xl:text-2xl text-lg text-primary select-none w-fit">
-                    <div className="font-semibold flex items-center gap-2">
-                      <MdOutlineWavingHand size={30} />
-                      <p>Hello! {namaLengkap}</p>
-                    </div>
-                    <div className="w-auto h-[1px] bg-primary my-2"></div>
-                  </div>
-                </div>
-
-                <div className="absolute top-6 2xl:top-10 2xl:right-12 right-6 topdepan z-0">
-                  <div className="relative">
-                    <button
-                      onClick={toggleSubMenu}
-                      className="bg-primary/30 hover:bg-white/30 duration-200 backdrop-blur flex items-center gap-3 w-full px-6 py-2 2xl:text-lg text-sm rounded-2xl text-white"
-                    >
-                      <RiUser4Fill />
-                      {username}
-                      <IoIosArrowDown />
-                    </button>
-                    {isSubMenuOpen && (
-                      <div className="absolute z-0 right-0 mt-2 w-46 text-primary rounded-2xl backdrop-blur py-2 bg-white hover:bg-secondary hover:text-white duration-150">
-                        <button
-                          className="flex gap-3 px-6 2xl:text-lg text-sm items-center"
-                          onClick={handleLogout}
-                        >
-                          <PiSignOutBold />
-                          SignOut
-                        </button>
+            {/* Content */}
+            <div className="w-[80%] 2xl:w-[83%] min-h-screen relative z-0">
+              {/* NAVBAR */}
+              <nav className="">
+                <div className="flex 2xl:p-12 w-full justify-between bg-transparent backdrop-blur">
+                  <div className="absolute top-6 2xl:top-10 left-6 2xl:left-12 z-0">
+                    <div className="2xl:text-2xl text-lg text-primary select-none w-fit">
+                      <div className="font-semibold flex items-center gap-2">
+                        <MdOutlineWavingHand size={30} />
+                        <p>Hello! {namaLengkap}</p>
                       </div>
-                    )}
+                      <div className="w-auto h-[1px] bg-primary my-2"></div>
+                    </div>
+                  </div>
+
+                  <div className="absolute top-6 2xl:top-10 2xl:right-12 right-6 topdepan z-0">
+                    <div className="relative">
+                      <button
+                        onClick={toggleSubMenu}
+                        className="bg-primary/30 hover:bg-white/30 duration-200 backdrop-blur flex items-center gap-3 w-full px-6 py-2 2xl:text-lg text-sm rounded-2xl text-white"
+                      >
+                        <RiUser4Fill />
+                        {username}
+                        <IoIosArrowDown />
+                      </button>
+                      {isSubMenuOpen && (
+                        <div className="absolute z-0 right-0 mt-2 w-46 text-primary rounded-2xl backdrop-blur py-2 bg-white hover:bg-secondary hover:text-white duration-150">
+                          <button
+                            className="flex gap-3 px-6 2xl:text-lg text-sm items-center"
+                            onClick={handleLogout}
+                          >
+                            <PiSignOutBold />
+                            SignOut
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </nav>
-            {/* END NAVBAR */}
+              </nav>
+              {/* END NAVBAR */}
 
-            <div>{renderContent()}</div>
+              <div>{renderContent()}</div>
+            </div>
           </div>
-        </div>
-      ) : (
-        // NON LOGIN
-        <div className="">
-          <h3 className="text-primary">{message}</h3>
-          <h3 className="mb-4 font-primary">Login Now</h3>
-          <Link
-            to="/masterlogin"
-            className="bg-primary rounded-2xl text-white px-8 py-2 "
-          >
-            Login
-          </Link>
-        </div>
-      )}
+        ) : (
+          <>
+            <div className="flex justify-center items-center min-h-screen bg-transparent">
+              <ScaleLoader size={150} color={"#0E185F"} loading={loading} />
+            </div>
+          </>
+        )}
+      </ProtectedRoute>
     </>
   );
 };

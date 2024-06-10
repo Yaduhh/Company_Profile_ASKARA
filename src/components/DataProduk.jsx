@@ -5,7 +5,8 @@ import { BiCategoryAlt } from "react-icons/bi";
 import axios from "axios";
 import { MdAddBox, MdEdit, MdDelete } from "react-icons/md";
 import { useTable, useSortBy, useFilters, usePagination } from "react-table";
-import { ScaleLoader } from "react-spinners";
+import { HashLoader } from "react-spinners";
+import Loading from "./Loading";
 
 const DataProduk = () => {
   const [nama, setNama] = useState("");
@@ -26,21 +27,6 @@ const DataProduk = () => {
   const [loading, setLoading] = useState(true);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [error, setError] = useState("");
-
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:8081/products");
-  //     setData(response.data);
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(true);
-  //     setTimeout(() => {
-  //       setData({ message: "Data fetched successfully!" });
-  //       setLoading(false);
-  //     }, 3000);
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
 
   const fetchData = async () => {
     try {
@@ -286,11 +272,7 @@ const DataProduk = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen bg-transparent 2xl:-mt-20">
-        <ScaleLoader size={150} color={"#0E185F"} loading={loading} />
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

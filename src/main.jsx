@@ -13,6 +13,9 @@ import Master from "./pages/Master.jsx";
 import EditArticle from "./pages/EditArticle.jsx";
 import Login from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
+import ProtectedRoute from "./pages/login/ProtectedRoute.jsx";
+import AuthRedirect from "./pages/login/AuthRedirect.jsx";
+import { AuthProvider } from "./pages/login/AuthContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -49,19 +52,27 @@ const router = createBrowserRouter([
   },
   {
     path: "/master",
-    element: <Master />,
+    element: (
+      <ProtectedRoute>
+        <Master />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/masterlogin",
-    element: <Login />,
-  },
-  {
-    path: "/masterregister",
-    element: <Register />,
+    element: (
+      <AuthRedirect>
+        <Login />
+      </AuthRedirect>
+    ),
   },
   {
     path: "/articles/:id/edit",
-    element: <EditArticle />,
+    element: (
+      <ProtectedRoute>
+        <EditArticle />
+      </ProtectedRoute>
+    ),
     loader: ({ params }) =>
       fetch(`http://localhost:8081/articles/${params.id}`),
   },
@@ -69,6 +80,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

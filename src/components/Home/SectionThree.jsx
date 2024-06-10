@@ -5,9 +5,11 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
+import SkeletonCard from "../SkeletonCard/SkeletonCard";
 
 const SectionThree = () => {
   const [popularBlogs, setPopularBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -20,7 +22,10 @@ const SectionThree = () => {
   useEffect(() => {
     fetch("http://localhost:8081/articles")
       .then((res) => res.json())
-      .then((data) => setPopularBlogs(data.slice(0, 15)));
+      .then((data) => {
+        const publishedBlogs = data.filter((blog) => blog.status === 1); // Hanya ambil blog dengan status 1
+        setPopularBlogs(publishedBlogs.slice(0, 15)); // Ambil 15 blog teratas
+      });
   }, []);
   return (
     <section id="artikel">
@@ -107,7 +112,7 @@ const SectionThree = () => {
                       {blog.title}
                     </h3>
                     <div className="w-full bg-grey h-[2px]"></div>
-                    <p className="line-clamp-2 2xl:line-clamp-4 text-sm text-primary md:text-start text-justify">
+                    <p className="line-clamp-2 2xl:line-clamp-3 text-sm text-primary md:text-start text-justify">
                       <div>
                         <div
                           dangerouslySetInnerHTML={{
