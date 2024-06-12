@@ -32,7 +32,17 @@ const DataProduk = () => {
     try {
       const response = await axios.get("http://localhost:8081/products");
       if (Array.isArray(response.data)) {
-        setData(response.data);
+        const filteredData = response.data.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (
+            item.nama.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.kategori.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.jenis_produk_label.toLowerCase().includes(lowerCaseSearchQuery)
+          ) {
+            return item;
+          }
+        });
+        setData(filteredData);
       } else {
         setData([]);
         console.error("Data is not an array:", response.data);
@@ -43,11 +53,10 @@ const DataProduk = () => {
       console.error("Error fetching data:", error);
     }
   };
-  console.log(data);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchQuery]);
 
   const columns = React.useMemo(
     () => [
@@ -115,18 +124,6 @@ const DataProduk = () => {
     useSortBy,
     usePagination
   );
-
-  const filterData = (data) => {
-    return data.filter((item) => {
-      const matchesSearchQuery = item.nama
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedCategory
-        ? item.kategori === selectedCategory
-        : true;
-      return matchesSearchQuery && matchesCategory;
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

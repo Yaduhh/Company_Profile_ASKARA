@@ -9,19 +9,37 @@ import SideBar from "../components/SideBar";
 
 const Product = () => {
   const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const fetchData = async () => {
     try {
       const response = await axios.get("http://localhost:8081/products");
-      setData(response.data);
+      if (Array.isArray(response.data)) {
+        const filteredData = response.data.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          if (
+            item.nama.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.kategori.toLowerCase().includes(lowerCaseSearchQuery) ||
+            item.jenis_produk_label.toLowerCase().includes(lowerCaseSearchQuery)
+          ) {
+            return item;
+          }
+        });
+        setData(filteredData);
+      } else {
+        setData([]);
+        console.error("Data is not an array:", response.data);
+      }
+      setLoading(false);
     } catch (error) {
+      setLoading(false); // Set loading to false in case of error
       console.error("Error fetching data:", error);
     }
   };
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [searchQuery]);
 
   const columns = React.useMemo(
     () => [
@@ -103,6 +121,8 @@ const Product = () => {
                     type="text"
                     className="w-full bg-white/70 border-grey border-2 backdrop-blur py-1.5 h-full px-14 rounded-xl focus:outline-primary"
                     placeholder="Cari Produk"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
                   <IoSearch className="absolute left-3" size={20} />
                   <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>

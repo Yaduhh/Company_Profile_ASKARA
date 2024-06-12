@@ -5,7 +5,6 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom";
 import DOMPurify from "dompurify";
-import SkeletonCard from "../SkeletonCard/SkeletonCard";
 
 const SectionThree = () => {
   const [popularBlogs, setPopularBlogs] = useState([]);
