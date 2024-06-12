@@ -27,6 +27,7 @@ const DataProduk = () => {
   const [loading, setLoading] = useState(true);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [error, setError] = useState("");
+  const [categories, setCategories] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -34,13 +35,18 @@ const DataProduk = () => {
       if (Array.isArray(response.data)) {
         const filteredData = response.data.filter((item) => {
           const lowerCaseSearchQuery = searchQuery.toLowerCase();
-          if (
+          const matchesSearchQuery =
             item.nama.toLowerCase().includes(lowerCaseSearchQuery) ||
             item.kategori.toLowerCase().includes(lowerCaseSearchQuery) ||
-            item.jenis_produk_label.toLowerCase().includes(lowerCaseSearchQuery)
-          ) {
-            return item;
-          }
+            item.jenis_produk_label
+              .toLowerCase()
+              .includes(lowerCaseSearchQuery);
+
+          const matchesCategory = selectedCategory
+            ? item.jenis_produk_label === selectedCategory
+            : true;
+
+          return matchesSearchQuery && matchesCategory;
         });
         setData(filteredData);
       } else {
@@ -49,14 +55,29 @@ const DataProduk = () => {
       }
       setLoading(false);
     } catch (error) {
-      setLoading(false); // Set loading to false in case of error
+      setLoading(false);
       console.error("Error fetching data:", error);
     }
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/product-categories"
+      );
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   useEffect(() => {
     fetchData();
-  }, [searchQuery]);
+  }, [searchQuery, selectedCategory]);
 
   const columns = React.useMemo(
     () => [
@@ -304,12 +325,14 @@ const DataProduk = () => {
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
-                <option defaultChecked className="text-grey">
-                  Pilih Kategori Produk
+                <option defaultChecked value={""} className="text-grey">
+                  Semua
                 </option>
-                <option value="apple">Apple</option>
-                <option value="banana">Banana</option>
-                <option value="orange">Orange</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.label}>
+                    {category.label}
+                  </option>
+                ))}
               </select>
               <BiCategoryAlt className="absolute left-3" size={20} />
               <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
@@ -350,24 +373,35 @@ const DataProduk = () => {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr
-                    {...row.getRowProps()}
-                    className="border-b border-grey bg-white/50 capitalize"
+              {rows.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={columns.length}
+                    className="text-center py-4 border-b border-grey bg-white/50 capitalize"
                   >
-                    {row.cells.map((cell) => (
-                      <td
-                        {...cell.getCellProps()}
-                        className="py-1.5 px-12 text-left"
-                      >
-                        {cell.render("Cell")}
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
+                    Tidak ada data !
+                  </td>
+                </tr>
+              ) : (
+                rows.map((row) => {
+                  prepareRow(row);
+                  return (
+                    <tr
+                      {...row.getRowProps()}
+                      className="border-b border-grey bg-white/50 capitalize"
+                    >
+                      {row.cells.map((cell) => (
+                        <td
+                          {...cell.getCellProps()}
+                          className="py-1.5 px-12 text-left"
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
