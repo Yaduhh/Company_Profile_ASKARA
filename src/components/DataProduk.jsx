@@ -489,13 +489,11 @@ const DataProduk = () => {
                       onChange={handleCategoryChange}
                     >
                       <option value="">Pilih Kategori</option>
-                      <option value="1">Pharma Product</option>
-                      <option value="2">Cosmetic Product</option>
-                      <option value="3">Chemical Product</option>
-                      <option value="4">Feed Product</option>
-                      <option value="5">Food Product</option>
-                      <option value="6">Veterinery Product</option>
-                      <option value="7">Flavour Product</option>
+                      {categories.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.label}
+                        </option>
+                      ))}
                     </select>
                   </div>
                   <div className="col-span-1">
@@ -568,13 +566,11 @@ const DataProduk = () => {
                     required
                   >
                     <option value="">Pilih Jenis Produk</option>
-                    <option value="1">Pharma Product</option>
-                    <option value="2">Cosmetic Product</option>
-                    <option value="3">Chemical Product</option>
-                    <option value="4">Feed Product</option>
-                    <option value="5">Food Product</option>
-                    <option value="6">Veterinery Product</option>
-                    <option value="7">Flavour Product</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.label}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="flex justify-end">
@@ -630,7 +626,8 @@ const DataProduk = () => {
                 </button>
                 <button
                   className="bg-[#FF4D4D] px-4 py-1.5 rounded text-white hover:bg-[#FF4D4D]/60 duration-150"
-                  onClick={() => handleDelete()} // No parameters needed
+                  onClick={() => handleDelete()}
+                  type="submit"
                 >
                   Hapus
                 </button>
