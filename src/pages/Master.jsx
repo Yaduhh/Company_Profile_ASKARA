@@ -19,14 +19,19 @@ import { MdOutlineWavingHand } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import ProtectedRoute from "./login/ProtectedRoute";
 import { useAuth } from "./login/AuthContext";
-import { ClipLoader, ScaleLoader } from "react-spinners";
+import { ScaleLoader } from "react-spinners";
 
 const Master = () => {
   const [message, setMessage] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [jabatan, setJabatan] = useState("");
+  const [id, setId] = useState("");
   const [created, setCreated] = useState("");
+  const [gender, setGender] = useState("");
   const [namaLengkap, setNamaLengkap] = useState("");
+  const [tglLahir, setTglLahir] = useState("");
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const toggleSubMenu = () => setIsSubMenuOpen(!isSubMenuOpen);
   const navigate = useNavigate();
@@ -35,7 +40,7 @@ const Master = () => {
 
   axios.defaults.withCredentials = true;
 
-  useEffect(() => {
+  const user = () => {
     axios
       .get("http://localhost:8081/master")
       .then((res) => {
@@ -44,15 +49,25 @@ const Master = () => {
           setNamaLengkap(res.data.nama_lengkap);
           setJabatan(res.data.jabatan);
           setCreated(res.data.created);
+          setEmail(res.data.email);
+          setPassword(res.data.password);
+          setGender(res.data.gender);
+          setId(res.data.id);
+          setTglLahir(res.data.tgl_lahir);
         } else {
           setMessage(res.data.Error);
           navigate("/masterlogin");
         }
+        console.log(res.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
         navigate("/masterlogin");
       });
+  };
+
+  useEffect(() => {
+    user();
   }, []);
 
   const handleLogout = () => {
@@ -88,10 +103,15 @@ const Master = () => {
     } else if (activeTab === "dataPengguna") {
       return (
         <DataPengguna
-          namaLengkap={namaLengkap}
+          nama_lengkap={namaLengkap}
           username={username}
           jabatan={jabatan}
           created={created}
+          email={email}
+          gender={gender}
+          id={id}
+          handleLogout={handleLogout}
+          tgl_lahir={tglLahir}
         />
       );
     }

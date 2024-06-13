@@ -8,7 +8,7 @@ import Ads from "./Ads";
 const BlogPage = () => {
   const [blogs, setBlogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 12; //blogs per page
+  const pageSize = 12; // blogs per page
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchInput, setSearchInput] = useState("");
@@ -67,32 +67,39 @@ const BlogPage = () => {
         <div className="flex w-full">
           <div className="flex flex-col lg:flex-row gap-12 h-auto w-full">
             {/* blog cards component */}
-            <BlogCards
-              blogs={blogs}
-              currentPage={currentPage}
-              selectedCategory={selectedCategory}
-              pageSize={pageSize}
-              results={results}
-              searchInput={searchInput}
-            />
+            {blogs.length === 0 ? (
+              <div className="flex-grow text-center py-10 font-primary">
+                Tidak ada postingan
+              </div>
+            ) : (
+              <BlogCards
+                blogs={blogs}
+                currentPage={currentPage}
+                selectedCategory={selectedCategory}
+                pageSize={pageSize}
+                results={results}
+                searchInput={searchInput}
+              />
+            )}
 
             {/* sidebar component */}
             <div className="md:w-[40%] w-full space-y-6">
-              <Ads />
               <SideBar />
             </div>
           </div>
         </div>
 
         {/* Pagination Section */}
-        <div>
-          <Pagination
-            onPageChange={handlePageChange}
-            currentPage={currentPage}
-            blogs={blogs}
-            pageSize={pageSize}
-          />
-        </div>
+        {blogs.length > 0 && (
+          <div>
+            <Pagination
+              onPageChange={handlePageChange}
+              currentPage={currentPage}
+              blogs={blogs}
+              pageSize={pageSize}
+            />
+          </div>
+        )}
       </div>
     </>
   );

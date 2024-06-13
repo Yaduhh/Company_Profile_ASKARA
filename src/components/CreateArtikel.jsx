@@ -15,6 +15,7 @@ const CreateArtikel = ({ namaLengkap }) => {
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [submitType, setSubmitType] = useState("");
+  const [categories, setCategories] = useState([]);
   const editor = useRef(null);
 
   const handleCategoryChange = (e) => {
@@ -89,6 +90,29 @@ const CreateArtikel = ({ namaLengkap }) => {
     setSubmitType("post");
   };
 
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/article-categories"
+      );
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <div className="w-full mt-0 px-6 2xl:px-12 pt-20 2xl:pt-4 overflow-auto">
@@ -104,7 +128,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 type="text"
                 id="title"
                 name="title"
-                className="w-full py-1 capitalize px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full bg-white/70 backdrop-blur py-1.5 px-4 rounded-xl focus:outline-primary capitalize"
               />
             </div>
             <div className="col-span-1">
@@ -115,7 +139,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 type="file"
                 id="image"
                 name="image"
-                className="w-full rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full bg-white/70 backdrop-blur py-1.5 px-4 rounded-xl focus:outline-primary capitalize"
                 onChange={(e) => setImage(e.target.files[0])}
               />
             </div>
@@ -124,18 +148,19 @@ const CreateArtikel = ({ namaLengkap }) => {
                 Kategori:
               </label>
               <select
-                id="category"
-                name="category"
-                className="w-full py-1 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                name="selectedcategory"
                 value={category}
                 onChange={handleCategoryChange}
+                className="w-full bg-white/70 rounded-xl backdrop-blur py-1.5 px-4 focus:outline-primary"
               >
-                <option value="">Pilih Kategori</option>
-                <option value="1">Jasmani</option>
-                <option value="2">Rohani</option>
-                <option value="3">Tips & Trick</option>
-                <option value="4">Berita</option>
-                <option value="4">Ilmiah</option>
+                <option defaultChecked value={""} className="text-grey">
+                  Semua
+                </option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.label}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="col-span-1">
@@ -149,7 +174,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 value={author}
                 id="author"
                 name="author"
-                className="w-full py-1 select-none px-2 rounded shadow-sm"
+                className="w-full bg-white/70 backdrop-blur py-1.5 px-4 rounded-xl focus:outline-primary capitalize select-none"
                 disabled
               />
             </div>
@@ -163,9 +188,10 @@ const CreateArtikel = ({ namaLengkap }) => {
                 type="date"
                 onChange={(e) => setPublished_date(e.target.value)}
                 value={published_date}
+                min={getTodayDate()}
                 id="published_date"
                 name="published_date"
-                className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full bg-white/70 backdrop-blur py-1.5 px-4 rounded-xl focus:outline-primary capitalize"
               />
             </div>
             <div className="col-span-1">
@@ -178,7 +204,7 @@ const CreateArtikel = ({ namaLengkap }) => {
                 value={reading_time}
                 id="reading_time"
                 name="reading_time"
-                className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full bg-white/70 backdrop-blur py-1.5 px-4 rounded-xl focus:outline-primary capitalize"
               />
             </div>
             <div className="col-span-1">
@@ -191,14 +217,14 @@ const CreateArtikel = ({ namaLengkap }) => {
                 value={tags}
                 id="tags"
                 name="tags"
-                className="w-full py-1 px-2 rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                className="w-full bg-white/70 backdrop-blur py-1.5 px-4 rounded-xl focus:outline-primary capitalize"
               />
             </div>
             <div className="col-span-1">
               <label htmlFor="status" className="block text-sm">
                 Status Artikel :
               </label>
-              <div className="bg-primary rounded px-6 py-1 text-white">
+              <div className="bg-primary py-1.5 px-4 text-white rounded-xl">
                 <p>{status === 0 ? "Publish" : "Draft"}</p>
               </div>
             </div>

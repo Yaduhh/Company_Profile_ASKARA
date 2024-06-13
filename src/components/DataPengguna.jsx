@@ -7,7 +7,17 @@ import Register from "./../pages/register/Register";
 import axios from "axios";
 import Loading from "./Loading";
 
-const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
+const DataPengguna = ({
+  nama_lengkap,
+  username,
+  jabatan,
+  created,
+  email,
+  gender,
+  id,
+  tgl_lahir,
+  handleLogout,
+}) => {
   const [users, setUsers] = useState([]);
   const [modalDelete, setModalDelete] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -19,6 +29,16 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
   const [status, setStatus] = useState();
   const [NotificationVisible, setNotificationVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userEditModal, setUserEditModal] = useState(false);
+  const [editedUser, setEditedUser] = useState({
+    nama_lengkap: "",
+    username: "",
+    email: "",
+    password: "",
+    gender: 0,
+    jabatan: 0,
+    tgl_lahir: "",
+  });
 
   const fetchUsers = async () => {
     try {
@@ -31,6 +51,7 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
       console.error("Ada kesalahan saat mengambil data pengguna!", error);
     }
   };
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -57,6 +78,41 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
     } catch (error) {
       console.error("Error editing user:", error);
     }
+  };
+
+  const handleEditUserSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedUser = { ...editedUser };
+      if (!updatedUser.password) {
+        delete updatedUser.password; // Hapus password jika tidak diubah
+      }
+      await axios.put(
+        `http://localhost:8081/users/${editedUser.id}`,
+        updatedUser
+      );
+
+      setUserEditModal(false);
+      handleLogout();
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  const handleEditUserModal = () => {
+    const formattedTglLahir = new Date(tgl_lahir).toISOString().split("T")[0];
+
+    setEditedUser({
+      nama_lengkap: nama_lengkap,
+      username: username,
+      email: email,
+      gender: gender,
+      jabatan: jabatan === "master" ? 0 : 1,
+      password: "",
+      id: id,
+      tgl_lahir: formattedTglLahir,
+    });
+    setUserEditModal(true);
   };
 
   const getJabatanLabel = (jabatan) => {
@@ -100,6 +156,7 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
     setModalDelete(false);
     setRegisterModal(false);
     setEditModal(false);
+    userEditModal(false);
   };
 
   const tambahAkun = () => {
@@ -144,7 +201,7 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
 
               <div className="left-1/4 absolute bottom-3">
                 <p className="text-primary text-xl 2xl:text-2xl font-semibold">
-                  {namaLengkap}{" "}
+                  {nama_lengkap}{" "}
                 </p>
                 <div className="bg-primary w-full h-[1.5px] mt-1"></div>
               </div>
@@ -157,10 +214,14 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
                   <span className="font-medium">{username}</span>
                 </p>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2 bg-secondary text-white px-4 py-1 rounded-lg w-fit hover:bg-grey duration-150 select-none">
+                  <button
+                    onClick={() => handleEditUserModal(editedUser)}
+                    className="flex items-center gap-2 bg-secondary text-white px-4 py-1 rounded-lg w-fit hover:bg-grey duration-150 select-none"
+                  >
                     <FaUserEdit />
                     <p>Data Diri</p>
-                  </div>
+                  </button>
+
                   <div className="flex items-center gap-2 bg-white/30 backdrop-blur text-white px-4 py-1 rounded-lg w-fit hover:bg-secondary/30 duration-150 select-none">
                     <RiRadioButtonLine />
                     <p>Active</p>
@@ -345,6 +406,160 @@ const DataPengguna = ({ namaLengkap, username, jabatan, created }) => {
                     closeModal={closeModal}
                     showNotificationVisible={showNotificationVisible}
                   />
+                </div>
+              </div>
+            )}
+
+            {/* CurrentUser */}
+            {userEditModal && (
+              <div className="fixed inset-0 bg-black backdrop-blur-sm bg-opacity-50 flex items-center justify-center">
+                <div className="bg-white/90 px-16 py-10 rounded-lg shadow-lg max-w-2xl w-full">
+                  <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl font-semibold text-primary">
+                      Edit Data Akun
+                    </h2>
+                    <button
+                      onClick={() => setUserEditModal(false)}
+                      className="text-primary hover:text-grey focus:outline-none text-3xl"
+                    >
+                      &times;
+                    </button>
+                  </div>
+                  <form
+                    onSubmit={handleEditUserSubmit}
+                    className="space-y-4 w-full"
+                  >
+                    <div className="form-group ">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="nama_lengkap"
+                      >
+                        Nama Lengkap
+                      </label>
+                      <input
+                        type="text"
+                        id="nama_lengkap"
+                        value={editedUser.nama_lengkap}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser,
+                            nama_lengkap: e.target.value,
+                          })
+                        }
+                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="username"
+                      >
+                        Username
+                      </label>
+                      <input
+                        type="text"
+                        id="username"
+                        value={editedUser.username}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser,
+                            username: e.target.value,
+                          })
+                        }
+                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="email"
+                      >
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        value={editedUser.email}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser,
+                            email: e.target.value,
+                          })
+                        }
+                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="email"
+                      >
+                        Password Baru (Kosongkan Jika Tidak Perlu)
+                      </label>
+                      <input
+                        type="password"
+                        id="password"
+                        value={editedUser.password}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser,
+                            password: e.target.value,
+                          })
+                        }
+                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="tgl_lahir"
+                      >
+                        Birthday
+                      </label>
+                      <input
+                        type="date"
+                        id="tgl_lahir"
+                        value={editedUser.tgl_lahir}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser,
+                            tgl_lahir: e.target.value,
+                          })
+                        }
+                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                      ></input>
+                    </div>
+                    <div className="form-group">
+                      <label
+                        className="block text-sm font-medium text-gray-700"
+                        htmlFor="gender"
+                      >
+                        Gender
+                      </label>
+                      <select
+                        id="gender"
+                        value={editedUser.gender}
+                        onChange={(e) =>
+                          setEditedUser({
+                            ...editedUser,
+                            gender: parseInt(e.target.value),
+                          })
+                        }
+                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                      >
+                        <option value={0}>Laki - Laki</option>
+                        <option value={1}>Perempuan</option>
+                      </select>
+                    </div>
+                    <div className="flex justify-end space-x-2 mt-4">
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-primary hover:bg-grey text-white rounded-md hover:bg-blue-600 focus:outline-none"
+                      >
+                        Simpan
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             )}

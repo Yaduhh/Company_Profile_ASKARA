@@ -48,9 +48,6 @@ const Register = ({ closeModal, showNotificationVisible, fetchUsers }) => {
       closeModal();
     } catch (error) {
       console.error("Registration error:", error);
-      alert(
-        "Registration failed. Please check your details or try again later."
-      );
     }
   };
 

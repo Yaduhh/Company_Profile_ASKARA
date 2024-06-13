@@ -68,11 +68,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/articles/:id/edit",
-    element: (
-      <ProtectedRoute>
-        <EditArticle />
-      </ProtectedRoute>
-    ),
+    element: <EditArticle />,
     loader: ({ params }) =>
       fetch(`http://localhost:8081/articles/${params.id}`),
   },

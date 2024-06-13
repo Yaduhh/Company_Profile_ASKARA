@@ -22,27 +22,50 @@ const DataArtikel = () => {
   const [deleteNotificationVisible, setDeleteNotificationVisible] =
     useState(false);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [isArticlesLoaded, setIsArticlesLoaded] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [users, setUsers] = useState([]);
+  const [selectedUser, setSelectedUser] = useState("");
+
+  const fetchArticles = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/articles");
+      if (Array.isArray(response.data)) {
+        const filteredData = response.data.filter((item) => {
+          const lowerCaseSearchQuery = searchQuery.toLowerCase();
+          const matchesSearchQuery = item.title
+            .toLowerCase()
+            .includes(lowerCaseSearchQuery);
+
+          const matchesCategory = selectedCategory
+            ? item.category === selectedCategory
+            : true;
+
+          const matchesUser = selectedUser
+            ? item.author === selectedUser
+            : true;
+
+          return matchesSearchQuery && matchesCategory && matchesUser;
+        });
+        setArticles(filteredData);
+        console.log(filteredData);
+      } else {
+        setArticles([]);
+        console.error("Data is not an array:", response.data);
+      }
+      setLoading(false);
+      setIsArticlesLoaded(true);
+    } catch (error) {
+      console.error("Error fetching articles:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await axios.get("http://localhost:8081/articles");
-        if (Array.isArray(response.data)) {
-          setArticles(response.data);
-        } else {
-          setArticles([]);
-          console.error("Data is not an array:", response.data);
-        }
-        setLoading(false);
-        setIsArticlesLoaded(true);
-      } catch (error) {
-        console.error("Error fetching articles:", error);
-      }
-    };
     fetchArticles();
-  }, []);
+  }, [searchQuery, selectedCategory, selectedUser]);
 
   const deleteArticle = async (id) => {
     try {
@@ -65,8 +88,36 @@ const DataArtikel = () => {
     setSelectedArticle(null);
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/article-categories"
+      );
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchAuthor = async () => {
+    try {
+      const response = await axios.get("http://localhost:8081/user-author");
+      setUsers(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAuthor();
+  }, []);
+
   const handleEditClick = (id) => {
-    // Redirect to EditArticle page
     window.location.href = `/articles/${id}/edit`;
   };
 
@@ -93,6 +144,8 @@ const DataArtikel = () => {
                   type="text"
                   className="w-full bg-white/70 backdrop-blur py-2 px-14 rounded-xl focus:outline-primary"
                   placeholder="Cari Artikel"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <IoSearch className="absolute left-3" size={20} />
                 <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
@@ -103,14 +156,18 @@ const DataArtikel = () => {
             <div className="relative flex items-center">
               <select
                 name="selectedcategory"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
                 className="w-full bg-white/70 rounded-xl backdrop-blur py-2 px-14 focus:outline-primary"
               >
-                <option defaultChecked className="text-grey">
-                  Pilih Kategori Artikel
+                <option defaultChecked value={""} className="text-grey">
+                  Semua
                 </option>
-                <option value="apple">Apple</option>
-                <option value="banana">Banana</option>
-                <option value="orange">Orange</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.label}>
+                    {category.label}
+                  </option>
+                ))}
               </select>
               <BiCategoryAlt className="absolute left-3" size={20} />
               <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
@@ -120,14 +177,18 @@ const DataArtikel = () => {
             <div className="relative flex items-center z-0">
               <select
                 name="selectedcategory"
+                value={selectedUser}
+                onChange={(e) => setSelectedUser(e.target.value)}
                 className="w-full bg-white/70 rounded-xl backdrop-blur py-2 px-14 focus:outline-primary"
               >
-                <option defaultChecked className="text-grey">
-                  Penulis
+                <option defaultChecked className="text-grey" value={""}>
+                  Semua Penulis
                 </option>
-                <option value="apple">Apple</option>
-                <option value="banana">Banana</option>
-                <option value="orange">Orange</option>
+                {users.map((users) => (
+                  <option key={users.id} value={users.nama_lengkap}>
+                    {users.nama_lengkap}
+                  </option>
+                ))}
               </select>
               <FaRegUser className="absolute left-3" size={20} />
               <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
@@ -139,7 +200,7 @@ const DataArtikel = () => {
         {!loading && (
           <>
             {articles.length === 0 && isArticlesLoaded ? (
-              <div className="h-full flex flex-col justify-center items-center -mt-10 text-black/50">
+              <div className="h-full flex flex-col justify-center items-center -mt-20 text-black/50">
                 Tidak ada artikel yang tersedia !
               </div>
             ) : (

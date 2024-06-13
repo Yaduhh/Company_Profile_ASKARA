@@ -1,9 +1,7 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { IoSearch } from "react-icons/io5";
 import { BiCategoryAlt } from "react-icons/bi";
 import axios from "axios";
-import { MdAddBox, MdEdit, MdDelete } from "react-icons/md";
 import { useTable, useSortBy, useFilters, usePagination } from "react-table";
 import SideBar from "../components/SideBar";
 
@@ -12,8 +10,10 @@ const Product = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:8081/products");
       if (Array.isArray(response.data)) {
@@ -67,11 +67,12 @@ const Product = () => {
     () => [
       {
         Header: "No",
-        accessor: (row, i) => i + 1, // Calculate row index
+        accessor: (row, i) => i + 1,
       },
       {
         Header: "Nama Produk",
         accessor: "nama",
+        className: "no-column",
       },
       {
         Header: "Kategori",
@@ -86,31 +87,6 @@ const Product = () => {
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    state: { pageIndex, pageSize },
-    gotoPage,
-    previousPage,
-    nextPage,
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    setPageSize,
-  } = useTable(
-    {
-      columns,
-      data,
-      initialState: { pageIndex: 0 },
-    },
-    useFilters,
-    useSortBy,
-    usePagination
-  );
-
   const jenisProdukMap = {
     1: "Pharma Product",
     2: "Cosmetic Product",
@@ -121,6 +97,32 @@ const Product = () => {
     7: "Flavour Product",
   };
 
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
+    state: { pageIndex, pageSize },
+  } = useTable(
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0, pageSize: 10 },
+    },
+    useFilters,
+    useSortBy,
+    usePagination
+  );
+
   return (
     <>
       <section
@@ -128,20 +130,20 @@ const Product = () => {
         className="w-full flex flex-col items-center font-primary"
       >
         <div className="w-full min-h-screen pt-20 px-6 md:pt-24 md:px-0 bg-white md:max-w-7xl overflow-hidden">
-          <div className="grid grid-cols-2 md:grid-cols-8 gap-3 md:gap-10 ">
+          <div className="grid grid-cols-2 md:grid-cols-9 gap-3 md:gap-10 ">
             <div className="col-span-2 md:col-span-1">
               <h1 className="text-primary text-xl md:text-2xl font-semibold">
                 PRODUK
               </h1>
             </div>
-            <div className="col-span-2 md:col-span-3">
+            <div className="col-span-2 md:col-span-4">
               <form>
                 <div className="relative flex items-center">
                   <input
                     id="produk"
                     name="produk"
                     type="text"
-                    className="w-full bg-white/70 border-grey border-2 backdrop-blur py-1.5 h-full px-14 rounded-xl focus:outline-primary"
+                    className="w-full bg-white/70 border-grey border-2 backdrop-blur py-2 h-full px-14 rounded-xl focus:outline-primary"
                     placeholder="Cari Produk"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -151,7 +153,7 @@ const Product = () => {
                 </div>
               </form>
             </div>
-            <div className="col-span-1 md:col-span-3">
+            <div className="col-span-1 md:col-span-4">
               <div className="relative flex items-center">
                 <select
                   name="selectedcategory"
@@ -171,11 +173,6 @@ const Product = () => {
                 <BiCategoryAlt className="absolute left-3" size={20} />
                 <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
               </div>
-            </div>
-            <div className="col-span-1 flex justify-end">
-              <button className="bg-secondary hover:bg-grey duration-150 py-1.5 h-full px-8 rounded-lg text-white w-full md:w-auto">
-                Search
-              </button>
             </div>
           </div>
           <div className="grid grid-cols-7 py-6 gap-8">
@@ -208,7 +205,16 @@ const Product = () => {
                   ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                  {rows.length === 0 ? (
+                  {loading ? (
+                    <tr>
+                      <td
+                        colSpan={columns.length}
+                        className="text-center py-4 border-b border-grey bg-white/50 capitalize"
+                      >
+                        Loading...
+                      </td>
+                    </tr>
+                  ) : rows.length === 0 ? (
                     <tr>
                       <td
                         colSpan={columns.length}
@@ -218,7 +224,7 @@ const Product = () => {
                       </td>
                     </tr>
                   ) : (
-                    rows.map((row) => {
+                    page.map((row) => {
                       prepareRow(row);
                       return (
                         <tr
@@ -228,7 +234,7 @@ const Product = () => {
                           {row.cells.map((cell) => (
                             <td
                               {...cell.getCellProps()}
-                              className="py-1.5 px-12 text-left"
+                              className="py-1 px-12 text-left"
                             >
                               {cell.render("Cell")}
                             </td>

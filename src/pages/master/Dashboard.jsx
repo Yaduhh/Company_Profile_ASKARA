@@ -10,7 +10,6 @@ import Loading from "../../components/Loading";
 const Dashboard = () => {
   const [contactUsData, setContactUsData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [stats, setStats] = useState({
     articleCount: 0,
     productCount: 0,
@@ -148,70 +147,78 @@ const Dashboard = () => {
 
         <div className="grid grid-cols-8 gap-8">
           <div className="col-span-6 bg-white/70 backdrop-blur rounded-xl overflow-hidden min-h-[91%] no-scrollbar relative -z-0">
-            <table {...getTableProps()} className="w-full ">
-              <thead>
-                {headerGroups.map((headerGroup) => (
-                  <tr
-                    {...headerGroup.getHeaderGroupProps()}
-                    className="bg-primary text-white border border-primary"
-                  >
-                    {headerGroup.headers.map((column) => (
-                      <th
-                        {...column.getHeaderProps(
-                          column.getSortByToggleProps()
-                        )}
-                        className="px-4 py-2"
+            {contactUsData.length === 0 ? (
+              <div className="p-4 flex h-full w-full items-center justify-center text-center text-gray-500">
+                Tidak ada data
+              </div>
+            ) : (
+              <>
+                <table {...getTableProps()} className="w-full ">
+                  <thead>
+                    {headerGroups.map((headerGroup) => (
+                      <tr
+                        {...headerGroup.getHeaderGroupProps()}
+                        className="bg-primary text-white border border-primary"
                       >
-                        {column.render("Header")}
-                        <span>
-                          {column.isSorted
-                            ? column.isSortedDesc
-                              ? " 🔽"
-                              : " 🔼"
-                            : ""}
-                        </span>
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody {...getTableBodyProps()}>
-                {page.map((row, i) => {
-                  prepareRow(row);
-                  return (
-                    <tr {...row.getRowProps()}>
-                      {row.cells.map((cell) => {
-                        return (
-                          <td
-                            {...cell.getCellProps()}
-                            className="border border-gray-300 px-4 py-2 "
+                        {headerGroup.headers.map((column) => (
+                          <th
+                            {...column.getHeaderProps(
+                              column.getSortByToggleProps()
+                            )}
+                            className="px-4 py-2"
                           >
-                            {cell.render("Cell")}
-                          </td>
-                        );
-                      })}
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            <div className="w-full flex justify-between p-3 bg-primary text-white">
-              <button
-                onClick={() => previousPage()}
-                disabled={!canPreviousPage}
-              >
-                Previous
-              </button>{" "}
-              <span>
-                Page{" "}
-                <strong>
-                  {pageIndex + 1} of {pageOptions.length}
-                </strong>{" "}
-              </span>
-              <button onClick={() => nextPage()} disabled={!canNextPage}>
-                Next
-              </button>{" "}
-            </div>
+                            {column.render("Header")}
+                            <span>
+                              {column.isSorted
+                                ? column.isSortedDesc
+                                  ? " 🔽"
+                                  : " 🔼"
+                                : ""}
+                            </span>
+                          </th>
+                        ))}
+                      </tr>
+                    ))}
+                  </thead>
+                  <tbody {...getTableBodyProps()}>
+                    {page.map((row, i) => {
+                      prepareRow(row);
+                      return (
+                        <tr {...row.getRowProps()}>
+                          {row.cells.map((cell) => {
+                            return (
+                              <td
+                                {...cell.getCellProps()}
+                                className="border border-gray-300 px-4 py-2 "
+                              >
+                                {cell.render("Cell")}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+                <div className="w-full flex justify-between p-3 bg-primary text-white">
+                  <button
+                    onClick={() => previousPage()}
+                    disabled={!canPreviousPage}
+                  >
+                    Previous
+                  </button>{" "}
+                  <span>
+                    Page{" "}
+                    <strong>
+                      {pageIndex + 1} of {pageOptions.length}
+                    </strong>{" "}
+                  </span>
+                  <button onClick={() => nextPage()} disabled={!canNextPage}>
+                    Next
+                  </button>{" "}
+                </div>
+              </>
+            )}
           </div>
           <div className="col-span-2 space-y-8">
             <div className="p-6 bg-white/70 backdrop-blur rounded-2xl text-primary flex justify-between">

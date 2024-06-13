@@ -5,7 +5,6 @@ import { BiCategoryAlt } from "react-icons/bi";
 import axios from "axios";
 import { MdAddBox, MdEdit, MdDelete } from "react-icons/md";
 import { useTable, useSortBy, useFilters, usePagination } from "react-table";
-import { HashLoader } from "react-spinners";
 import Loading from "./Loading";
 
 const DataProduk = () => {
@@ -104,13 +103,13 @@ const DataProduk = () => {
           <div className="flex space-x-2">
             <button
               onClick={() => handleEdit(row.original)}
-              className="bg-grey rounded-lg p-1.5 text-white text-sm"
+              className="bg-grey hover:bg-white/40 duration-150 hover:scale-125 rounded-lg p-1.5 text-white hover:text-grey text-sm"
             >
               <MdEdit />
             </button>
             <button
               onClick={() => handleModalDelete(row.original.id)}
-              className="bg-[#FF4D4D] rounded-lg p-1.5 text-white text-sm"
+              className="bg-[#FF4D4D] rounded-lg p-1.5 duration-150 hover:scale-125 hover:bg-primary/20 text-white text-sm"
             >
               <MdDelete />
             </button>
@@ -125,27 +124,25 @@ const DataProduk = () => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
     prepareRow,
-    state: { pageIndex, pageSize },
-    gotoPage,
-    previousPage,
-    nextPage,
     canPreviousPage,
     canNextPage,
     pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
     setPageSize,
+    state: { pageIndex, pageSize },
   } = useTable(
     {
       columns,
       data,
-      initialState: { pageIndex: 0 },
+      initialState: { pageIndex: 0, pageSize: 20 },
     },
-    useFilters,
-    useSortBy,
     usePagination
   );
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -353,11 +350,11 @@ const DataProduk = () => {
           <table {...getTableProps()} className="min-w-full rounded">
             <thead className="bg-primary text-white uppercase text-sm leading-normal font-normal">
               {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()} className="">
+                <tr {...headerGroup.getHeaderGroupProps()}>
                   {headerGroup.headers.map((column) => (
                     <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      className="py-3 px-12 text-left cursor-pointer"
+                      {...column.getHeaderProps()}
+                      className="px-4 py-2 text-start text-base"
                     >
                       {column.render("Header")}
                       <span>
@@ -373,27 +370,21 @@ const DataProduk = () => {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {rows.length === 0 ? (
+              {page.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={columns.length}
-                    className="text-center py-4 border-b border-grey bg-white/50 capitalize"
-                  >
-                    Tidak ada data !
+                  <td colSpan={columns.length} className="text-center py-8">
+                    Tidak ada data yang tersedia.
                   </td>
                 </tr>
               ) : (
-                rows.map((row) => {
+                page.map((row) => {
                   prepareRow(row);
                   return (
-                    <tr
-                      {...row.getRowProps()}
-                      className="border-b border-grey bg-white/50 capitalize"
-                    >
+                    <tr {...row.getRowProps()}>
                       {row.cells.map((cell) => (
                         <td
                           {...cell.getCellProps()}
-                          className="py-1.5 px-12 text-left"
+                          className="px-4 py-2 bg-white/70 border-grey border  capitalize text-left text-sm"
                         >
                           {cell.render("Cell")}
                         </td>
@@ -405,39 +396,62 @@ const DataProduk = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-between items-center py-1 bg-primary shadow-md rounded-lg mt-4">
+        <div className="flex justify-around items-center py-1 bg-primary shadow-md rounded-lg mt-0">
+          <button
+            onClick={() => gotoPage(0)}
+            disabled={!canPreviousPage}
+            className="px-3 py-1.5 text-white rounded-l-lg"
+          >
+            {"<<"}
+          </button>{" "}
           <button
             onClick={() => previousPage()}
             disabled={!canPreviousPage}
-            className={`py-1 px-4 bg-blue-500 text-white rounded ${
-              !canPreviousPage
-                ? "opacity-50 cursor-not-allowed"
-                : "hover:bg-blue-700"
-            }`}
+            className="px-3 py-1.5 text-white"
           >
-            Previous
-          </button>
-          <span className="text-white font-normal">
-            Page{" "}
-            <strong>
-              {pageIndex + 1} of {pageOptions.length}
-            </strong>
-          </span>
+            {"<"}
+          </button>{" "}
           <button
             onClick={() => nextPage()}
             disabled={!canNextPage}
-            className={`py-1 px-4 text-white rounded ${
-              !canNextPage ? "opacity-50 cursor-not-allowed" : ""
-            }`}
+            className="px-3 py-1.5 text-white"
           >
-            Next
-          </button>
+            {">"}
+          </button>{" "}
+          <button
+            onClick={() => gotoPage(pageCount - 1)}
+            disabled={!canNextPage}
+            className="px-3 py-1.5 text-white rounded-r-lg"
+          >
+            {">>"}
+          </button>{" "}
+          <span className="px-3 py-1.5 text-white">
+            Page{" "}
+            <strong>
+              {pageIndex + 1} of {pageOptions.length}
+            </strong>{" "}
+          </span>
+          <span className="px-3 py-1.5 text-white">
+            | Go to page:{" "}
+            <input
+              type="number"
+              min="1"
+              defaultValue={pageIndex + 1}
+              onChange={(e) => {
+                const page = e.target.value
+                  ? Math.max(Number(e.target.value) - 1, 0)
+                  : 0;
+                gotoPage(page);
+              }}
+              className="w-12 px-2 py-1 border rounded text-primary"
+            />
+          </span>
           <select
             value={pageSize}
             onChange={(e) => setPageSize(Number(e.target.value))}
-            className="py-1 px-4 rounded focus:outline-none mr-4 bg-transparent text-grey"
+            className="px-3 py-1.5 border rounded"
           >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
+            {[20, 40, 60, 80, 100].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 Show {pageSize}
               </option>

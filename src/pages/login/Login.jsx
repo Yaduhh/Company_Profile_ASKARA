@@ -17,18 +17,32 @@ const Login = () => {
   const location = useLocation();
   const loggedOut = location.state?.loggedOut;
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
+  const validateForm = () => {
+    let formIsValid = true;
+    const newErrors = { email: "", password: "" };
 
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
+    if (!values.email) {
+      newErrors.email = "is required";
+      formIsValid = false;
+    }
+
+    if (!values.password) {
+      newErrors.password = "is required";
+      formIsValid = false;
+    }
+
+    setErrors(newErrors);
+    return formIsValid;
+  };
 
   axios.defaults.withCredentials = true;
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:8081/login", values);
       if (response.data.Status === "Success") {
@@ -50,18 +64,30 @@ const Login = () => {
       }
     }
   };
+
   useEffect(() => {
     console.log("Logged Out State:", loggedOut);
     if (loggedOut) {
-      // Set notifikasi logout
       setLogoutNotif(true);
-      // Reset notifikasi setelah 4 detik
       setTimeout(() => {
         setLogoutNotif(false);
-      }, 4000); // 4 detik
+      }, 4000);
     }
   }, [loggedOut]);
 
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
+
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
   return (
     <>
       <AuthRedirect>
@@ -104,7 +130,12 @@ const Login = () => {
 
             <form className="w-full space-y-8" onSubmit={handleSubmit}>
               <div className="flex flex-col w-full">
-                <label>Email*</label>
+                <div className="flex items-center gap-2">
+                  <label>Email*</label>
+                  {errors.email && (
+                    <p className="text-[#FF4D4D] font-medium">{errors.email}</p>
+                  )}
+                </div>
                 <input
                   type="email"
                   id="email"
@@ -118,7 +149,14 @@ const Login = () => {
               </div>
 
               <div className="flex flex-col w-full relative">
-                <label>Password*</label>
+                <div className="flex item-center gap-2">
+                  <label>Password*</label>
+                  {errors.password && (
+                    <p className="text-[#FF4D4D] font-medium">
+                      {errors.password}
+                    </p>
+                  )}
+                </div>
                 <input
                   type={isPasswordVisible ? "text" : "password"}
                   id="password"

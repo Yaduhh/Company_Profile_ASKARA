@@ -92,3 +92,7 @@
 .topdepan {
   z-index: 999;
 }
+
+.no-column {
+  width: 50px;
+}
