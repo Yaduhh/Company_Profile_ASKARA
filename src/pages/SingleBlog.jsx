@@ -24,17 +24,10 @@ const SingleBlog = () => {
     year: "numeric",
   });
 
-  console.log("ini data di single" + data);
-
   return (
     <>
-      <div className="py-32 px-4 bg-black mx-auto font-primary">
-        <div className="text-center text-white">
-          <p className="text-5xl leading-snug font-bold mb-5">Single Blog</p>
-        </div>
-      </div>
       {/* blog details */}
-      <div className="max-w-5xl 2xl:max-w-6xl mx-auto my-12 flex flex-col md:flex-row gap-12 font-primary p-6 md:p-0">
+      <div className="max-w-5xl 2xl:max-w-6xl mx-auto my-24 flex flex-col md:flex-row gap-12 font-primary p-6 md:p-0">
         <div className="lg:w-3/4 mx-auto">
           <div>
             <img
@@ -43,26 +36,23 @@ const SingleBlog = () => {
               className="w-full mx-auto rounded"
             />
           </div>
-          <h2 className="text-3xl font-semibold mb-4 text-blue-500 cursor-pointer mt-8 capitalize">
-            {title}
-          </h2>
-          <div className="flex justify-between text-sm mb-4">
-            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+          <div className="flex justify-between text-sm my-4 bg-grey rounded">
+            <p className="flex items-center gap-2 text-white px-6 py-1.5 rounded-full">
               <FaUser />
               {author}
             </p>
-            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+            <p className="flex items-center gap-2 text-white px-6 py-1.5 rounded-full">
               <FaCalendar />
               {formattedDate}
             </p>
-            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
-              <BiSolidCategoryAlt />
-              {category}
-            </p>
-            <p className="flex items-center gap-2 bg-primary text-white px-6 py-1.5 rounded-full">
+            <p className="flex items-center gap-2 text-white px-6 py-1.5 rounded-full">
               <FaClock />
               {reading_time} Menit
             </p>
+          </div>
+          <div className="text-3xl md:text-4xl font-semibold my-5 text-primary cursor-pointer capitalize space-y-3">
+            <h2>{title}</h2>
+            <div className="w-full h-[2px] bg-grey rounded"></div>
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(content) }}

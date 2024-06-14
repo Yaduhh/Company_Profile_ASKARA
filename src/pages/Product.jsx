@@ -175,11 +175,11 @@ const Product = () => {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-7 py-6 gap-8">
-            <div className="col-span-5 rounded-xl h-auto px-1">
+          <div className="grid grid-cols-1 md:grid-cols-7 py-6 gap-8">
+            <div className="col-span-1 md:col-span-5 rounded-xl h-auto px-1 md:overflow-hidden overflow-auto">
               <table
                 {...getTableProps()}
-                className="min-w-full rounded-t-xl outline-1 outline outline-grey overflow-hidden"
+                className="min-w-full rounded-t-xl outline-1 outline outline-grey "
               >
                 <thead className="bg-primary text-white uppercase text-sm leading-normal font-normal">
                   {headerGroups.map((headerGroup) => (
@@ -291,7 +291,7 @@ const Product = () => {
                 </select>
               </div>
             </div>
-            <div className="col-span-2">
+            <div className="col-span-1 md:col-span-2">
               <SideBar />
             </div>
           </div>

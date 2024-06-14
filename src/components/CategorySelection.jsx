@@ -1,6 +1,8 @@
 import { FaSearch } from "react-icons/fa";
 import { TbMoodSearch } from "react-icons/tb";
-import { useState } from "react";
+import { useState, useRef, useMemo, useEffect } from "react";
+import React from "react";
+import axios from "axios";
 
 const CategorySelection = ({
   onSelectCategory,
@@ -8,7 +10,7 @@ const CategorySelection = ({
   setResults,
   setSearchInput,
 }) => {
-  const categories = ["Teknologi", "Tutorial", "Curhatan", "Apps", "Tech"];
+  const [categories, setCategories] = useState([]);
   const [input, setInput] = useState("");
 
   const fetchData = (value) => {
@@ -33,6 +35,22 @@ const CategorySelection = ({
     setSearchInput(value);
   };
 
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/article-categories"
+      );
+      setCategories(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <div className="mb-8 lg:space-x-10 w-full justify-between flex flex-wrap-reverse items-center gap-4 md:gap-3 border-b-2 py-3 md:py-5 text-primary font-semibold font-primary">
@@ -47,15 +65,15 @@ const CategorySelection = ({
           </button>
           {categories.map((category) => (
             <button
-              onClick={() => onSelectCategory(category)}
-              key={category}
+              onClick={() => onSelectCategory(category.label)}
+              key={category.id}
               className={` ${
                 activeCategory === category
                   ? "active-button"
                   : "text-primary/50"
               }`}
             >
-              {category}
+              {category.label}
             </button>
           ))}
         </div>
@@ -67,18 +85,12 @@ const CategorySelection = ({
                 value={input}
                 type="text"
                 id="search"
-                placeholder="Jangan cari yang gada"
+                placeholder="Ingin membaca apa ?"
                 className="pr-5 pl-12 py-2 rounded-3xl border border-primary text-sm font-light w-full capitalize italic"
               />
-              <TbMoodSearch
-                className="absolute left-3 text-primary/50"
-                size={20}
-              />
+              <FaSearch className="absolute left-3 text-primary/50" size={15} />
               <div className="w-[2px] h-[50%] bg-primary/50 absolute z-0 rounded-full left-9"></div>
             </div>
-            <button className="bg-primary text-white p-3 rounded-full">
-              <FaSearch />
-            </button>
           </div>
         </form>
       </div>

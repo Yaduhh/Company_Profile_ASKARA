@@ -137,7 +137,7 @@ const SectionFour = () => {
               data-aos="fade-up"
               data-aos-duration="1000"
               data-aos-delay="300"
-              className="2xl:text-3xl text-2xl text-primary font-medium mt-6 md:-mt-10 2xl:-mt-28"
+              className="2xl:text-3xl text-2xl text-primary font-medium mt-6 md:-mt-24 2xl:-mt-28"
             >
               Dapatkan informasi terupdate setiap minggunya.
             </p>
@@ -146,7 +146,7 @@ const SectionFour = () => {
             data-aos="fade-up"
             data-aos-duration="2000"
             data-aos-delay="400"
-            className="2xl:space-y-6 space-y-4"
+            className="2xl:space-y-6 space-y-3"
             onSubmit={handleSubmit}
             onKeyDown={(e) => {
               if (e.key === "Enter") {

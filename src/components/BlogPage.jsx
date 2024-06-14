@@ -51,7 +51,7 @@ const BlogPage = () => {
 
   return (
     <>
-      <div>
+      <div className="p-6 lg:p-0">
         {/* Page Category */}
         <div>
           <CategorySelection

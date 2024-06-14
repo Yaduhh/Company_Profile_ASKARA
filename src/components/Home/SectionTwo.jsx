@@ -46,7 +46,7 @@ const SectionTwo = () => {
             data-aos-delay="200"
             className="uppercase text-grey 2xl:text-2xl text-xl font-medium"
           >
-            Our Product
+            Komitmen Kami
           </p>
           <h1
             data-aos="fade-up"
@@ -54,12 +54,13 @@ const SectionTwo = () => {
             data-aos-delay="300"
             className="text-xl md:text-2xl 2xl:text-4xl font-semibold capitalize text-primary pb-5 md:pb-0"
           >
-            We are committed to helping more than 1000 people <br />
-            from all regions in Indonesia {">>>"}
+            Kami Berkomitmen Untuk Membantu Lebih Dari 1000 Orang
+            <br />
+            Dari Seluruh Wilayah Di Indonesia {">>>"}
           </h1>
         </div>
 
-        <div className="w-full grid grid-cols-1 gap-10 md:gap-5 md:grid-cols-3">
+        <div className="w-full grid grid-cols-1 gap-10 md:gap-5 md:grid-cols-3 capitalize">
           <div
             data-aos="fade-up"
             data-aos-duration="1000"
@@ -78,8 +79,8 @@ const SectionTwo = () => {
             </div>
             <div className="w-rull h-[2px] bg-grey"></div>
             <p className="2xl:text-xl text-base text-justify">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy.
+              komitmen untuk kemajuan bisnis dan mengembangkannya hingga menjadi
+              Perusahaan raksasa dalam bidang distribusi
             </p>
           </div>
           <div
@@ -100,9 +101,8 @@ const SectionTwo = () => {
             </div>
             <div className="w-rull h-[2px] bg-grey"></div>
             <p className="2xl:text-xl text-base text-justify">
-              Text ever since the 1500s, when an unknown printer took a galley
-              of type and scrambled it to make a type specimen book. It has
-              survived not only five centuries.
+              terciptanya lapangan kerja baru dan senantiasa menjadi perusahaan
+              yang bermanfaat
             </p>
           </div>
           <div
@@ -123,9 +123,8 @@ const SectionTwo = () => {
             </div>
             <div className="w-rull h-[2px] bg-grey"></div>
             <p className="2xl:text-xl text-base text-justify">
-              Scrambled it to make a type specimen book. It has survived not
-              only five centuries, but also the leap into electronic
-              typesetting.
+              menunjang pelayanan terbaik Perusahaan, kami bertujuan untuk
+              selalu memberikan produk dengan kualitas terbaik
             </p>
           </div>
         </div>

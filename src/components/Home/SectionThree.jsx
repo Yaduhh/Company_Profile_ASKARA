@@ -58,18 +58,18 @@ const SectionThree = () => {
               kesehatan.
             </p>
           </div>
-          <Link
+          <a
             data-aos="fade-up"
             data-aos-duration="1000"
             data-aos-delay="100"
-            to="/blogs"
+            href="/blogs"
             className="bg-accent w-fit px-7 py-2 rounded-xl capitalize border-primary border flex gap-2 items-center"
           >
             Baca Berita{" "}
             <span>
               <HiOutlineArrowSmRight />
             </span>
-          </Link>
+          </a>
         </div>
         <div className="col-span-1 md:col-span-3 place-content-center capitalize md:pr-20 2xl:space-y-8 md:space-y-4 space-y-8 p-6 max-sm:pb-16 md:px-16 2xl:px-28 bg-gradient-to-b">
           <p
