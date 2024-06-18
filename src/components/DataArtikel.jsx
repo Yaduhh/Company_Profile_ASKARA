@@ -14,6 +14,7 @@ import { MdOutlineAccessTime } from "react-icons/md";
 import Loading from "./Loading";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { encryptId } from "./../utils/cryptoUtils";
 
 const DataArtikel = () => {
   const [articles, setArticles] = useState([]);
@@ -118,11 +119,15 @@ const DataArtikel = () => {
   }, []);
 
   const handleEditClick = (id) => {
-    window.location.href = `/articles/${id}/edit`;
+    const encryptedId = encryptId(id);
+    window.location.href = `/articles/${encryptedId}/edit`;
+    //  window.location.href = `/articles/${id}/edit`;
+    console.log(encryptId);
   };
 
   const handleOpenClick = (id) => {
-    window.location.href = `/articles/${id}`;
+    const encryptedId = encryptId(id);
+    window.location.href = `/articles/${encryptedId}`;
   };
 
   const showDeleteNotification = () => {

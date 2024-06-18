@@ -32,7 +32,7 @@ const About = () => {
         <>
           <section id="about">
             <div className="w-full font-primary mb-10 py-20 bg-white/90">
-              <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6 md:px-0">
+              <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6 md:px-0">
                 <div className="col-span-1 md:col-span-2 text-justify">
                   <h1 className="uppercase text-2xl md:text-3xl font-bold tracking-wide text-primary pt-0 md:pt-6">
                     Tentang Perusahaan

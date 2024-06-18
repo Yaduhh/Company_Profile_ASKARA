@@ -102,9 +102,9 @@ const Dashboard = () => {
   }
   return (
     <>
-      <section className="w-full h-screen 2xl:px-12 px-6 2xl:pt-4 pt-20 2xl:space-y-8 space-y-6">
+      <section className="w-full h-auto md:h-screen 2xl:px-12 px-6 2xl:pt-4 pt-20 2xl:space-y-8 space-y-6">
         <div className="grid grid-cols-12 gap-6 2xl:gap-8 capitalize">
-          <div className="col-span-4 overflow-hidden relative -z-0 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
+          <div className="col-span-12 md:col-span-4 overflow-hidden relative -z-0 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
             <MdOutlineArticle size={90} />
             <MdOutlineArticle
               size={200}
@@ -117,7 +117,7 @@ const Dashboard = () => {
               </p>
             </div>
           </div>
-          <div className="col-span-4 overflow-hidden relative -z-10 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
+          <div className="col-span-12 md:col-span-4 overflow-hidden relative -z-10 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
             <RiDatabase2Line size={90} />
             <RiDatabase2Line
               size={200}
@@ -130,7 +130,7 @@ const Dashboard = () => {
               </p>
             </div>
           </div>
-          <div className="col-span-4 overflow-hidden relative -z-10 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
+          <div className="col-span-12 md:col-span-4 overflow-hidden relative -z-10 min-h-20 max-h-28 2xl:min-h-36 2xl:max-h-40 bg-white/70 rounded-2xl backdrop-blur p-4 2xl:p-6 flex justify-between text-primary items-start">
             <FaChalkboardUser size={90} />
             <FaChalkboardUser
               size={200}
@@ -145,15 +145,15 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-8 gap-8">
-          <div className="col-span-6 backdrop-blur rounded-xl overflow-hidden min-h-[91%] no-scrollbar relative -z-0">
+        <div className="grid grid-cols-12 md:grid-cols-8 gap-8">
+          <div className="col-span-12 md:col-span-6 backdrop-blur rounded-xl overflow-hidden min-h-[91%] no-scrollbar relative -z-0">
             {contactUsData.length === 0 ? (
               <div className="p-4 flex h-full w-full items-center justify-center text-center text-gray-500">
                 Tidak ada data
               </div>
             ) : (
               <>
-                <div className="w-full h-[80%] overflow-auto no-scrollbar">
+                <div className="w-full h-56 md:h-[80%] overflow-auto no-scrollbar">
                   <table {...getTableProps()} className="">
                     <thead>
                       {headerGroups.map((headerGroup) => (
@@ -222,14 +222,20 @@ const Dashboard = () => {
               </>
             )}
           </div>
-          <div className="col-span-2 space-y-8">
-            <div className="p-6 bg-white/70 backdrop-blur rounded-2xl text-primary flex justify-between">
-              <p className="text-lg font-medium">Jumlah Kategori Produk</p>
-              <p className="text-5xl font-semibold">{stats.categoryCount}</p>
+          <div className="col-span-12 md:col-span-2 space-y-6 md:space-y-8 mb-10 md:mb-0">
+            <div className="p-3 md:p-6 bg-white/70 backdrop-blur rounded-2xl text-primary flex justify-between">
+              <p className="text-sm md:text-lg font-medium">
+                Jumlah Kategori Produk
+              </p>
+              <p className="text-xl md:text-5xl font-semibold">
+                {stats.categoryCount}
+              </p>
             </div>
-            <div className="p-6 bg-white/70 backdrop-blur rounded-2xl text-primary flex justify-between">
-              <p className="text-lg font-medium">Jumlah Kategori Artikel</p>
-              <p className="text-5xl font-semibold">
+            <div className="p-3 md:p-6 bg-white/70 backdrop-blur rounded-2xl text-primary flex justify-between">
+              <p className="text-sm md:text-lg font-medium">
+                Jumlah Kategori Artikel
+              </p>
+              <p className="text-xl md:text-5xl font-semibold">
                 {stats.categoryArticlesCount}
               </p>
             </div>

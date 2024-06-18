@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import DOMPurify from "dompurify";
+import { encryptId } from "./../utils/cryptoUtils";
 
 const SideBar = () => {
   const [popularBlogs, setPopularBlogs] = useState([]);
@@ -25,44 +26,49 @@ const SideBar = () => {
           {popularBlogs.length === 0 ? (
             <p className="text-center py-10">Tidak ada postingan</p>
           ) : (
-            popularBlogs.slice(0, 5).map((blog) => (
-              <div
-                key={blog.id}
-                className="border border-grey rounded overflow-hidden mt-3 relative -z-0 min-h-28"
-              >
-                <img
-                  src={`http://localhost:8081/uploads/${blog.image}`}
-                  alt={blog.image}
-                  className="h-full absolute -z-10 w-full object-cover"
-                />
-                <div className="w-full h-full bg-white/80 backdrop-blur-sm absolute object-cover -z-10"></div>
-                <div className="flex flex-col gap-3 items-stretch justify-between px-4 py-3">
-                  <Link
-                    to={`/articles/${blog.id}`}
-                    className="font-medium line-clamp-2"
-                  >
-                    {blog.title}
-                  </Link>
+            popularBlogs.slice(0, 5).map((blog) => {
+              const encryptedId = encryptId(blog.id);
+              return (
+                <>
                   <div
-                    className="line-clamp-2 text-xs"
-                    dangerouslySetInnerHTML={{
-                      __html: DOMPurify.sanitize(blog.content),
-                    }}
-                  ></div>
+                    key={blog.id}
+                    className="border border-grey rounded overflow-hidden mt-3 relative -z-0 min-h-28"
+                  >
+                    <img
+                      src={`http://localhost:8081/uploads/${blog.image}`}
+                      alt={blog.image}
+                      className="h-full absolute -z-10 w-full object-cover"
+                    />
+                    <div className="w-full h-full bg-white/80 backdrop-blur-sm absolute object-cover -z-10"></div>
+                    <div className="flex flex-col gap-3 items-stretch justify-between px-4 py-3">
+                      <a
+                        href={`/articles/${encryptedId}`}
+                        className="font-medium line-clamp-2"
+                      >
+                        {blog.title}
+                      </a>
+                      <div
+                        className="line-clamp-2 text-xs"
+                        dangerouslySetInnerHTML={{
+                          __html: DOMPurify.sanitize(blog.content),
+                        }}
+                      ></div>
 
-                  <div className="flex justify-between items-end">
-                    <p className="text-xs italic">{blog.category}</p>
-                    <Link
-                      to={`/articles/${blog.id}`}
-                      className="text-sm hover:text-white flex items-center justify-end"
-                    >
-                      <p>Read More</p>
-                      <FaArrowRight className="mt-1 ml-2" />
-                    </Link>
+                      <div className="flex justify-between items-end">
+                        <p className="text-xs italic">{blog.category}</p>
+                        <a
+                          href={`/articles/${encryptedId}`}
+                          className="text-sm hover:text-white flex items-center justify-end"
+                        >
+                          <p>Read More</p>
+                          <FaArrowRight className="mt-1 ml-2" />
+                        </a>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))
+                </>
+              );
+            })
           )}
         </div>
       </div>
@@ -75,17 +81,25 @@ const SideBar = () => {
           {popularBlogs.length === 0 ? (
             <p className="text-center py-10">Tidak ada postingan</p>
           ) : (
-            popularBlogs.slice(0, 5).map((blog) => (
-              <div key={blog.id} className="my-5 border-b-2 border-spacing-2">
-                <h4 className="font-medium mb-2 ">{blog.title}</h4>
-                <Link
-                  to={`/articles/${blog.id}`}
-                  className="text-base pb-2 hover:text-orange-500 inline-flex items-center py-1"
-                >
-                  Read More <FaArrowRight className="mt-1 ml-2" />
-                </Link>
-              </div>
-            ))
+            popularBlogs.slice(0, 5).map((blog) => {
+              const encryptedId = encryptId(blog.id);
+              return (
+                <>
+                  <div
+                    key={blog.id}
+                    className="my-5 border-b-2 border-spacing-2"
+                  >
+                    <h4 className="font-medium mb-2 ">{blog.title}</h4>
+                    <a
+                      href={`/articles/${encryptedId}`}
+                      className="text-base pb-2 hover:text-orange-500 inline-flex items-center py-1"
+                    >
+                      Read More <FaArrowRight className="mt-1 ml-2" />
+                    </a>
+                  </div>
+                </>
+              );
+            })
           )}
         </div>
       </div>

@@ -12,6 +12,7 @@ const Register = ({ closeModal, showNotificationVisible, fetchUsers }) => {
     tgl_lahir: "",
     gender: "",
   });
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,15 +40,19 @@ const Register = ({ closeModal, showNotificationVisible, fetchUsers }) => {
         ...values,
         password: formattedDate,
       });
+
       if (response.data.Status === "Success") {
         fetchUsers();
+        showNotificationVisible();
+        closeModal();
+      } else if (response.data.Error) {
+        setError(response.data.Error);
       } else {
-        console.log(response.data.status);
+        setError("Registration failed. Please try again.");
       }
-      showNotificationVisible();
-      closeModal();
     } catch (error) {
       console.error("Registration error:", error);
+      setError("An error occurred during registration.");
     }
   };
 
@@ -64,12 +69,17 @@ const Register = ({ closeModal, showNotificationVisible, fetchUsers }) => {
             onSubmit={handleSubmit}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                event.preventDefault(); // Prevent default form submission behavior
-                handleSubmit(event); // Trigger your form submission handler
+                event.preventDefault();
+                handleSubmit(event);
               }
             }}
           >
             <div className="flex flex-col w-full">
+              {error && (
+                <div className="text-[#FF4D4D] text-sm font-semibold">
+                  {error}
+                </div>
+              )}
               <label htmlFor="email">Nama Lengkap*</label>
               <input
                 type="text"

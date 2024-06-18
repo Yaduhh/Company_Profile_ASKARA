@@ -35,6 +35,17 @@ const BlogPage = () => {
     fetchBlogs();
   }, [currentPage, pageSize, selectedCategory, searchInput]);
 
+  useEffect(() => {
+    if (searchInput) {
+      const filteredResults = blogs.filter((blog) =>
+        blog.title.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      setResults(filteredResults);
+    } else {
+      setResults([]);
+    }
+  }, [searchInput, blogs]);
+
   // page changing btn
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -48,6 +59,18 @@ const BlogPage = () => {
   };
   const [results, setResults] = useState([]);
   console.log(`searchInput`, searchInput);
+  const noBlogsMessage = blogs.length === 0 && !searchInput && (
+    <div className="flex-grow text-center py-10 font-primary">
+      Tidak ada postingan
+    </div>
+  );
+
+  const noResultsMessage = results.length === 0 && searchInput && (
+    <div className="flex-grow text-center py-10 font-primary">
+      Opps.. "{searchInput}" saat ini belum tersedia! Nantikan terus updatenya
+      ya.
+    </div>
+  );
 
   return (
     <>
@@ -64,28 +87,27 @@ const BlogPage = () => {
         </div>
 
         {/* Blog */}
-        <div className="flex w-full">
-          <div className="flex flex-col lg:flex-row gap-12 h-auto w-full">
-            {/* blog cards component */}
-            {blogs.length === 0 ? (
-              <div className="flex-grow text-center py-10 font-primary">
-                Tidak ada postingan
-              </div>
-            ) : (
-              <BlogCards
-                blogs={blogs}
-                currentPage={currentPage}
-                selectedCategory={selectedCategory}
-                pageSize={pageSize}
-                results={results}
-                searchInput={searchInput}
-              />
-            )}
-
-            {/* sidebar component */}
-            <div className="md:w-[40%] w-full space-y-6">
-              <SideBar />
+        <div className="grid grid-cols-11 w-full gap-6">
+          <div className="col-span-8">
+            <div className="flex flex-col lg:flex-row gap-12 h-auto w-full">
+              {/* blog cards component */}
+              {noBlogsMessage || noResultsMessage ? (
+                noBlogsMessage || noResultsMessage
+              ) : (
+                <BlogCards
+                  blogs={blogs}
+                  currentPage={currentPage}
+                  selectedCategory={selectedCategory}
+                  pageSize={pageSize}
+                  results={results}
+                  searchInput={searchInput}
+                />
+              )}
             </div>
+          </div>
+          {/* sidebar component */}
+          <div className="w-full space-y-6 col-span-3">
+            <SideBar />
           </div>
         </div>
 

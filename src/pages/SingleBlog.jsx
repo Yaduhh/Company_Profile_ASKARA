@@ -26,7 +26,7 @@ const SingleBlog = () => {
   return (
     <>
       {/* blog details */}
-      <div className="max-w-5xl 2xl:max-w-6xl mx-auto my-24 flex flex-col md:flex-row gap-12 font-primary p-6 md:p-0">
+      <div className="max-w-6xl 2xl:max-w-7xl mx-auto my-24 flex flex-col md:flex-row gap-12 font-primary p-6 md:p-0">
         <div className="lg:w-3/4 mx-auto">
           <div>
             <img

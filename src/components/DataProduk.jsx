@@ -24,6 +24,7 @@ const DataProduk = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
+  const [errorNotif, setErrorNotif] = useState(false);
   const [deleteProductId, setDeleteProductId] = useState(null);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState([]);
@@ -143,6 +144,7 @@ const DataProduk = () => {
     },
     usePagination
   );
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -166,15 +168,18 @@ const DataProduk = () => {
       );
       if (response.data.Status === "Success") {
         setData((prevData) => [...prevData, newData]);
-        alert("Produk berhasil ditambahkan!");
+        showNotification();
+        resetForm();
+        fetchData();
+      } else if (response.data.Error) {
+        setError(response.data.Error);
+        showErrorNotification();
       }
     } catch (error) {
       console.error("Terjadi kesalahan saat mengirim data:", error);
-      alert("Terjadi kesalahan saat menambahkan produk.");
+      setError("Terjadi kesalahan saat mengirim data");
+      showErrorNotification();
     }
-    resetForm();
-    fetchData();
-    showNotification();
   };
 
   const handleEditSubmit = async (e) => {
@@ -223,6 +228,13 @@ const DataProduk = () => {
     setNotificationVisible(true);
     setTimeout(() => {
       setUpdateNotificationVisible(false);
+    }, 4000); // 4 detik
+  };
+
+  const showErrorNotification = () => {
+    setErrorNotif(true);
+    setTimeout(() => {
+      setErrorNotif(false);
     }, 4000); // 4 detik
   };
 
@@ -296,8 +308,8 @@ const DataProduk = () => {
         id="dataProduk"
         className="w-full h-screen px-6 2xl:px-12 2xl:pt-4 pt-20"
       >
-        <div className="grid grid-cols-8 gap-10">
-          <div className="col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-8 gap-3 md:gap-10">
+          <div className="col-span-1 md:col-span-3">
             <form>
               <div className="relative flex items-center">
                 <input
@@ -314,7 +326,7 @@ const DataProduk = () => {
               </div>
             </form>
           </div>
-          <div className="col-span-3">
+          <div className="col-span-1 md:col-span-3">
             <div className="relative flex items-center">
               <select
                 name="selectedcategory"
@@ -335,10 +347,10 @@ const DataProduk = () => {
               <div className="h-[60%] w-[2px] rounded-full bg-grey absolute left-10"></div>
             </div>
           </div>
-          <div className="col-span-2">
+          <div className="col-span-1 md:col-span-2">
             <button
               onClick={() => handleAddProduct()}
-              className="bg-secondary rounded-xl w-full h-full flex items-center gap-2 text-white justify-center hover:bg-primary hover:text-white/80 duration-200"
+              className="bg-secondary rounded-xl w-full max-sm:py-2 h-full flex items-center gap-2 text-white justify-center hover:bg-primary hover:text-white/80 duration-200"
             >
               <MdAddBox />
               Add Product
@@ -396,35 +408,37 @@ const DataProduk = () => {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-around items-center py-1 bg-primary shadow-md rounded-lg mt-0">
-          <button
-            onClick={() => gotoPage(0)}
-            disabled={!canPreviousPage}
-            className="px-3 py-1.5 text-white rounded-l-lg"
-          >
-            {"<<"}
-          </button>{" "}
-          <button
-            onClick={() => previousPage()}
-            disabled={!canPreviousPage}
-            className="px-3 py-1.5 text-white"
-          >
-            {"<"}
-          </button>{" "}
-          <button
-            onClick={() => nextPage()}
-            disabled={!canNextPage}
-            className="px-3 py-1.5 text-white"
-          >
-            {">"}
-          </button>{" "}
-          <button
-            onClick={() => gotoPage(pageCount - 1)}
-            disabled={!canNextPage}
-            className="px-3 py-1.5 text-white rounded-r-lg"
-          >
-            {">>"}
-          </button>{" "}
+        <div className="flex md:flex-row flex-col justify-around items-center py-1 bg-primary shadow-md rounded-lg mt-0 max-sm:mb-10">
+          <div>
+            <button
+              onClick={() => gotoPage(0)}
+              disabled={!canPreviousPage}
+              className="px-3 py-1.5 text-white rounded-l-lg"
+            >
+              {"<<"}
+            </button>{" "}
+            <button
+              onClick={() => previousPage()}
+              disabled={!canPreviousPage}
+              className="px-3 py-1.5 text-white"
+            >
+              {"<"}
+            </button>{" "}
+            <button
+              onClick={() => nextPage()}
+              disabled={!canNextPage}
+              className="px-3 py-1.5 text-white"
+            >
+              {">"}
+            </button>{" "}
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+              className="px-3 py-1.5 text-white rounded-r-lg"
+            >
+              {">>"}
+            </button>{" "}
+          </div>
           <span className="px-3 py-1.5 text-white">
             Page{" "}
             <strong>
@@ -525,8 +539,6 @@ const DataProduk = () => {
                   </div>
                 </div>
 
-                {error && <p className="text-[#FF4D4D]">{error}</p>}
-
                 <div className="flex w-full gap-3 justify-end text-sm pt-10">
                   <button
                     onClick={closeModal}
@@ -611,6 +623,11 @@ const DataProduk = () => {
         {notificationVisible && (
           <div className="notification font-normal">
             Berhasil menambahkan produk!
+          </div>
+        )}
+        {errorNotif && (
+          <div className="notification font-normal capitalize bg-[#FF4D4D]">
+            {error}
           </div>
         )}
         {updateNotificationVisible && (

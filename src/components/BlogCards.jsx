@@ -27,20 +27,17 @@ const BlogCards = ({
       }
     });
   const isSearchResultsEmpty = searchArticle && filteredBlogs.length === 0;
+
   return (
     <>
-      {isSearchResultsEmpty && (
-        <div className="text-center text-gray-500 mt-4 text-6xl">
-          Data tidak ditemukan.
-        </div>
-      )}
-
       <div className="grid md:grid-cols-3 sm:grid-cols02 grid-cols-1 gap-6 font-primary h-min w-full">
+        {isSearchResultsEmpty && (
+          <div className="text-center text-black mt-4 text-6xl">
+            Tidak ada artikel yang cocok dengan pencarian "{searchInput}".
+          </div>
+        )}
         {filteredBlogs.map((blog) => {
           const encryptedId = encryptId(blog.id);
-          console.log("Original ID:", blog.id); // Tambahkan log ini
-          console.log("Encrypted ID:", encryptedId); // Tambahkan log ini
-
           return (
             <a
               href={`/articles/${encryptedId}`} // Enkripsi ID sebelum digunakan di URL

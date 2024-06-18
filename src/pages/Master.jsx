@@ -133,12 +133,12 @@ const Master = () => {
               alt="bg-accent"
             />
             <img
-              className="absolute -z-50 left-0 top-0 -scale-100 w-full"
+              className="absolute -z-50 left-0 max-sm bottom-0 md:top-0 -scale-100 w-full"
               src="./dashboard/bg-accent.svg"
               alt="bg-accent"
             />
             {/* SIDEDBAR */}
-            <div className="bg-white/70 backdrop-blur w-[20%] 2xl:w-[17%] h-screen rounded-e-[30px] shadow-sm shadow-white py-6 2xl:py-12">
+            <div className="bg-white/70 md:block hidden backdrop-blur w-[20%] 2xl:w-[17%] h-screen rounded-e-[30px] shadow-sm shadow-white py-6 2xl:py-12">
               <img
                 className="w-full px-8 2xl:px-14"
                 src="./dashboard/logoprimary.svg"
@@ -227,7 +227,7 @@ const Master = () => {
             {/* END SIDEBAR */}
 
             {/* Content */}
-            <div className="w-[80%] 2xl:w-[83%] min-h-screen relative z-0">
+            <div className="w-full md:w-[80%] 2xl:w-[83%] min-h-screen overflow-auto md:overflow-hidden relative z-0">
               {/* NAVBAR */}
               <nav className="">
                 <div className="flex 2xl:p-12 w-full justify-between bg-transparent backdrop-blur">

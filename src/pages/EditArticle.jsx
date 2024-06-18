@@ -2,6 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { useState, useRef } from "react";
 import JoditEditor from "jodit-react";
 import axios from "axios";
+import { encryptId } from "./../utils/cryptoUtils";
 
 const EditArticle = () => {
   const articleData = useLoaderData();
@@ -12,7 +13,7 @@ const EditArticle = () => {
   const [reading_time, setReading_time] = useState(articleData[0].reading_time);
   const [author, setAuthor] = useState(articleData[0].author);
   const [tags, setTags] = useState(articleData[0].tags);
-  const [modalVisible, setModalVisible] = useState(false); // State untuk mengontrol modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleEditorChange = (content, editor) => {
     setContent(content);
