@@ -370,7 +370,9 @@ const DataPengguna = ({
                         onChange={(e) => setStatus(e.target.value)}
                         className="bg-transparent border-b outline-none py-1.5 px-1"
                       >
-                        <option value="">Pilih Status</option>
+                        <option disabled value="">
+                          Pilih Status
+                        </option>
                         <option value="0">Aktif</option>
                         <option value="1">Non Aktif</option>
                       </select>
@@ -477,6 +479,7 @@ const DataPengguna = ({
                         Email
                       </label>
                       <input
+                        disabled
                         type="email"
                         id="email"
                         value={editedUser.email}
@@ -486,7 +489,7 @@ const DataPengguna = ({
                             email: e.target.value,
                           })
                         }
-                        className="bg-transparent w-full border-b outline-none py-1.5 px-1"
+                        className="bg-grey/30 w-full border-b outline-none py-1.5 px-1"
                       />
                     </div>
                     <div className="form-group">

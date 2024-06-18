@@ -3,7 +3,6 @@ import { useLoaderData } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { FaClock, FaCalendar } from "react-icons/fa6";
 import SideBar from "../components/SideBar";
-import { BiSolidCategoryAlt } from "react-icons/bi";
 import DOMPurify from "dompurify";
 
 const SingleBlog = () => {

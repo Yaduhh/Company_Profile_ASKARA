@@ -146,61 +146,63 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-8 gap-8">
-          <div className="col-span-6 bg-white/70 backdrop-blur rounded-xl overflow-hidden min-h-[91%] no-scrollbar relative -z-0">
+          <div className="col-span-6 backdrop-blur rounded-xl overflow-hidden min-h-[91%] no-scrollbar relative -z-0">
             {contactUsData.length === 0 ? (
               <div className="p-4 flex h-full w-full items-center justify-center text-center text-gray-500">
                 Tidak ada data
               </div>
             ) : (
               <>
-                <table {...getTableProps()} className="w-full ">
-                  <thead>
-                    {headerGroups.map((headerGroup) => (
-                      <tr
-                        {...headerGroup.getHeaderGroupProps()}
-                        className="bg-primary text-white border border-primary"
-                      >
-                        {headerGroup.headers.map((column) => (
-                          <th
-                            {...column.getHeaderProps(
-                              column.getSortByToggleProps()
-                            )}
-                            className="px-4 py-2"
-                          >
-                            {column.render("Header")}
-                            <span>
-                              {column.isSorted
-                                ? column.isSortedDesc
-                                  ? " 🔽"
-                                  : " 🔼"
-                                : ""}
-                            </span>
-                          </th>
-                        ))}
-                      </tr>
-                    ))}
-                  </thead>
-                  <tbody {...getTableBodyProps()}>
-                    {page.map((row, i) => {
-                      prepareRow(row);
-                      return (
-                        <tr {...row.getRowProps()}>
-                          {row.cells.map((cell) => {
-                            return (
-                              <td
-                                {...cell.getCellProps()}
-                                className="border border-gray-300 px-4 py-2 "
-                              >
-                                {cell.render("Cell")}
-                              </td>
-                            );
-                          })}
+                <div className="w-full h-[80%] overflow-auto no-scrollbar">
+                  <table {...getTableProps()} className="">
+                    <thead>
+                      {headerGroups.map((headerGroup) => (
+                        <tr
+                          {...headerGroup.getHeaderGroupProps()}
+                          className="bg-primary text-white border border-primary text-sm"
+                        >
+                          {headerGroup.headers.map((column) => (
+                            <th
+                              {...column.getHeaderProps(
+                                column.getSortByToggleProps()
+                              )}
+                              className="px-4 py-2"
+                            >
+                              {column.render("Header")}
+                              <span>
+                                {column.isSorted
+                                  ? column.isSortedDesc
+                                    ? " 🔽"
+                                    : " 🔼"
+                                  : ""}
+                              </span>
+                            </th>
+                          ))}
                         </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-                <div className="w-full flex justify-between p-3 bg-primary text-white">
+                      ))}
+                    </thead>
+                    <tbody {...getTableBodyProps()}>
+                      {page.map((row, i) => {
+                        prepareRow(row);
+                        return (
+                          <tr {...row.getRowProps()}>
+                            {row.cells.map((cell) => {
+                              return (
+                                <td
+                                  {...cell.getCellProps()}
+                                  className="border border-grey bg-white px-4 py-2 text-sm overflow-auto text-justify"
+                                >
+                                  {cell.render("Cell")}
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="w-full flex justify-between p-3 bg-primary text-white text-sm">
                   <button
                     onClick={() => previousPage()}
                     disabled={!canPreviousPage}

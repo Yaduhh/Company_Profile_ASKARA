@@ -20,6 +20,8 @@ import { useNavigate } from "react-router-dom";
 import ProtectedRoute from "./login/ProtectedRoute";
 import { useAuth } from "./login/AuthContext";
 import { ScaleLoader } from "react-spinners";
+import DescriptionCompany from "../components/DescriptionCompany";
+import { PiTreeStructure } from "react-icons/pi";
 
 const Master = () => {
   const [message, setMessage] = useState("");
@@ -114,6 +116,8 @@ const Master = () => {
           tgl_lahir={tglLahir}
         />
       );
+    } else if (activeTab === "descriptionCompany") {
+      return <DescriptionCompany />;
     }
   };
   return (
@@ -181,6 +185,16 @@ const Master = () => {
                 >
                   <IoCreate size={30} />
                   <p>Create Artikel</p>
+                </button>
+                <button
+                  className={`flex w-full items-center gap-2 hover:text-grey hover:scale-105 ease-in-out duration-200 2xl:gap-3 text-lg 2xl:text-xl justify-start py-2 px-6 2xl:px-8 ${
+                    activeTab === "descriptionCompany" &&
+                    "bg-primary text-white rounded-2xl"
+                  }`}
+                  onClick={() => handleTabChange("descriptionCompany")}
+                >
+                  <PiTreeStructure size={30} />
+                  <p>Desc Company</p>
                 </button>
 
                 <div className="pt-10">

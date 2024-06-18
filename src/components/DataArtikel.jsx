@@ -121,6 +121,10 @@ const DataArtikel = () => {
     window.location.href = `/articles/${id}/edit`;
   };
 
+  const handleOpenClick = (id) => {
+    window.location.href = `/articles/${id}`;
+  };
+
   const showDeleteNotification = () => {
     setDeleteNotificationVisible(true);
     setTimeout(() => {
@@ -278,7 +282,10 @@ const DataArtikel = () => {
                             </div>
                           </div>
                           <div className="space-x-3">
-                            <button className="px-3 py-3 bg-grey hover:bg-accent hover:text-grey duration-200  rounded-lg text-base text-white">
+                            <button
+                              onClick={() => handleOpenClick(article.id)}
+                              className="px-3 py-3 bg-grey hover:bg-accent hover:text-grey duration-200  rounded-lg text-base text-white"
+                            >
                               <IoOpen className="ml-0.5" />
                             </button>
                             <button
