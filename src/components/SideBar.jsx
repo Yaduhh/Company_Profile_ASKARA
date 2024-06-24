@@ -12,7 +12,7 @@ const SideBar = () => {
       .then((res) => res.json())
       .then((data) => {
         const publishedBlogs = data.filter((blog) => blog.status === 1); // Hanya ambil blog dengan status 1
-        setPopularBlogs(publishedBlogs.slice(0, 15)); // Ambil 15 blog teratas
+        setPopularBlogs(publishedBlogs.slice(0, 3)); // Ambil 15 blog teratas
       });
   }, []);
 

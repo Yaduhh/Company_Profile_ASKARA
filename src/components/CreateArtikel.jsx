@@ -16,6 +16,7 @@ const CreateArtikel = ({ namaLengkap }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [submitType, setSubmitType] = useState("");
   const [categories, setCategories] = useState([]);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const editor = useRef(null);
 
   const handleCategoryChange = (e) => {
@@ -55,14 +56,22 @@ const CreateArtikel = ({ namaLengkap }) => {
     }
   };
 
-  const config = useMemo(
-    () => ({
+  const config = useMemo(() => {
+    let height;
+    if (screenWidth >= 1536) {
+      height = 550;
+    } else if (screenWidth >= 1280) {
+      height = 330;
+    } else {
+      height = 300;
+    }
+
+    return {
       readonly: false,
-      placeholder: placeholder || "Start typings...",
-      height: 550,
-    }),
-    [placeholder]
-  );
+      placeholder: placeholder || "Start typing...",
+      height: height,
+    };
+  }, [placeholder, screenWidth]);
 
   const closeModal = () => {
     setModalVisible(false);

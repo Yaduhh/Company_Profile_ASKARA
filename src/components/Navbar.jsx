@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { PiRedditLogoFill } from "react-icons/pi";
 import { IoClose } from "react-icons/io5";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
   // Nav Items
   const navItems = [
     { path: "/", link: "Beranda" },
@@ -34,7 +36,14 @@ const Navbar = () => {
           {/* NavItems */}
           <ul className="md:flex gap-10 2xl:gap-16 text-base 2xl:text-lg hidden px-8 py-2">
             {navItems.map(({ path, link }) => (
-              <li className="text-white/70" key={path}>
+              <li
+                className={`text-white/70 ${
+                  location.pathname === path
+                    ? "text-white underline underline-offset-8"
+                    : ""
+                }`}
+                key={path}
+              >
                 <a href={path}>{link}</a>
               </li>
             ))}
@@ -62,14 +71,15 @@ const Navbar = () => {
             }`}
           >
             {navItems.map(({ path, link }) => (
-              <li className="text-white" key={path}>
-                <a
-                  onClick={toggleMenu}
-                  href={path}
-                  className={({ isActive, isPending }) =>
-                    isActive ? "active" : isPending ? "pending" : ""
-                  }
-                >
+              <li
+                className={`text-white ${
+                  location.pathname === path
+                    ? "underline underline-offset-8"
+                    : ""
+                }`}
+                key={path}
+              >
+                <a onClick={toggleMenu} href={path}>
                   {link}
                 </a>
               </li>
